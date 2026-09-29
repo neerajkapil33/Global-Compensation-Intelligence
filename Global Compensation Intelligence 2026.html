@@ -52,7 +52,22 @@ nav{position:sticky;top:0;z-index:5;background:var(--bg)}
 .st-ok{background:var(--acc2)}.st-w{background:transparent;border:1px solid var(--warn);color:var(--warn)}.st-a{background:#dbeafe;color:#1e3a8a}.st-n{background:var(--line);color:var(--mut)}
 @media(prefers-color-scheme:dark){.st-a{background:#1e3a5f;color:#bfdbfe}}
 .st-c-ok{color:var(--acc);font-weight:700}.st-c-w{color:var(--warn);font-weight:700}.st-c-a{color:#3b82f6;font-weight:700}.st-c-n{color:var(--mut)}#out ul{margin:6px 0;padding-left:20px}#out li{margin:4px 0}
-</style></head><body>
+</style>
+/* Dashboard compact filter toolbar */
+.dash-toolbar{display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,1.15fr) minmax(180px,1.15fr) minmax(150px,1fr) auto auto;gap:8px;align-items:end;margin-bottom:12px}
+.dash-field{min-width:0}.dash-field>label{margin:0 0 4px;font-size:.72rem;font-weight:700;letter-spacing:.02em;color:var(--mut)}
+.dash-select{position:relative}.dash-trigger{width:100%;height:40px;padding:0 30px 0 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-size:.86rem;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;position:relative}
+.dash-trigger:after{content:'⌄';position:absolute;right:10px;top:50%;transform:translateY(-55%);color:var(--mut)}
+.dash-menu{display:none;position:absolute;z-index:30;left:0;right:0;top:44px;background:var(--card);border:1px solid var(--line);border-radius:9px;box-shadow:0 12px 28px rgba(0,0,0,.16);padding:7px;max-height:260px;overflow:auto}
+.dash-select.open .dash-menu{display:block}.dash-menu label{display:flex;align-items:center;gap:7px;margin:0;padding:7px 6px;border-radius:6px;color:var(--ink);font-size:.82rem;cursor:pointer}.dash-menu label:hover{background:var(--acc2)}.dash-menu input{width:15px;min-height:15px;margin:0;accent-color:var(--acc)}
+.dash-menu .dash-all{border-bottom:1px solid var(--line);margin-bottom:4px;padding-bottom:7px;font-weight:700}.dash-count{font-size:.7rem;color:var(--mut);margin-left:4px}
+.dash-chips{display:flex;gap:4px;align-items:center;margin-top:4px;min-height:18px;overflow:hidden;white-space:nowrap}.dash-chip{font-size:.68rem;padding:2px 6px;border-radius:99px;background:var(--acc2);color:var(--ink)}.dash-more{font-size:.68rem;color:var(--mut)}
+.dash-btn{height:40px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap}.dash-btn.primary{background:var(--acc);border-color:var(--acc);color:#04211d}
+.dash-btn:hover{filter:brightness(.98)}
+.dash-toolbar select{height:40px;min-height:40px;padding:0 10px}
+@media(max-width:900px){.dash-toolbar{grid-template-columns:repeat(3,minmax(0,1fr))}.dash-field:nth-child(4){grid-column:span 1}.dash-btn{width:100%}}
+@media(max-width:640px){.dash-toolbar{grid-template-columns:1fr 1fr;align-items:end}.dash-field{min-width:0}.dash-btn{width:100%}.dash-field:first-child{grid-column:span 1}.dash-field:nth-child(4){grid-column:span 2}}
+</head><body>
 <header><h1>Global Compensation Intelligence</h1><p>Gross-to-net, pay bands, statutory benefits and minimum wages for 180 countries. Planning estimates, not payroll advice.</p></header>
 <nav role="tablist" id="tabs"></nav><main id="main"></main>
 <script>
@@ -610,8 +625,20 @@ const line=P=>{if(P.length<2)return '';const W=600,H=260,p=40,mx=Math.max(...P.m
 const donut=T=>{const e=Object.entries(T),tot=e.reduce((s,x)=>s+x[1],0);let o=25;return `<div class="dn"><svg viewBox="0 0 42 42" width="130" height="130"><circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--line)" stroke-width="6"/>${e.map(([k,v],i)=>{const d=v/tot*100,s=`<circle cx="21" cy="21" r="15.9155" fill="none" stroke="${C[i]}" stroke-width="6" stroke-dasharray="${d} ${100-d}" stroke-dashoffset="${o}"/>`;o-=d;return s}).join('')}</svg><div class="lg" style="flex-direction:column">${e.map(([k,v],i)=>`<span><i style="background:${C[i]}"></i>${esc(k)}: <b>${v}</b></span>`).join('')}</div></div><p class="mut">Detail of the tax model behind each of ${tot} countries.</p>`};
 const V={
 Dashboard(){const sr=new Set(META.roles),sl=new Set(META.levels);
- shell(`<label>Region</label><select id="region"><option value="ALL">World</option>${Object.entries(REGN).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
- <label>Functions</label><div class="chips" id="rc"></div><label>Levels</label><div class="chips" id="lc"></div><label>Focus country</label>${cSel('country',state.country)}<button class="go">Refresh dashboard</button>`);
+ const dashMulti=(id,title,items,set)=>`<div class="dash-field"><label>${title}</label><div class="dash-select" id="${id}"><button type="button" class="dash-trigger">All ${title.toLowerCase()}<span class="dash-count"></span></button><div class="dash-menu"><label class="dash-all"><input type="checkbox" data-all="1" checked> All ${title.toLowerCase()}</label>${items.map(x=>`<label><input type="checkbox" value="${esc(x)}" checked>${esc(x)}</label>`).join('')}</div><div class="dash-chips"></div></div></div>`;
+ shell(`<div class="dash-toolbar">
+ <div class="dash-field"><label>Region</label><select id="region"><option value="ALL">World</option>${Object.entries(REGN).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
+ ${dashMulti('dash-functions','Functions',META.roles,sr)}
+ ${dashMulti('dash-levels','Level',META.levels,sl)}
+ <div class="dash-field"><label>Focus country</label>${cSel('country',state.country)}</div>
+ <button type="button" class="dash-btn" id="dash-clear">Clear</button><button type="button" class="dash-btn primary" id="dash-refresh">Refresh</button>
+ </div>`);
+ const syncMulti=(id,set,label)=>{const root=$('#'+id),trigger=root.querySelector('.dash-trigger'),all=root.querySelector('[data-all]'),boxes=[...root.querySelectorAll('input[value]')],chips=root.querySelector('.dash-chips');
+ const render=()=>{boxes.forEach(b=>b.checked=set.has(b.value));all.checked=set.size===boxes.length;all.indeterminate=set.size>0&&set.size<boxes.length;trigger.firstChild.nodeValue=set.size===boxes.length?'All '+label.toLowerCase():set.size+' selected';trigger.querySelector('.dash-count').textContent=set.size<boxes.length?'':'';
+ chips.innerHTML=set.size===boxes.length?'':[...set].slice(0,3).map(x=>`<span class="dash-chip">${esc(x)}</span>`).join('')+(set.size>3?`<span class="dash-more">+${set.size-3} more</span>`:'');};
+ all.onchange=()=>{if(all.checked)boxes.forEach(b=>set.add(b.value));else set.clear();render();go()};
+ boxes.forEach(b=>b.onchange=()=>{b.checked?set.add(b.value):set.delete(b.value);render();go()});
+ trigger.onclick=()=>root.classList.toggle('open');render();return root};
  const go=async()=>{try{const r=await api('dashboard',{country:$('#country').value,region:$('#region').value,roles:[...sr],levels:[...sl]}),R=r.ranked,S=r.selected,m=r.matrix;
   if(!R.length)return out('<div class="card">No markets match these filters.</div>');
   const cm=m?Math.max(...m.cells.flat().filter(x=>x)):1,best=[...R].sort((a,b)=>b.take-a.take)[0];
@@ -630,8 +657,10 @@ Dashboard(){const sr=new Set(META.roles),sl=new Set(META.levels);
   <div class="card"><h3>Model detail across all 180 countries</h3>${donut(r.tiers)}</div></div>
   ${m?`<div class="card" style="margin-top:16px"><h3>Heatmap: ${m.country.flag} ${esc(m.country.name)} (USD median)</h3><div class="wrap"><table><tr><th></th>${m.levels.map(l=>'<th class="n">'+esc(l)+'</th>').join('')}</tr>${m.roles.map((ro,i)=>'<tr><td>'+esc(ro)+'</td>'+m.cells[i].map(v=>`<td class="n" style="background:color-mix(in srgb,var(--acc) ${v?Math.round(v/cm*70):0}%,transparent)">${usd(v)}</td>`).join('')+'</tr>').join('')}</table></div><p class="mut">${esc(r.note)}</p></div>`:''}`)}catch(e){bad(e)}};
  bind(go);$('#region').onchange=$('#country').onchange=e=>{if(e.target.id==='country')state.country=e.target.value;go()};
- if(matchMedia('(max-width:640px)').matches)$('.flt').open=false;
- const ch=(id,arr,set)=>{$(id).innerHTML=arr.map(x=>`<label><input type="checkbox" checked value="${esc(x)}">${esc(x)}</label>`).join('');$(id).querySelectorAll('input').forEach(i=>i.onchange=()=>{i.checked?set.add(i.value):set.delete(i.value);go()})};ch('#rc',META.roles,sr);ch('#lc',META.levels,sl)},
+ const df=syncMulti('dash-functions',sr,'Functions'),dl=syncMulti('dash-levels',sl,'Level');
+ $('#dash-refresh').onclick=go;$('#dash-clear').onclick=()=>{sr.clear();sl.clear();df.querySelectorAll('input[value]').forEach(x=>x.checked=false);dl.querySelectorAll('input[value]').forEach(x=>x.checked=false);df.querySelector('[data-all]').checked=false;dl.querySelector('[data-all]').checked=false;df.querySelector('.dash-trigger').firstChild.nodeValue='0 selected';dl.querySelector('.dash-trigger').firstChild.nodeValue='0 selected';df.querySelector('.dash-chips').innerHTML='';dl.querySelector('.dash-chips').innerHTML='';go()};
+ document.addEventListener('click',e=>{if(!e.target.closest('.dash-select'))document.querySelectorAll('.dash-select.open').forEach(x=>x.classList.remove('open'))});
+},
 Calculator(){const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],mo=(sel)=>MO.map((m,i)=>`<option value="${i+1}" ${i+1===sel?'selected':''}>${m}</option>`).join('');
  shell(`<label>Country</label>${cSel('country',state.country)}
 <label>Engagement type</label><select id="wt"><option value="permanent">Permanent employee</option><option value="contract">Fixed-term contract</option><option value="temporary">Temporary / seasonal</option><option value="thirdparty">Third-party / agency</option><option value="consultant">Consultant</option><option value="freelance">Freelancer</option></select>
