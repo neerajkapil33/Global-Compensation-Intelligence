@@ -587,6 +587,7 @@ const api=(p,b)=>new Promise((ok,no)=>{try{const r=p.split('/');let o;
  if(b!==undefined&&POST[r[0]])o=POST[r[0]](b);else if(r[0]==='meta')o={roles:E.ROLES,levels:E.LEVELS,countries:E.countries()};
  else if(r[0]==='minimum-wage')o=E.minWage(r[1]);else if(r[0]==='data-quality')o=E.quality();else throw new Error('Not found');
  ok(JSON.parse(JSON.stringify(o)))}catch(e){no(e)}});
+window.gciDashboard=p=>api('dashboard',p);window.gciMeta=()=>api('meta');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const money=(c,x)=>{const k=META.countries.find(y=>y.code===c);return (x<0?'−':'')+k.symbol+Math.round(Math.abs(x)).toLocaleString(k.locale)};
 const opt=(a,v)=>a.map(x=>`<option ${x===v?'selected':''}>${esc(x)}</option>`).join('');
