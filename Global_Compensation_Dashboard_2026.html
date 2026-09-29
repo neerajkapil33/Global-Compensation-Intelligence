@@ -1,24 +1,304 @@
-<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Global Compensation Intelligence — Dashboard Preview</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Global Compensation Intelligence — Dashboard</title>
 <style>
-:root{--bg:#eef2f6;--card:#fff;--ink:#14213d;--mut:#667085;--line:#dbe2ea;--acc:#0b8f7e;--acc2:#e9f6f3;--blue:#315ea8;--shadow:0 8px 24px rgba(20,33,61,.07)}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.35 system-ui,-apple-system,Segoe UI,sans-serif}.top{background:linear-gradient(120deg,#10233f,#1d4663);color:#fff;padding:18px 22px}.topin{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand h1{font-size:20px;margin:0}.brand p{margin:3px 0 0;opacity:.72;font-size:12px}.year{padding:7px 10px;border:1px solid rgba(255,255,255,.2);border-radius:8px;font-size:12px}.wrap{max-width:1280px;margin:auto;padding:14px}.toolbar{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1.2fr 1.2fr 1fr auto auto;gap:8px;align-items:start}.field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--mut);letter-spacing:.05em;margin:0 0 4px}.select{height:38px;border:1px solid var(--line);border-radius:8px;padding:0 10px;background:#fff;display:flex;align-items:center;justify-content:space-between;cursor:pointer}.multi{position:relative}.menu{display:none;position:absolute;top:43px;left:0;width:280px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 14px 34px rgba(20,33,61,.16);padding:7px;z-index:20}.multi.open .menu{display:block}.search{width:100%;padding:7px 8px;border:1px solid var(--line);border-radius:7px;margin-bottom:6px}.opt{display:flex;gap:8px;align-items:center;padding:7px 8px;border-radius:7px;font-size:13px}.opt:hover{background:var(--bg)}.opt input{accent-color:var(--acc)}.menuhead{display:flex;justify-content:space-between;align-items:center;padding:4px 7px 7px;font-size:11px;color:var(--mut)}.link{color:var(--acc);cursor:pointer;font-weight:700}.field{position:relative;min-width:0}.chips{display:flex;gap:4px;margin-top:5px;overflow:hidden;height:0;position:relative;z-index:1}.btn{align-self:end;margin-top:14px}.chip{background:var(--acc2);border-radius:99px;padding:2px 7px;font-size:10px;white-space:nowrap}.btn{height:38px;border-radius:8px;padding:0 13px;border:1px solid var(--line);background:#fff;font-weight:700;cursor:pointer}.btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:11px 0}.kpi{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 12px;box-shadow:var(--shadow);position:relative;overflow:hidden}.kpi:after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--acc);opacity:.8}.kpi small{color:var(--mut);font-size:10px}.kpi b{display:block;font-size:18px;margin-top:2px}.kpi span{font-size:10px;color:var(--mut)}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px;box-shadow:var(--shadow);min-width:0}.card h3{font-size:13px;margin:0 0 9px}.sub{font-size:10px;color:var(--mut);float:right;font-weight:400}.barrow{display:grid;grid-template-columns:72px 1fr 58px;gap:7px;align-items:center;margin:6px 0;font-size:10px}.bar{height:9px;background:#e8edf2;border-radius:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc);border-radius:5px}.bar.blue i{background:var(--blue)}.heat{display:grid;grid-template-columns:130px repeat(5,1fr);gap:2px;font-size:9px}.heat div{padding:6px 4px;border-radius:3px;text-align:center}.heat .h{background:#f1f4f7;font-weight:700}.heat .v{background:color-mix(in srgb,var(--acc) 25%,#fff)}.heat .v2{background:color-mix(in srgb,var(--acc) 45%,#fff)}.heat .v3{background:color-mix(in srgb,var(--acc) 65%,#fff)}.legend{font-size:9px;color:var(--mut);margin-top:7px}.linechart{height:115px;position:relative;border-bottom:1px solid var(--line);border-left:1px solid var(--line);margin:4px 0 0}.linechart svg{width:100%;height:100%}.donut{display:flex;align-items:center;gap:15px}.ring{width:100px;height:100px;border-radius:50%;background:conic-gradient(var(--acc) 0 43%,#315ea8 43% 69%,#d7a72f 69% 84%,#cbd3dc 84%);position:relative}.ring:after{content:'100%';position:absolute;inset:22px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800}.key div{font-size:10px;margin:5px 0}.dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}.full{grid-column:1/-1}.half{grid-column:span 6}.third{grid-column:span 4}.two{grid-column:span 8}.one{grid-column:span 4}.note{font-size:10px;color:var(--mut);margin-top:7px}@media(max-width:900px){.toolbar{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.half,.third,.two,.one{grid-column:1/-1}}@media(max-width:600px){.kpis{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr}.menu{width:100%}.topin{align-items:start}.year{display:none}}
- .selectNative{width:100%;height:38px;border:1px solid var(--line);border-radius:8px;padding:0 10px;background:#fff;color:var(--ink);font:inherit;cursor:pointer}.selectNative:focus{outline:2px solid rgba(11,143,126,.18);outline-offset:1px}
-</style></head><body>
-<header class='top'><div class='topin'><div class='brand'><h1>Global Compensation Intelligence</h1><p>Executive dashboard · 180 markets · compensation, employer cost & take-home intelligence</p></div><div class='year'>2026 Planning Model</div></div></header>
-<main class='wrap'>
-<section class='toolbar'>
-<div class='field'><label>Region</label><select id='regionSel' class='selectNative'><option value='ALL'>World</option><option value='NAM'>North America</option><option value='LAC'>Latin America</option><option value='EUR'>Europe</option><option value='ME'>Middle East</option><option value='AF'>Africa</option><option value='SAS'>South Asia</option><option value='EAP'>East &amp; SE Asia</option><option value='OCE'>Oceania</option></select></div>
-<div class='field multi' id='fn'><label>Functions</label><div class='select' onclick='toggle("fn")'><span id='fnText'>All functions</span><span>⌄</span></div><div class='chips' id='fnChips'></div><div class='menu'><div class='menuhead'><b>Select functions</b><span class='link' onclick='allSet("fn",true)'>Select all</span></div><input class='search' placeholder='Search function…'><label class='opt'><input type='checkbox' checked onchange='sync("fn")'>Technology</label><label class='opt'><input type='checkbox' checked onchange='sync("fn")'>Finance</label><label class='opt'><input type='checkbox' checked onchange='sync("fn")'>Sales</label><label class='opt'><input type='checkbox' checked onchange='sync("fn")'>Legal & Compliance</label><label class='opt'><input type='checkbox' checked onchange='sync("fn")'>Human Resources</label><label class='opt'><input type='checkbox' checked onchange='sync("fn")'>Operations</label></div></div>
-<div class='field multi' id='lv'><label>Level</label><div class='select' onclick='toggle("lv")'><span id='lvText'>All levels</span><span>⌄</span></div><div class='chips' id='lvChips'></div><div class='menu'><div class='menuhead'><b>Select levels</b><span class='link' onclick='allSet("lv",true)'>Select all</span></div><label class='opt'><input type='checkbox' checked onchange='sync("lv")'>Entry</label><label class='opt'><input type='checkbox' checked onchange='sync("lv")'>Professional</label><label class='opt'><input type='checkbox' checked onchange='sync("lv")'>Manager</label><label class='opt'><input type='checkbox' checked onchange='sync("lv")'>Senior Manager</label><label class='opt'><input type='checkbox' checked onchange='sync("lv")'>Director</label><label class='opt'><input type='checkbox' checked onchange='sync("lv")'>Executive</label></div></div>
-<div class='field'><label>Focus country</label><select id='focusSel' class='selectNative'></select></div><button class='btn' onclick='resetAll()'>Clear</button><button id='refreshBtn' class='btn primary'>Refresh</button>
+:root{--bg:#eef2f6;--card:#fff;--ink:#14213d;--mut:#667085;--line:#dbe2ea;--acc:#0b8f7e;--acc2:#e9f6f3;--blue:#315ea8;--shadow:0 8px 24px rgba(20,33,61,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.35 system-ui,-apple-system,Segoe UI,sans-serif}
+.top{background:linear-gradient(120deg,#10233f,#1d4663);color:#fff;padding:18px 22px}
+.topin{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand h1{font-size:1.2rem;margin:0 0 4px;font-weight:700}.brand p{margin:0;opacity:.85;font-size:.85rem}
+.year{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 12px;font-size:.8rem;white-space:nowrap}
+.wrap{max-width:1280px;margin:auto;padding:16px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:140px}.field label{font-size:.72rem;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.selectNative,.select{min-height:40px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:8px 10px;font:inherit;color:var(--ink);width:100%}
+.select{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+.multi{position:relative;min-width:180px}.menu{display:none;position:absolute;z-index:20;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:8px;max-height:260px;overflow:auto}
+.multi.open .menu{display:block}.menuhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:.85rem}
+.link{color:var(--acc);cursor:pointer;font-size:.8rem}.opt{display:flex;gap:8px;align-items:center;padding:6px 4px;font-size:.88rem;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}.chip{background:var(--acc2);border-radius:999px;padding:2px 8px;font-size:.72rem}
+.btn{min-height:40px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 14px;font:inherit;cursor:pointer;color:var(--ink)}
+.btn.primary{background:var(--acc);border-color:var(--acc);color:#04211d;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--shadow)}
+.kpi small{display:block;color:var(--mut);font-size:.7rem;letter-spacing:.04em;font-weight:600}.kpi b{display:block;font-size:1.35rem;margin:4px 0}.kpi span{color:var(--mut);font-size:.8rem}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 8px;font-size:.95rem}.mut{color:var(--mut);font-size:.82rem}
+.err{color:#b45309;padding:10px;background:#fff7ed;border-radius:8px;border:1px solid #fed7aa}
+.svg{width:100%;height:auto}.svg text{fill:var(--mut);font-size:11px}
+.hb{display:grid;gap:6px}.hr{display:grid;grid-template-columns:110px 1fr 56px;gap:8px;align-items:center;font-size:.85rem}
+.hl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hr b{text-align:right;font-variant-numeric:tabular-nums}
+.ht{position:relative;height:12px;background:var(--line);border-radius:4px;overflow:hidden}.ht>i{display:block;height:100%;background:var(--acc);border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:.85rem}th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:.72rem;padding:2px 7px;border-radius:99px;background:var(--acc2)}
+.loading{opacity:.55;pointer-events:none}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin"><div class="brand"><h1>Global Compensation Intelligence</h1><p>Executive dashboard · compensation, employer cost &amp; take-home intelligence</p></div><div class="year">2026 Planning Model</div></div></header>
+<main class="wrap">
+<section class="toolbar">
+  <div class="field"><label>Region</label>
+    <select id="regionSel" class="selectNative">
+      <option value="ALL">World</option>
+      <option value="NAM">North America</option>
+      <option value="LAC">Latin America</option>
+      <option value="EUR">Europe</option>
+      <option value="ME">Middle East</option>
+      <option value="AF">Africa</option>
+      <option value="SAS">South Asia</option>
+      <option value="EAP">East &amp; SE Asia</option>
+      <option value="OCE">Oceania</option>
+    </select>
+  </div>
+  <div class="field multi" id="fn">
+    <label>Functions</label>
+    <div class="select" onclick="toggle('fn')"><span id="fnText">All functions</span><span>⌄</span></div>
+    <div class="chips" id="fnChips"></div>
+    <div class="menu" id="fnMenu"></div>
+  </div>
+  <div class="field multi" id="lv">
+    <label>Level</label>
+    <div class="select" onclick="toggle('lv')"><span id="lvText">All levels</span><span>⌄</span></div>
+    <div class="chips" id="lvChips"></div>
+    <div class="menu" id="lvMenu"></div>
+  </div>
+  <div class="field"><label>Focus country</label><select id="focusSel" class="selectNative"></select></div>
+  <button class="btn" type="button" id="clearBtn">Clear</button>
+  <button class="btn primary" type="button" id="refreshBtn">Refresh</button>
 </section>
-<section class='kpis'><div class='kpi'><small>MARKETS</small><b>180</b><span>in selected scope</span></div><div class='kpi'><small>MEDIAN PAY</small><b>$86.4K</b><span>USD / year</span></div><div class='kpi'><small>TOP ÷ BOTTOM</small><b>8.7×</b><span>market spread</span></div><div class='kpi'><small>EMPLOYER LOAD</small><b>14.8%</b><span>avg. on gross</span></div><div class='kpi'><small>TAKE-HOME</small><b>76.2%</b><span>of employer cost</span></div><div class='kpi'><small>FOCUS MARKET</small><b>#31</b><span>India · 180</span></div></section>
-<section class='grid'>
-<div class='card two'><h3>Median compensation by market <span class='sub'>USD / year · selected filters</span></h3><div class='barrow'><b>🇺🇸 US</b><div class='bar'><i style='width:92%'></i></div><b>$132K</b></div><div class='barrow'><b>🇬🇧 UK</b><div class='bar'><i style='width:73%'></i></div><b>$105K</b></div><div class='barrow'><b>🇩🇪 DE</b><div class='bar'><i style='width:68%'></i></div><b>$98K</b></div><div class='barrow'><b>🇦🇪 UAE</b><div class='bar'><i style='width:64%'></i></div><b>$91K</b></div><div class='barrow'><b>🇮🇳 IN</b><div class='bar'><i style='width:41%'></i></div><b>$58K</b></div></div>
-<div class='card one'><h3>Pay by region <span class='sub'>median</span></h3><div class='barrow'><b>North America</b><div class='bar blue'><i style='width:94%'></i></div><b>$128K</b></div><div class='barrow'><b>Europe</b><div class='bar blue'><i style='width:72%'></i></div><b>$98K</b></div><div class='barrow'><b>GCC</b><div class='bar blue'><i style='width:61%'></i></div><b>$83K</b></div><div class='barrow'><b>APAC</b><div class='bar blue'><i style='width:49%'></i></div><b>$66K</b></div><div class='barrow'><b>LATAM</b><div class='bar blue'><i style='width:37%'></i></div><b>$51K</b></div></div>
-<div class='card half'><h3>Compensation trend by level <span class='sub'>all selected functions</span></h3><div class='linechart'><svg viewBox='0 0 500 115' preserveAspectRatio='none'><polyline points='0,96 80,83 160,69 240,51 320,33 400,20 500,8' fill='none' stroke='var(--acc)' stroke-width='4'/><polyline points='0,106 80,96 160,84 240,68 320,53 400,38 500,26' fill='none' stroke='var(--blue)' stroke-width='2' stroke-dasharray='5 4'/></svg></div><div class='legend'>Median trend with selected-level comparison band</div></div>
-<div class='card half'><h3>Employer cost load <span class='sub'>% of gross</span></h3><div class='barrow'><b>🇫🇷 France</b><div class='bar'><i style='width:88%'></i></div><b>42%</b></div><div class='barrow'><b>🇮🇹 Italy</b><div class='bar'><i style='width:64%'></i></div><b>30%</b></div><div class='barrow'><b>🇩🇪 Germany</b><div class='bar'><i style='width:52%'></i></div><b>24%</b></div><div class='barrow'><b>🇬🇧 UK</b><div class='bar'><i style='width:38%'></i></div><b>18%</b></div><div class='barrow'><b>🇮🇳 India</b><div class='bar'><i style='width:29%'></i></div><b>14%</b></div></div>
-<div class='card half'><h3>Function × designation compensation <span class='sub'>USD median</span></h3><div class='heat'><div class='h'>Function / Level</div><div class='h'>Professional</div><div class='h'>Manager</div><div class='h'>Director</div><div class='h'>Executive</div><div class='h'>VP</div><div class='h'>Technology</div><div class='v'>$62K</div><div class='v2'>$91K</div><div class='v3'>$132K</div><div class='v3'>$176K</div><div class='v3'>$221K</div><div class='h'>Finance</div><div class='v'>$57K</div><div class='v2'>$83K</div><div class='v3'>$119K</div><div class='v3'>$162K</div><div class='v3'>$204K</div><div class='h'>Sales</div><div class='v'>$54K</div><div class='v2'>$79K</div><div class='v3'>$111K</div><div class='v3'>$151K</div><div class='v3'>$193K</div></div></div>
-<div class='card half'><h3>Pay range by country <span class='sub'>min · median · max</span></h3><div class='barrow'><b>🇺🇸 US</b><div class='bar'><i style='width:92%'></i></div><b>$72–132–210K</b></div><div class='barrow'><b>🇩🇪 DE</b><div class='bar'><i style='width:68%'></i></div><b>$58–98–156K</b></div><div class='barrow'><b>🇦🇪 UAE</b><div class='bar'><i style='width:63%'></i></div><b>$51–91–143K</b></div><div class='barrow'><b>🇮🇳 IN</b><div class='bar'><i style='width:41%'></i></div><b>$31–58–102K</b></div></div>
-<div class='card full'><h3>Global market heatmap <span class='sub'>median USD · darker = higher compensation</span></h3><div class='heat'><div class='h'>Market</div><div class='h'>Entry</div><div class='h'>Professional</div><div class='h'>Manager</div><div class='h'>Director</div><div class='h'>Executive</div><div class='h'>🇺🇸 United States</div><div class='v2'>$72K</div><div class='v3'>$96K</div><div class='v3'>$132K</div><div class='v3'>$176K</div><div class='v3'>$221K</div><div class='h'>🇬🇧 United Kingdom</div><div class='v'>$48K</div><div class='v2'>$72K</div><div class='v2'>$98K</div><div class='v3'>$132K</div><div class='v3'>$168K</div><div class='h'>🇦🇪 United Arab Emirates</div><div class='v'>$39K</div><div class='v2'>$61K</div><div class='v2'>$83K</div><div class='v3'>$112K</div><div class='v3'>$151K</div><div class='h'>🇮🇳 India</div><div class='v'>$23K</div><div class='v'>$39K</div><div class='v2'>$58K</div><div class='v2'>$82K</div><div class='v3'>$112K</div></div><div class='legend'>Interactive version will retain the existing app's live country/function/level data and calculations.</div></div>
-</section></main>
-<script>function toggle(id){document.querySelectorAll('.multi').forEach(x=>x.id!==id&&x.classList.remove('open'));document.getElementById(id).classList.toggle('open')}function sync(id){const box=document.getElementById(id),n=box.querySelectorAll('input[type=checkbox]'),s=box.querySelectorAll('input[type=checkbox]:checked'),text=document.getElementById(id+'Text');text.textContent=s.length===n.length?'All '+(id==='fn'?'functions':'levels'):s.length+' selected';const chips=document.getElementById(id+'Chips');chips.innerHTML=[...s].slice(0,3).map(x=>`<span class='chip'>${x.parentElement.textContent.trim()}</span>`).join('')+(s.length>3?`<span class='chip'>+${s.length-3} more</span>`:'')}function allSet(id,on){document.querySelectorAll('#'+id+' input[type=checkbox]').forEach(x=>x.checked=on);sync(id)}function resetAll(){document.querySelectorAll('input[type=checkbox]').forEach(x=>x.checked=true);sync('fn');sync('lv')}document.addEventListener('click',e=>{if(!e.target.closest('.multi'))document.querySelectorAll('.multi').forEach(x=>x.classList.remove('open'))});sync('fn');sync('lv');</script><script>(function(){const R={NAM:['US','CA','MX'],LAC:['BR','AR','CL','CO','PE','UY','PY','BO','EC','VE','CR','PA','GT','HN','SV','NI','DO','CU','JM','HT','BS','BB','BZ','DM','GD','LC','VC','AG','KN','TT','GY','SR'],EUR:['GB','DE','FR','ES','IT','NL','BE','AT','CH','IE','PT','PL','CZ','HU','RO','SE','NO','DK','FI','EE','LT','LV','SK','SI','HR','BG','GR','CY','MT','LU','IS','UA','RS','BA','ME','MK','AL','MD','BY','RU','TR','AD','MC','SM','VA','XK'],ME:['AE','SA','QA','KW','BH','OM','IL','JO','LB','IQ','IR','YE','PS','SY'],AF:['ZA','NG','KE','GH','EG','MA','DZ','TN','LY','SD','ET','TZ','UG','ZM','ZW','MZ','NA','BW','LS','SZ','RW','BI','DJ','SO','ER','SS','CM','SN','CI','ML','NE','BF','GN','GW','SL','LR','TG','BJ','TD','CF','CG','CD','GA','GQ','ST','KM','MG','MU','SC'],SAS:['IN','PK','BD','LK','NP','BT','MV','AF'],EAP:['SG','MY','JP','CN','HK','TW','KR','PH','TH','ID','VN','KH','LA','MM','BN','MN','TL'],OCE:['AU','NZ','FJ','PG','WS','TO','VU','SB','NC']};function data(){try{return window.parent&&window.parent.__DATA?window.parent.__DATA.K:null}catch(e){return null}}function update(pre){const s=document.getElementById('focusSel'),r=document.getElementById('regionSel');if(!s||!r)return;const k=data(),all=k?Object.keys(k).filter(c=>c!=='XX').map(c=>({code:c,name:k[c].n,flag:k[c].f})):[];let list=r.value==='ALL'?all:all.filter(c=>R[r.value]&&R[r.value].includes(c));const keep=pre||s.value;if(!list.length)return;s.innerHTML=list.sort((a,b)=>a.name.localeCompare(b.name)).map(c=>'<option value="'+c.code+'">'+c.flag+' '+c.name+'</option>').join('');s.value=list.some(c=>c.code===keep)?keep:list[0].code}document.getElementById('regionSel').addEventListener('change',()=>update());const reset=window.resetAll;window.resetAll=function(){if(reset)reset();document.getElementById('regionSel').value='ALL';update('IN')};update('IN')})()</script></body></html>
+
+<section class="kpis" id="kpis">
+  <div class="kpi"><small>MARKETS</small><b id="kMarkets">—</b><span>in selected scope</span></div>
+  <div class="kpi"><small>MEDIAN PAY</small><b id="kMedian">—</b><span>USD / year</span></div>
+  <div class="kpi"><small>TOP ÷ BOTTOM</small><b id="kSpread">—</b><span>market spread</span></div>
+  <div class="kpi"><small>AVG EMPLOYER LOAD</small><b id="kLoad">—</b><span>% of gross</span></div>
+</section>
+
+<section class="grid" id="charts">
+  <div class="card" id="ladderCard"><h3>Seniority ladder</h3><p class="mut" id="ladderNote">Select filters and click Refresh.</p><div id="ladderChart"></div></div>
+  <div class="card" id="fnCard"><h3>Pay by function (focus country)</h3><div id="fnChart"></div></div>
+  <div class="card" id="regCard"><h3>Regional medians (scope)</h3><div id="regChart"></div></div>
+  <div class="card" id="rankCard" style="grid-column:1/-1"><h3>Market ranking</h3><div style="overflow-x:auto"><table id="rankTable"><thead><tr><th>#</th><th>Country</th><th>Region</th><th class="n">Median USD</th><th class="n">Min</th><th class="n">Max</th><th class="n">Take-home %</th><th class="n">Employer load</th><th>Confidence</th></tr></thead><tbody></tbody></table></div></div>
+</section>
+<div id="status" class="mut" style="margin-top:8px"></div>
+</main>
+<script>
+(function(){
+  const ROLE_MAP = {
+    'Technology': ['IT','Engineering'],
+    'Finance': ['Finance / Accounting'],
+    'Sales': ['Sales'],
+    'Legal & Compliance': ['Legal / Compliance'],
+    'Human Resources': ['HR'],
+    'Operations': ['Supply Chain','General / Admin','Healthcare']
+  };
+  const LEVEL_MAP = {
+    'Entry': 'Junior / Entry',
+    'Professional': 'Professional',
+    'Manager': 'Manager',
+    'Senior Manager': 'Senior / Specialist',
+    'Director': 'Director',
+    'Executive': 'Executive'
+  };
+  const LEVEL_UI = Object.keys(LEVEL_MAP);
+  const FN_UI = Object.keys(ROLE_MAP);
+  const REG_LABEL = {NAM:'North America',LAC:'Latin America',EUR:'Europe',ME:'Middle East',AF:'Africa',SAS:'South Asia',EAP:'East & SE Asia',OCE:'Oceania'};
+  const R = {NAM:['US','CA','MX'],LAC:['BR','AR','CL','CO','PE','UY','PY','BO','EC','VE','CR','PA','GT','HN','SV','NI','DO','CU','JM','HT','BS','BB','BZ','DM','GD','LC','VC','AG','KN','TT','GY','SR'],EUR:['GB','DE','FR','ES','IT','NL','BE','AT','CH','IE','PT','PL','CZ','HU','RO','SE','NO','DK','FI','EE','LT','LV','SK','SI','HR','BG','GR','CY','MT','LU','IS','UA','RS','BA','ME','MK','AL','MD','BY','RU','TR','AD','MC','SM','VA','XK'],ME:['AE','SA','QA','KW','BH','OM','IL','JO','LB','IQ','IR','YE','PS','SY'],AF:['ZA','NG','KE','GH','EG','MA','DZ','TN','LY','SD','ET','TZ','UG','ZM','ZW','MZ','NA','BW','LS','SZ','RW','BI','DJ','SO','ER','SS','CM','SN','CI','ML','NE','BF','GN','GW','SL','LR','TG','BJ','TD','CF','CG','CD','GA','GQ','ST','KM','MG','MU','SC'],SAS:['IN','PK','BD','LK','NP','BT','MV','AF'],EAP:['SG','MY','JP','CN','HK','TW','KR','PH','TH','ID','VN','KH','LA','MM','BN','MN','TL'],OCE:['AU','NZ','FJ','PG','WS','TO','VU','SB','NC']};
+
+  function $(id){return document.getElementById(id)}
+  function money(n){if(n==null||!isFinite(n))return '—';const a=Math.abs(n);const s=a>=1000?('$'+(a/1000).toFixed(a>=10000?0:1)+'k'):('$'+(Math.round(a)));return n<0?'−'+s:s}
+  function pct(n){return (n==null||!isFinite(n))?'—':(+n).toFixed(1)+'%'}
+
+  function parentData(){
+    try{return window.parent && window.parent.__DATA ? window.parent.__DATA : null}catch(e){return null}
+  }
+  function parentApi(){
+    try{
+      if(window.parent && typeof window.parent.gciDashboard==='function') return window.parent;
+    }catch(e){}
+    return null;
+  }
+
+  function buildMenus(){
+    $('fnMenu').innerHTML = '<div class="menuhead"><b>Select functions</b><span class="link" onclick="allSet(\'fn\',true)">Select all</span></div>' +
+      FN_UI.map(f=>'<label class="opt"><input type="checkbox" value="'+f+'" checked onchange="sync(\'fn\')">'+f+'</label>').join('');
+    $('lvMenu').innerHTML = '<div class="menuhead"><b>Select levels</b><span class="link" onclick="allSet(\'lv\',true)">Select all</span></div>' +
+      LEVEL_UI.map(l=>'<label class="opt"><input type="checkbox" value="'+l+'" checked onchange="sync(\'lv\')">'+l+'</label>').join('');
+  }
+
+  window.toggle = function(id){
+    document.querySelectorAll('.multi').forEach(x=>{if(x.id!==id)x.classList.remove('open')});
+    $(id).classList.toggle('open');
+  };
+  window.sync = function(id){
+    const box=$(id), n=box.querySelectorAll('input[type=checkbox]'), s=box.querySelectorAll('input[type=checkbox]:checked');
+    const text=$(id+'Text');
+    text.textContent = s.length===n.length ? ('All '+(id==='fn'?'functions':'levels')) : (s.length+' selected');
+    const chips=$(id+'Chips');
+    chips.innerHTML=[].slice.call(s,0,3).map(x=>'<span class="chip">'+x.value+'</span>').join('')+(s.length>3?'<span class="chip">+'+(s.length-3)+' more</span>':'');
+  };
+  window.allSet = function(id,on){
+    document.querySelectorAll('#'+id+' input[type=checkbox]').forEach(x=>x.checked=on);
+    sync(id);
+  };
+  document.addEventListener('click',e=>{if(!e.target.closest('.multi'))document.querySelectorAll('.multi').forEach(x=>x.classList.remove('open'))});
+
+  function selectedRoles(){
+    const checked=[].map.call(document.querySelectorAll('#fn input[type=checkbox]:checked'),x=>x.value);
+    const roles=[];
+    checked.forEach(ui=>{ (ROLE_MAP[ui]||[]).forEach(r=>{if(!roles.includes(r))roles.push(r)}) });
+    return roles;
+  }
+  function selectedLevels(){
+    return [].map.call(document.querySelectorAll('#lv input[type=checkbox]:checked'),x=>LEVEL_MAP[x.value]).filter(Boolean);
+  }
+
+  function updateFocusOptions(prefer){
+    const s=$('focusSel'), r=$('regionSel');
+    const pd=parentData();
+    const k=pd && pd.K;
+    let all=[];
+    if(k){
+      all=Object.keys(k).filter(c=>c!=='XX').map(c=>({code:c,name:k[c].n,flag:k[c].f||''}));
+    } else {
+      all=[{code:'IN',name:'India',flag:'🇮🇳'},{code:'US',name:'United States',flag:'🇺🇸'},{code:'GB',name:'United Kingdom',flag:'🇬🇧'},{code:'DE',name:'Germany',flag:'🇩🇪'},{code:'SG',name:'Singapore',flag:'🇸🇬'},{code:'AE',name:'United Arab Emirates',flag:'🇦🇪'},{code:'AU',name:'Australia',flag:'🇦🇺'},{code:'SA',name:'Saudi Arabia',flag:'🇸🇦'}];
+    }
+    const reg=r.value;
+    let list = reg==='ALL' ? all : all.filter(c=>R[reg] && R[reg].includes(c.code));
+    if(!list.length) list=all;
+    const keep=prefer||s.value;
+    s.innerHTML=list.sort((a,b)=>a.name.localeCompare(b.name)).map(c=>'<option value="'+c.code+'">'+(c.flag||'')+' '+c.name+'</option>').join('');
+    s.value=list.some(c=>c.code===keep)?keep:(list[0]?list[0].code:'IN');
+  }
+
+  function ladderSvg(ladder, countryLabel){
+    if(!ladder||!ladder.length) return '<p class="mut">No ladder data for this selection.</p>';
+    const pts=ladder.filter(x=>x.usd>0);
+    if(!pts.length) return '<p class="mut">No pay-band data for selected functions/levels.</p>';
+    const W=560,H=220,padL=36,padR=48,padT=28,padB=36;
+    const xs=pts.map((_,i)=>padL+(i*(W-padL-padR)/Math.max(1,pts.length-1)));
+    const maxY=Math.max.apply(null,pts.map(p=>p.max||p.usd).concat([1]));
+    const y=v=>padT+((maxY-v)/maxY)*(H-padT-padB);
+    let band='';
+    pts.forEach((p,i)=>{band+=(i?'L':'M')+xs[i]+','+y(p.max||p.usd)+' '});
+    for(let i=pts.length-1;i>=0;i--){band+='L'+xs[i]+','+y(pts[i].min||pts[i].usd)+' '}
+    band+='Z';
+    let line='',dots='',labels='',xlab='';
+    pts.forEach((p,i)=>{
+      line+=(i?'L':'M')+xs[i]+','+y(p.usd)+' ';
+      dots+='<circle cx="'+xs[i]+'" cy="'+y(p.usd)+'" r="5" fill="#0b8f7e"/>';
+      labels+='<text x="'+xs[i]+'" y="'+(y(p.usd)-10)+'" text-anchor="middle" font-size="11" fill="#14213d" font-weight="600">'+money(p.usd)+'</text>';
+      const short=(p.level||'').replace('Junior / ','').replace(' / Specialist','').replace(' / Entry','');
+      xlab+='<text x="'+xs[i]+'" y="'+(H-10)+'" text-anchor="middle" font-size="11">'+short+'</text>';
+    });
+    return '<svg class="svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Seniority ladder for '+countryLabel+'">'+ 
+      '<path d="'+band+'" fill="#0b8f7e22" stroke="none"/>'+
+      '<path d="'+line+'" fill="none" stroke="#0b8f7e" stroke-width="2.5"/>'+
+      dots+labels+xlab+
+    '</svg>'+
+    '<p class="mut" style="margin:6px 0 0">Line = median, shaded = min to max · '+countryLabel+' · selected functions/levels</p>';
+  }
+
+  function barList(items, labelKey, valueKey){
+    if(!items||!items.length) return '<p class="mut">No data.</p>';
+    const max=Math.max.apply(null,items.map(x=>x[valueKey]||0).concat([1]));
+    return '<div class="hb">'+items.map(x=>{
+      const v=x[valueKey]||0;
+      const w=Math.max(2,Math.round(100*v/max));
+      return '<div class="hr"><div class="hl" title="'+x[labelKey]+'">'+x[labelKey]+'</div><div class="ht"><i style="width:'+w+'%"></i></div><b>'+money(v)+'</b></div>';
+    }).join('')+'</div>';
+  }
+
+  function renderRank(ranked){
+    const tb=$('rankTable').querySelector('tbody');
+    if(!ranked||!ranked.length){tb.innerHTML='<tr><td colspan="9" class="mut">No markets in this scope with pay bands.</td></tr>';return}
+    tb.innerHTML=ranked.map((r,i)=>{
+      const c=r.country||{};
+      return '<tr>'+
+        '<td>'+(i+1)+'</td>'+
+        '<td>'+(c.flag||'')+' '+(c.name||c.code||'')+'</td>'+
+        '<td>'+(REG_LABEL[r.region]||r.region||'')+'</td>'+
+        '<td class="n">'+money(r.usd)+'</td>'+
+        '<td class="n">'+money(r.min)+'</td>'+
+        '<td class="n">'+money(r.max)+'</td>'+
+        '<td class="n">'+pct(r.take)+'</td>'+
+        '<td class="n">'+pct(r.employerLoad)+'</td>'+
+        '<td><span class="tag">'+(r.conf||'')+'</span></td>'+
+      '</tr>';
+    }).join('');
+  }
+
+  async function refresh(){
+    const status=$('status');
+    const api=parentApi();
+    const roles=selectedRoles();
+    const levels=selectedLevels();
+    const region=$('regionSel').value;
+    const country=$('focusSel').value;
+    document.body.classList.add('loading');
+    status.textContent='Loading…';
+    try{
+      if(!api){
+        status.innerHTML='<span class="err">Dashboard needs to run inside the main app (iframe). Open from the parent Global Compensation Intelligence page.</span>';
+        return;
+      }
+      const data = await api.gciDashboard({region:region, roles:roles, levels:levels, country:country});
+      $('kMarkets').textContent = (data.ranked&&data.ranked.length)||0;
+      $('kMedian').textContent = money(data.median);
+      $('kSpread').textContent = data.spread!=null ? (data.spread+'\u00d7') : '—';
+      $('kLoad').textContent = data.avgLoad!=null ? (data.avgLoad+'%') : '—';
+
+      const focus = data.selected && data.selected.country ? (data.selected.country.flag+' '+data.selected.country.name) : country;
+      $('ladderNote').textContent = '';
+      $('ladderCard').querySelector('h3').textContent = 'Seniority ladder: '+(data.selected&&data.selected.country?data.selected.country.name:country);
+      $('ladderChart').innerHTML = ladderSvg(data.ladder, focus);
+
+      const fnItems = (data.selFunctions||[]).filter(x=>x.usd>0).map(x=>({label:x.role, usd:x.usd}));
+      $('fnChart').innerHTML = barList(fnItems,'label','usd');
+
+      const regItems = (data.regions||[]).map(x=>({label:REG_LABEL[x.region]||x.region, usd:x.usd}));
+      $('regChart').innerHTML = barList(regItems,'label','usd');
+
+      renderRank(data.ranked);
+
+      status.textContent = (data.note||'') + (roles.length?' · Functions: '+roles.join(', '):'') + (levels.length?' · Levels: '+levels.join(', '):'');
+    }catch(e){
+      status.innerHTML = '<span class="err">'+(e&&e.message?e.message:String(e))+'</span>';
+      console.error(e);
+    }finally{
+      document.body.classList.remove('loading');
+    }
+  }
+
+  function clearAll(){
+    $('regionSel').value='ALL';
+    allSet('fn',true); allSet('lv',true);
+    updateFocusOptions('IN');
+    refresh();
+  }
+
+  buildMenus();
+  sync('fn'); sync('lv');
+  updateFocusOptions('IN');
+  $('regionSel').addEventListener('change',function(){updateFocusOptions()});
+  $('refreshBtn').addEventListener('click',refresh);
+  $('clearBtn').addEventListener('click',clearAll);
+  function boot(){
+    updateFocusOptions('IN');
+    if(parentApi()) refresh();
+    else {
+      $('status').textContent='Waiting for parent app data…';
+      setTimeout(boot,400);
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);
+  else boot();
+})();
+</script>
+</body>
+</html>
