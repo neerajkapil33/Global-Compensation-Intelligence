@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,7 +9,7 @@
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Compensation IQ Â· Global pay intelligence Â· 2026</title>
+  <title>Compensation IQ · Global pay intelligence · 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
@@ -23,16 +23,6 @@
     .sidebar-scroll::-webkit-scrollbar { width: 4px; }
     .sidebar-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
   </style>
-<script>
-  // Google OAuth configuration
-  // Client ID is public and may be exposed in browser code.
-  // NEVER put the Google Client Secret here.
-  window.__CIQ_AUTH__ = {
-    provider: 'google',
-    googleClientId: '585877033501-4act00ps4v138vnuu6u94hogj39mfilk.apps.googleusercontent.com'
-  };
-</script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="bg-slate-50 text-slate-900">
   <div id="root"></div>
@@ -260,214 +250,214 @@
       { name: 'Central Asia', count: 8, avg: 22.0 },
       { name: 'Caribbean', count: 12, avg: 30.0 },
     ];
-    // Comprehensive country list for Focus Market (name, flag, region) â€” representative of 190+ modelled
+    // Comprehensive country list for Focus Market (name, flag, region) — representative of 190+ modelled
     const ALL_COUNTRIES = [
       // North America
-      { name: 'United States', flag: 'ðŸ‡ºðŸ‡¸', region: 'North America', code: 'US' },
-      { name: 'Canada', flag: 'ðŸ‡¨ðŸ‡¦', region: 'North America', code: 'CA' },
-      { name: 'Mexico', flag: 'ðŸ‡²ðŸ‡½', region: 'North America', code: 'MX' },
+      { name: 'United States', flag: '🇺🇸', region: 'North America', code: 'US' },
+      { name: 'Canada', flag: '🇨🇦', region: 'North America', code: 'CA' },
+      { name: 'Mexico', flag: '🇲🇽', region: 'North America', code: 'MX' },
       // Europe
-      { name: 'United Kingdom', flag: 'ðŸ‡¬ðŸ‡§', region: 'Europe', code: 'GB' },
-      { name: 'Germany', flag: 'ðŸ‡©ðŸ‡ª', region: 'Europe', code: 'DE' },
-      { name: 'France', flag: 'ðŸ‡«ðŸ‡·', region: 'Europe', code: 'FR' },
-      { name: 'Netherlands', flag: 'ðŸ‡³ðŸ‡±', region: 'Europe', code: 'NL' },
-      { name: 'Ireland', flag: 'ðŸ‡®ðŸ‡ª', region: 'Europe', code: 'IE' },
-      { name: 'Switzerland', flag: 'ðŸ‡¨ðŸ‡­', region: 'Europe', code: 'CH' },
-      { name: 'Sweden', flag: 'ðŸ‡¸ðŸ‡ª', region: 'Europe', code: 'SE' },
-      { name: 'Norway', flag: 'ðŸ‡³ðŸ‡´', region: 'Europe', code: 'NO' },
-      { name: 'Denmark', flag: 'ðŸ‡©ðŸ‡°', region: 'Europe', code: 'DK' },
-      { name: 'Finland', flag: 'ðŸ‡«ðŸ‡®', region: 'Europe', code: 'FI' },
-      { name: 'Belgium', flag: 'ðŸ‡§ðŸ‡ª', region: 'Europe', code: 'BE' },
-      { name: 'Austria', flag: 'ðŸ‡¦ðŸ‡¹', region: 'Europe', code: 'AT' },
-      { name: 'Spain', flag: 'ðŸ‡ªðŸ‡¸', region: 'Europe', code: 'ES' },
-      { name: 'Italy', flag: 'ðŸ‡®ðŸ‡¹', region: 'Europe', code: 'IT' },
-      { name: 'Portugal', flag: 'ðŸ‡µðŸ‡¹', region: 'Europe', code: 'PT' },
-      { name: 'Poland', flag: 'ðŸ‡µðŸ‡±', region: 'Europe', code: 'PL' },
-      { name: 'Czechia', flag: 'ðŸ‡¨ðŸ‡¿', region: 'Europe', code: 'CZ' },
-      { name: 'Romania', flag: 'ðŸ‡·ðŸ‡´', region: 'Europe', code: 'RO' },
-      { name: 'Hungary', flag: 'ðŸ‡­ðŸ‡º', region: 'Europe', code: 'HU' },
-      { name: 'Greece', flag: 'ðŸ‡¬ðŸ‡·', region: 'Europe', code: 'GR' },
-      { name: 'Luxembourg', flag: 'ðŸ‡±ðŸ‡º', region: 'Europe', code: 'LU' },
-      { name: 'Iceland', flag: 'ðŸ‡®ðŸ‡¸', region: 'Europe', code: 'IS' },
-      { name: 'Estonia', flag: 'ðŸ‡ªðŸ‡ª', region: 'Europe', code: 'EE' },
-      { name: 'Latvia', flag: 'ðŸ‡±ðŸ‡»', region: 'Europe', code: 'LV' },
-      { name: 'Lithuania', flag: 'ðŸ‡±ðŸ‡¹', region: 'Europe', code: 'LT' },
-      { name: 'Slovakia', flag: 'ðŸ‡¸ðŸ‡°', region: 'Europe', code: 'SK' },
-      { name: 'Slovenia', flag: 'ðŸ‡¸ðŸ‡®', region: 'Europe', code: 'SI' },
-      { name: 'Croatia', flag: 'ðŸ‡­ðŸ‡·', region: 'Europe', code: 'HR' },
-      { name: 'Bulgaria', flag: 'ðŸ‡§ðŸ‡¬', region: 'Europe', code: 'BG' },
-      { name: 'Serbia', flag: 'ðŸ‡·ðŸ‡¸', region: 'Europe', code: 'RS' },
-      { name: 'Ukraine', flag: 'ðŸ‡ºðŸ‡¦', region: 'Europe', code: 'UA' },
-      { name: 'Turkey', flag: 'ðŸ‡¹ðŸ‡·', region: 'Europe', code: 'TR' },
-      { name: 'Albania', flag: 'ðŸ‡¦ðŸ‡±', region: 'Europe', code: 'AL' },
-      { name: 'North Macedonia', flag: 'ðŸ‡²ðŸ‡°', region: 'Europe', code: 'MK' },
-      { name: 'Bosnia and Herzegovina', flag: 'ðŸ‡§ðŸ‡¦', region: 'Europe', code: 'BA' },
-      { name: 'Montenegro', flag: 'ðŸ‡²ðŸ‡ª', region: 'Europe', code: 'ME' },
-      { name: 'Moldova', flag: 'ðŸ‡²ðŸ‡©', region: 'Europe', code: 'MD' },
-      { name: 'Belarus', flag: 'ðŸ‡§ðŸ‡¾', region: 'Europe', code: 'BY' },
-      { name: 'Malta', flag: 'ðŸ‡²ðŸ‡¹', region: 'Europe', code: 'MT' },
-      { name: 'Cyprus', flag: 'ðŸ‡¨ðŸ‡¾', region: 'Europe', code: 'CY' },
-      { name: 'Andorra', flag: 'ðŸ‡¦ðŸ‡©', region: 'Europe', code: 'AD' },
-      { name: 'Monaco', flag: 'ðŸ‡²ðŸ‡¨', region: 'Europe', code: 'MC' },
-      { name: 'Liechtenstein', flag: 'ðŸ‡±ðŸ‡®', region: 'Europe', code: 'LI' },
-      { name: 'San Marino', flag: 'ðŸ‡¸ðŸ‡²', region: 'Europe', code: 'SM' },
+      { name: 'United Kingdom', flag: '🇬🇧', region: 'Europe', code: 'GB' },
+      { name: 'Germany', flag: '🇩🇪', region: 'Europe', code: 'DE' },
+      { name: 'France', flag: '🇫🇷', region: 'Europe', code: 'FR' },
+      { name: 'Netherlands', flag: '🇳🇱', region: 'Europe', code: 'NL' },
+      { name: 'Ireland', flag: '🇮🇪', region: 'Europe', code: 'IE' },
+      { name: 'Switzerland', flag: '🇨🇭', region: 'Europe', code: 'CH' },
+      { name: 'Sweden', flag: '🇸🇪', region: 'Europe', code: 'SE' },
+      { name: 'Norway', flag: '🇳🇴', region: 'Europe', code: 'NO' },
+      { name: 'Denmark', flag: '🇩🇰', region: 'Europe', code: 'DK' },
+      { name: 'Finland', flag: '🇫🇮', region: 'Europe', code: 'FI' },
+      { name: 'Belgium', flag: '🇧🇪', region: 'Europe', code: 'BE' },
+      { name: 'Austria', flag: '🇦🇹', region: 'Europe', code: 'AT' },
+      { name: 'Spain', flag: '🇪🇸', region: 'Europe', code: 'ES' },
+      { name: 'Italy', flag: '🇮🇹', region: 'Europe', code: 'IT' },
+      { name: 'Portugal', flag: '🇵🇹', region: 'Europe', code: 'PT' },
+      { name: 'Poland', flag: '🇵🇱', region: 'Europe', code: 'PL' },
+      { name: 'Czechia', flag: '🇨🇿', region: 'Europe', code: 'CZ' },
+      { name: 'Romania', flag: '🇷🇴', region: 'Europe', code: 'RO' },
+      { name: 'Hungary', flag: '🇭🇺', region: 'Europe', code: 'HU' },
+      { name: 'Greece', flag: '🇬🇷', region: 'Europe', code: 'GR' },
+      { name: 'Luxembourg', flag: '🇱🇺', region: 'Europe', code: 'LU' },
+      { name: 'Iceland', flag: '🇮🇸', region: 'Europe', code: 'IS' },
+      { name: 'Estonia', flag: '🇪🇪', region: 'Europe', code: 'EE' },
+      { name: 'Latvia', flag: '🇱🇻', region: 'Europe', code: 'LV' },
+      { name: 'Lithuania', flag: '🇱🇹', region: 'Europe', code: 'LT' },
+      { name: 'Slovakia', flag: '🇸🇰', region: 'Europe', code: 'SK' },
+      { name: 'Slovenia', flag: '🇸🇮', region: 'Europe', code: 'SI' },
+      { name: 'Croatia', flag: '🇭🇷', region: 'Europe', code: 'HR' },
+      { name: 'Bulgaria', flag: '🇧🇬', region: 'Europe', code: 'BG' },
+      { name: 'Serbia', flag: '🇷🇸', region: 'Europe', code: 'RS' },
+      { name: 'Ukraine', flag: '🇺🇦', region: 'Europe', code: 'UA' },
+      { name: 'Turkey', flag: '🇹🇷', region: 'Europe', code: 'TR' },
+      { name: 'Albania', flag: '🇦🇱', region: 'Europe', code: 'AL' },
+      { name: 'North Macedonia', flag: '🇲🇰', region: 'Europe', code: 'MK' },
+      { name: 'Bosnia and Herzegovina', flag: '🇧🇦', region: 'Europe', code: 'BA' },
+      { name: 'Montenegro', flag: '🇲🇪', region: 'Europe', code: 'ME' },
+      { name: 'Moldova', flag: '🇲🇩', region: 'Europe', code: 'MD' },
+      { name: 'Belarus', flag: '🇧🇾', region: 'Europe', code: 'BY' },
+      { name: 'Malta', flag: '🇲🇹', region: 'Europe', code: 'MT' },
+      { name: 'Cyprus', flag: '🇨🇾', region: 'Europe', code: 'CY' },
+      { name: 'Andorra', flag: '🇦🇩', region: 'Europe', code: 'AD' },
+      { name: 'Monaco', flag: '🇲🇨', region: 'Europe', code: 'MC' },
+      { name: 'Liechtenstein', flag: '🇱🇮', region: 'Europe', code: 'LI' },
+      { name: 'San Marino', flag: '🇸🇲', region: 'Europe', code: 'SM' },
       // Oceania
-      { name: 'Australia', flag: 'ðŸ‡¦ðŸ‡º', region: 'Oceania', code: 'AU' },
-      { name: 'New Zealand', flag: 'ðŸ‡³ðŸ‡¿', region: 'Oceania', code: 'NZ' },
-      { name: 'Fiji', flag: 'ðŸ‡«ðŸ‡¯', region: 'Oceania', code: 'FJ' },
-      { name: 'Papua New Guinea', flag: 'ðŸ‡µðŸ‡¬', region: 'Oceania', code: 'PG' },
-      { name: 'Samoa', flag: 'ðŸ‡¼ðŸ‡¸', region: 'Oceania', code: 'WS' },
-      { name: 'Tonga', flag: 'ðŸ‡¹ðŸ‡´', region: 'Oceania', code: 'TO' },
-      { name: 'Vanuatu', flag: 'ðŸ‡»ðŸ‡º', region: 'Oceania', code: 'VU' },
-      { name: 'Solomon Islands', flag: 'ðŸ‡¸ðŸ‡§', region: 'Oceania', code: 'SB' },
+      { name: 'Australia', flag: '🇦🇺', region: 'Oceania', code: 'AU' },
+      { name: 'New Zealand', flag: '🇳🇿', region: 'Oceania', code: 'NZ' },
+      { name: 'Fiji', flag: '🇫🇯', region: 'Oceania', code: 'FJ' },
+      { name: 'Papua New Guinea', flag: '🇵🇬', region: 'Oceania', code: 'PG' },
+      { name: 'Samoa', flag: '🇼🇸', region: 'Oceania', code: 'WS' },
+      { name: 'Tonga', flag: '🇹🇴', region: 'Oceania', code: 'TO' },
+      { name: 'Vanuatu', flag: '🇻🇺', region: 'Oceania', code: 'VU' },
+      { name: 'Solomon Islands', flag: '🇸🇧', region: 'Oceania', code: 'SB' },
       // Middle East
-      { name: 'United Arab Emirates', flag: 'ðŸ‡¦ðŸ‡ª', region: 'Middle East', code: 'AE' },
-      { name: 'Saudi Arabia', flag: 'ðŸ‡¸ðŸ‡¦', region: 'Middle East', code: 'SA' },
-      { name: 'Qatar', flag: 'ðŸ‡¶ðŸ‡¦', region: 'Middle East', code: 'QA' },
-      { name: 'Kuwait', flag: 'ðŸ‡°ðŸ‡¼', region: 'Middle East', code: 'KW' },
-      { name: 'Bahrain', flag: 'ðŸ‡§ðŸ‡­', region: 'Middle East', code: 'BH' },
-      { name: 'Oman', flag: 'ðŸ‡´ðŸ‡²', region: 'Middle East', code: 'OM' },
-      { name: 'Israel', flag: 'ðŸ‡®ðŸ‡±', region: 'Middle East', code: 'IL' },
-      { name: 'Jordan', flag: 'ðŸ‡¯ðŸ‡´', region: 'Middle East', code: 'JO' },
-      { name: 'Lebanon', flag: 'ðŸ‡±ðŸ‡§', region: 'Middle East', code: 'LB' },
-      { name: 'Egypt', flag: 'ðŸ‡ªðŸ‡¬', region: 'Middle East', code: 'EG' },
-      { name: 'Iraq', flag: 'ðŸ‡®ðŸ‡¶', region: 'Middle East', code: 'IQ' },
-      { name: 'Iran', flag: 'ðŸ‡®ðŸ‡·', region: 'Middle East', code: 'IR' },
-      { name: 'Yemen', flag: 'ðŸ‡¾ðŸ‡ª', region: 'Middle East', code: 'YE' },
-      { name: 'Palestine', flag: 'ðŸ‡µðŸ‡¸', region: 'Middle East', code: 'PS' },
+      { name: 'United Arab Emirates', flag: '🇦🇪', region: 'Middle East', code: 'AE' },
+      { name: 'Saudi Arabia', flag: '🇸🇦', region: 'Middle East', code: 'SA' },
+      { name: 'Qatar', flag: '🇶🇦', region: 'Middle East', code: 'QA' },
+      { name: 'Kuwait', flag: '🇰🇼', region: 'Middle East', code: 'KW' },
+      { name: 'Bahrain', flag: '🇧🇭', region: 'Middle East', code: 'BH' },
+      { name: 'Oman', flag: '🇴🇲', region: 'Middle East', code: 'OM' },
+      { name: 'Israel', flag: '🇮🇱', region: 'Middle East', code: 'IL' },
+      { name: 'Jordan', flag: '🇯🇴', region: 'Middle East', code: 'JO' },
+      { name: 'Lebanon', flag: '🇱🇧', region: 'Middle East', code: 'LB' },
+      { name: 'Egypt', flag: '🇪🇬', region: 'Middle East', code: 'EG' },
+      { name: 'Iraq', flag: '🇮🇶', region: 'Middle East', code: 'IQ' },
+      { name: 'Iran', flag: '🇮🇷', region: 'Middle East', code: 'IR' },
+      { name: 'Yemen', flag: '🇾🇪', region: 'Middle East', code: 'YE' },
+      { name: 'Palestine', flag: '🇵🇸', region: 'Middle East', code: 'PS' },
       // East & SE Asia
-      { name: 'Singapore', flag: 'ðŸ‡¸ðŸ‡¬', region: 'East & SE Asia', code: 'SG' },
-      { name: 'Japan', flag: 'ðŸ‡¯ðŸ‡µ', region: 'East & SE Asia', code: 'JP' },
-      { name: 'Hong Kong', flag: 'ðŸ‡­ðŸ‡°', region: 'East & SE Asia', code: 'HK' },
-      { name: 'South Korea', flag: 'ðŸ‡°ðŸ‡·', region: 'East & SE Asia', code: 'KR' },
-      { name: 'Taiwan', flag: 'ðŸ‡¹ðŸ‡¼', region: 'East & SE Asia', code: 'TW' },
-      { name: 'China', flag: 'ðŸ‡¨ðŸ‡³', region: 'East & SE Asia', code: 'CN' },
-      { name: 'Malaysia', flag: 'ðŸ‡²ðŸ‡¾', region: 'East & SE Asia', code: 'MY' },
-      { name: 'Thailand', flag: 'ðŸ‡¹ðŸ‡­', region: 'East & SE Asia', code: 'TH' },
-      { name: 'Indonesia', flag: 'ðŸ‡®ðŸ‡©', region: 'East & SE Asia', code: 'ID' },
-      { name: 'Philippines', flag: 'ðŸ‡µðŸ‡­', region: 'East & SE Asia', code: 'PH' },
-      { name: 'Vietnam', flag: 'ðŸ‡»ðŸ‡³', region: 'East & SE Asia', code: 'VN' },
-      { name: 'Cambodia', flag: 'ðŸ‡°ðŸ‡­', region: 'East & SE Asia', code: 'KH' },
-      { name: 'Myanmar', flag: 'ðŸ‡²ðŸ‡²', region: 'East & SE Asia', code: 'MM' },
-      { name: 'Laos', flag: 'ðŸ‡±ðŸ‡¦', region: 'East & SE Asia', code: 'LA' },
-      { name: 'Brunei', flag: 'ðŸ‡§ðŸ‡³', region: 'East & SE Asia', code: 'BN' },
-      { name: 'Mongolia', flag: 'ðŸ‡²ðŸ‡³', region: 'East & SE Asia', code: 'MN' },
-      { name: 'Macau', flag: 'ðŸ‡²ðŸ‡´', region: 'East & SE Asia', code: 'MO' },
-      { name: 'North Korea', flag: 'ðŸ‡°ðŸ‡µ', region: 'East & SE Asia', code: 'KP' },
+      { name: 'Singapore', flag: '🇸🇬', region: 'East & SE Asia', code: 'SG' },
+      { name: 'Japan', flag: '🇯🇵', region: 'East & SE Asia', code: 'JP' },
+      { name: 'Hong Kong', flag: '🇭🇰', region: 'East & SE Asia', code: 'HK' },
+      { name: 'South Korea', flag: '🇰🇷', region: 'East & SE Asia', code: 'KR' },
+      { name: 'Taiwan', flag: '🇹🇼', region: 'East & SE Asia', code: 'TW' },
+      { name: 'China', flag: '🇨🇳', region: 'East & SE Asia', code: 'CN' },
+      { name: 'Malaysia', flag: '🇲🇾', region: 'East & SE Asia', code: 'MY' },
+      { name: 'Thailand', flag: '🇹🇭', region: 'East & SE Asia', code: 'TH' },
+      { name: 'Indonesia', flag: '🇮🇩', region: 'East & SE Asia', code: 'ID' },
+      { name: 'Philippines', flag: '🇵🇭', region: 'East & SE Asia', code: 'PH' },
+      { name: 'Vietnam', flag: '🇻🇳', region: 'East & SE Asia', code: 'VN' },
+      { name: 'Cambodia', flag: '🇰🇭', region: 'East & SE Asia', code: 'KH' },
+      { name: 'Myanmar', flag: '🇲🇲', region: 'East & SE Asia', code: 'MM' },
+      { name: 'Laos', flag: '🇱🇦', region: 'East & SE Asia', code: 'LA' },
+      { name: 'Brunei', flag: '🇧🇳', region: 'East & SE Asia', code: 'BN' },
+      { name: 'Mongolia', flag: '🇲🇳', region: 'East & SE Asia', code: 'MN' },
+      { name: 'Macau', flag: '🇲🇴', region: 'East & SE Asia', code: 'MO' },
+      { name: 'North Korea', flag: '🇰🇵', region: 'East & SE Asia', code: 'KP' },
       // South Asia
-      { name: 'India', flag: 'ðŸ‡®ðŸ‡³', region: 'South Asia', code: 'IN' },
-      { name: 'Pakistan', flag: 'ðŸ‡µðŸ‡°', region: 'South Asia', code: 'PK' },
-      { name: 'Bangladesh', flag: 'ðŸ‡§ðŸ‡©', region: 'South Asia', code: 'BD' },
-      { name: 'Sri Lanka', flag: 'ðŸ‡±ðŸ‡°', region: 'South Asia', code: 'LK' },
-      { name: 'Nepal', flag: 'ðŸ‡³ðŸ‡µ', region: 'South Asia', code: 'NP' },
-      { name: 'Maldives', flag: 'ðŸ‡²ðŸ‡»', region: 'South Asia', code: 'MV' },
-      { name: 'Bhutan', flag: 'ðŸ‡§ðŸ‡¹', region: 'South Asia', code: 'BT' },
-      { name: 'Afghanistan', flag: 'ðŸ‡¦ðŸ‡«', region: 'South Asia', code: 'AF' },
+      { name: 'India', flag: '🇮🇳', region: 'South Asia', code: 'IN' },
+      { name: 'Pakistan', flag: '🇵🇰', region: 'South Asia', code: 'PK' },
+      { name: 'Bangladesh', flag: '🇧🇩', region: 'South Asia', code: 'BD' },
+      { name: 'Sri Lanka', flag: '🇱🇰', region: 'South Asia', code: 'LK' },
+      { name: 'Nepal', flag: '🇳🇵', region: 'South Asia', code: 'NP' },
+      { name: 'Maldives', flag: '🇲🇻', region: 'South Asia', code: 'MV' },
+      { name: 'Bhutan', flag: '🇧🇹', region: 'South Asia', code: 'BT' },
+      { name: 'Afghanistan', flag: '🇦🇫', region: 'South Asia', code: 'AF' },
       // Central Asia
-      { name: 'Kazakhstan', flag: 'ðŸ‡°ðŸ‡¿', region: 'Central Asia', code: 'KZ' },
-      { name: 'Uzbekistan', flag: 'ðŸ‡ºðŸ‡¿', region: 'Central Asia', code: 'UZ' },
-      { name: 'Azerbaijan', flag: 'ðŸ‡¦ðŸ‡¿', region: 'Central Asia', code: 'AZ' },
-      { name: 'Georgia', flag: 'ðŸ‡¬ðŸ‡ª', region: 'Central Asia', code: 'GE' },
-      { name: 'Armenia', flag: 'ðŸ‡¦ðŸ‡²', region: 'Central Asia', code: 'AM' },
-      { name: 'Turkmenistan', flag: 'ðŸ‡¹ðŸ‡²', region: 'Central Asia', code: 'TM' },
-      { name: 'Kyrgyzstan', flag: 'ðŸ‡°ðŸ‡¬', region: 'Central Asia', code: 'KG' },
-      { name: 'Tajikistan', flag: 'ðŸ‡¹ðŸ‡¯', region: 'Central Asia', code: 'TJ' },
+      { name: 'Kazakhstan', flag: '🇰🇿', region: 'Central Asia', code: 'KZ' },
+      { name: 'Uzbekistan', flag: '🇺🇿', region: 'Central Asia', code: 'UZ' },
+      { name: 'Azerbaijan', flag: '🇦🇿', region: 'Central Asia', code: 'AZ' },
+      { name: 'Georgia', flag: '🇬🇪', region: 'Central Asia', code: 'GE' },
+      { name: 'Armenia', flag: '🇦🇲', region: 'Central Asia', code: 'AM' },
+      { name: 'Turkmenistan', flag: '🇹🇲', region: 'Central Asia', code: 'TM' },
+      { name: 'Kyrgyzstan', flag: '🇰🇬', region: 'Central Asia', code: 'KG' },
+      { name: 'Tajikistan', flag: '🇹🇯', region: 'Central Asia', code: 'TJ' },
       // Africa
-      { name: 'South Africa', flag: 'ðŸ‡¿ðŸ‡¦', region: 'Africa', code: 'ZA' },
-      { name: 'Nigeria', flag: 'ðŸ‡³ðŸ‡¬', region: 'Africa', code: 'NG' },
-      { name: 'Kenya', flag: 'ðŸ‡°ðŸ‡ª', region: 'Africa', code: 'KE' },
-      { name: 'Ghana', flag: 'ðŸ‡¬ðŸ‡­', region: 'Africa', code: 'GH' },
-      { name: 'Morocco', flag: 'ðŸ‡²ðŸ‡¦', region: 'Africa', code: 'MA' },
-      { name: 'Tunisia', flag: 'ðŸ‡¹ðŸ‡³', region: 'Africa', code: 'TN' },
-      { name: 'Ethiopia', flag: 'ðŸ‡ªðŸ‡¹', region: 'Africa', code: 'ET' },
-      { name: 'Tanzania', flag: 'ðŸ‡¹ðŸ‡¿', region: 'Africa', code: 'TZ' },
-      { name: 'Uganda', flag: 'ðŸ‡ºðŸ‡¬', region: 'Africa', code: 'UG' },
-      { name: 'Rwanda', flag: 'ðŸ‡·ðŸ‡¼', region: 'Africa', code: 'RW' },
-      { name: 'Senegal', flag: 'ðŸ‡¸ðŸ‡³', region: 'Africa', code: 'SN' },
-      { name: 'Ivory Coast', flag: 'ðŸ‡¨ðŸ‡®', region: 'Africa', code: 'CI' },
-      { name: 'Botswana', flag: 'ðŸ‡§ðŸ‡¼', region: 'Africa', code: 'BW' },
-      { name: 'Namibia', flag: 'ðŸ‡³ðŸ‡¦', region: 'Africa', code: 'NA' },
-      { name: 'Mauritius', flag: 'ðŸ‡²ðŸ‡º', region: 'Africa', code: 'MU' },
-      { name: 'Algeria', flag: 'ðŸ‡©ðŸ‡¿', region: 'Africa', code: 'DZ' },
-      { name: 'Libya', flag: 'ðŸ‡±ðŸ‡¾', region: 'Africa', code: 'LY' },
-      { name: 'Sudan', flag: 'ðŸ‡¸ðŸ‡©', region: 'Africa', code: 'SD' },
-      { name: 'Angola', flag: 'ðŸ‡¦ðŸ‡´', region: 'Africa', code: 'AO' },
-      { name: 'Mozambique', flag: 'ðŸ‡²ðŸ‡¿', region: 'Africa', code: 'MZ' },
-      { name: 'Zambia', flag: 'ðŸ‡¿ðŸ‡²', region: 'Africa', code: 'ZM' },
-      { name: 'Zimbabwe', flag: 'ðŸ‡¿ðŸ‡¼', region: 'Africa', code: 'ZW' },
-      { name: 'Cameroon', flag: 'ðŸ‡¨ðŸ‡²', region: 'Africa', code: 'CM' },
-      { name: 'DR Congo', flag: 'ðŸ‡¨ðŸ‡©', region: 'Africa', code: 'CD' },
-      { name: 'Congo', flag: 'ðŸ‡¨ðŸ‡¬', region: 'Africa', code: 'CG' },
-      { name: 'Gabon', flag: 'ðŸ‡¬ðŸ‡¦', region: 'Africa', code: 'GA' },
-      { name: 'Madagascar', flag: 'ðŸ‡²ðŸ‡¬', region: 'Africa', code: 'MG' },
-      { name: 'Malawi', flag: 'ðŸ‡²ðŸ‡¼', region: 'Africa', code: 'MW' },
-      { name: 'Mali', flag: 'ðŸ‡²ðŸ‡±', region: 'Africa', code: 'ML' },
-      { name: 'Burkina Faso', flag: 'ðŸ‡§ðŸ‡«', region: 'Africa', code: 'BF' },
-      { name: 'Niger', flag: 'ðŸ‡³ðŸ‡ª', region: 'Africa', code: 'NE' },
-      { name: 'Benin', flag: 'ðŸ‡§ðŸ‡¯', region: 'Africa', code: 'BJ' },
-      { name: 'Togo', flag: 'ðŸ‡¹ðŸ‡¬', region: 'Africa', code: 'TG' },
-      { name: 'Sierra Leone', flag: 'ðŸ‡¸ðŸ‡±', region: 'Africa', code: 'SL' },
-      { name: 'Liberia', flag: 'ðŸ‡±ðŸ‡·', region: 'Africa', code: 'LR' },
-      { name: 'Guinea', flag: 'ðŸ‡¬ðŸ‡³', region: 'Africa', code: 'GN' },
-      { name: 'Gambia', flag: 'ðŸ‡¬ðŸ‡²', region: 'Africa', code: 'GM' },
-      { name: 'Mauritania', flag: 'ðŸ‡²ðŸ‡·', region: 'Africa', code: 'MR' },
-      { name: 'Somalia', flag: 'ðŸ‡¸ðŸ‡´', region: 'Africa', code: 'SO' },
-      { name: 'Eritrea', flag: 'ðŸ‡ªðŸ‡·', region: 'Africa', code: 'ER' },
-      { name: 'Djibouti', flag: 'ðŸ‡©ðŸ‡¯', region: 'Africa', code: 'DJ' },
-      { name: 'Seychelles', flag: 'ðŸ‡¸ðŸ‡¨', region: 'Africa', code: 'SC' },
-      { name: 'Eswatini', flag: 'ðŸ‡¸ðŸ‡¿', region: 'Africa', code: 'SZ' },
-      { name: 'Lesotho', flag: 'ðŸ‡±ðŸ‡¸', region: 'Africa', code: 'LS' },
+      { name: 'South Africa', flag: '🇿🇦', region: 'Africa', code: 'ZA' },
+      { name: 'Nigeria', flag: '🇳🇬', region: 'Africa', code: 'NG' },
+      { name: 'Kenya', flag: '🇰🇪', region: 'Africa', code: 'KE' },
+      { name: 'Ghana', flag: '🇬🇭', region: 'Africa', code: 'GH' },
+      { name: 'Morocco', flag: '🇲🇦', region: 'Africa', code: 'MA' },
+      { name: 'Tunisia', flag: '🇹🇳', region: 'Africa', code: 'TN' },
+      { name: 'Ethiopia', flag: '🇪🇹', region: 'Africa', code: 'ET' },
+      { name: 'Tanzania', flag: '🇹🇿', region: 'Africa', code: 'TZ' },
+      { name: 'Uganda', flag: '🇺🇬', region: 'Africa', code: 'UG' },
+      { name: 'Rwanda', flag: '🇷🇼', region: 'Africa', code: 'RW' },
+      { name: 'Senegal', flag: '🇸🇳', region: 'Africa', code: 'SN' },
+      { name: 'Ivory Coast', flag: '🇨🇮', region: 'Africa', code: 'CI' },
+      { name: 'Botswana', flag: '🇧🇼', region: 'Africa', code: 'BW' },
+      { name: 'Namibia', flag: '🇳🇦', region: 'Africa', code: 'NA' },
+      { name: 'Mauritius', flag: '🇲🇺', region: 'Africa', code: 'MU' },
+      { name: 'Algeria', flag: '🇩🇿', region: 'Africa', code: 'DZ' },
+      { name: 'Libya', flag: '🇱🇾', region: 'Africa', code: 'LY' },
+      { name: 'Sudan', flag: '🇸🇩', region: 'Africa', code: 'SD' },
+      { name: 'Angola', flag: '🇦🇴', region: 'Africa', code: 'AO' },
+      { name: 'Mozambique', flag: '🇲🇿', region: 'Africa', code: 'MZ' },
+      { name: 'Zambia', flag: '🇿🇲', region: 'Africa', code: 'ZM' },
+      { name: 'Zimbabwe', flag: '🇿🇼', region: 'Africa', code: 'ZW' },
+      { name: 'Cameroon', flag: '🇨🇲', region: 'Africa', code: 'CM' },
+      { name: 'DR Congo', flag: '🇨🇩', region: 'Africa', code: 'CD' },
+      { name: 'Congo', flag: '🇨🇬', region: 'Africa', code: 'CG' },
+      { name: 'Gabon', flag: '🇬🇦', region: 'Africa', code: 'GA' },
+      { name: 'Madagascar', flag: '🇲🇬', region: 'Africa', code: 'MG' },
+      { name: 'Malawi', flag: '🇲🇼', region: 'Africa', code: 'MW' },
+      { name: 'Mali', flag: '🇲🇱', region: 'Africa', code: 'ML' },
+      { name: 'Burkina Faso', flag: '🇧🇫', region: 'Africa', code: 'BF' },
+      { name: 'Niger', flag: '🇳🇪', region: 'Africa', code: 'NE' },
+      { name: 'Benin', flag: '🇧🇯', region: 'Africa', code: 'BJ' },
+      { name: 'Togo', flag: '🇹🇬', region: 'Africa', code: 'TG' },
+      { name: 'Sierra Leone', flag: '🇸🇱', region: 'Africa', code: 'SL' },
+      { name: 'Liberia', flag: '🇱🇷', region: 'Africa', code: 'LR' },
+      { name: 'Guinea', flag: '🇬🇳', region: 'Africa', code: 'GN' },
+      { name: 'Gambia', flag: '🇬🇲', region: 'Africa', code: 'GM' },
+      { name: 'Mauritania', flag: '🇲🇷', region: 'Africa', code: 'MR' },
+      { name: 'Somalia', flag: '🇸🇴', region: 'Africa', code: 'SO' },
+      { name: 'Eritrea', flag: '🇪🇷', region: 'Africa', code: 'ER' },
+      { name: 'Djibouti', flag: '🇩🇯', region: 'Africa', code: 'DJ' },
+      { name: 'Seychelles', flag: '🇸🇨', region: 'Africa', code: 'SC' },
+      { name: 'Eswatini', flag: '🇸🇿', region: 'Africa', code: 'SZ' },
+      { name: 'Lesotho', flag: '🇱🇸', region: 'Africa', code: 'LS' },
       // Latin America
-      { name: 'Brazil', flag: 'ðŸ‡§ðŸ‡·', region: 'Latin America', code: 'BR' },
-      { name: 'Argentina', flag: 'ðŸ‡¦ðŸ‡·', region: 'Latin America', code: 'AR' },
-      { name: 'Chile', flag: 'ðŸ‡¨ðŸ‡±', region: 'Latin America', code: 'CL' },
-      { name: 'Colombia', flag: 'ðŸ‡¨ðŸ‡´', region: 'Latin America', code: 'CO' },
-      { name: 'Peru', flag: 'ðŸ‡µðŸ‡ª', region: 'Latin America', code: 'PE' },
-      { name: 'Uruguay', flag: 'ðŸ‡ºðŸ‡¾', region: 'Latin America', code: 'UY' },
-      { name: 'Ecuador', flag: 'ðŸ‡ªðŸ‡¨', region: 'Latin America', code: 'EC' },
-      { name: 'Paraguay', flag: 'ðŸ‡µðŸ‡¾', region: 'Latin America', code: 'PY' },
-      { name: 'Bolivia', flag: 'ðŸ‡§ðŸ‡´', region: 'Latin America', code: 'BO' },
-      { name: 'Costa Rica', flag: 'ðŸ‡¨ðŸ‡·', region: 'Latin America', code: 'CR' },
-      { name: 'Panama', flag: 'ðŸ‡µðŸ‡¦', region: 'Latin America', code: 'PA' },
-      { name: 'Guatemala', flag: 'ðŸ‡¬ðŸ‡¹', region: 'Latin America', code: 'GT' },
-      { name: 'Honduras', flag: 'ðŸ‡­ðŸ‡³', region: 'Latin America', code: 'HN' },
-      { name: 'El Salvador', flag: 'ðŸ‡¸ðŸ‡»', region: 'Latin America', code: 'SV' },
-      { name: 'Nicaragua', flag: 'ðŸ‡³ðŸ‡®', region: 'Latin America', code: 'NI' },
-      { name: 'Venezuela', flag: 'ðŸ‡»ðŸ‡ª', region: 'Latin America', code: 'VE' },
-      { name: 'Guyana', flag: 'ðŸ‡¬ðŸ‡¾', region: 'Latin America', code: 'GY' },
-      { name: 'Suriname', flag: 'ðŸ‡¸ðŸ‡·', region: 'Latin America', code: 'SR' },
-      { name: 'Belize', flag: 'ðŸ‡§ðŸ‡¿', region: 'Latin America', code: 'BZ' },
+      { name: 'Brazil', flag: '🇧🇷', region: 'Latin America', code: 'BR' },
+      { name: 'Argentina', flag: '🇦🇷', region: 'Latin America', code: 'AR' },
+      { name: 'Chile', flag: '🇨🇱', region: 'Latin America', code: 'CL' },
+      { name: 'Colombia', flag: '🇨🇴', region: 'Latin America', code: 'CO' },
+      { name: 'Peru', flag: '🇵🇪', region: 'Latin America', code: 'PE' },
+      { name: 'Uruguay', flag: '🇺🇾', region: 'Latin America', code: 'UY' },
+      { name: 'Ecuador', flag: '🇪🇨', region: 'Latin America', code: 'EC' },
+      { name: 'Paraguay', flag: '🇵🇾', region: 'Latin America', code: 'PY' },
+      { name: 'Bolivia', flag: '🇧🇴', region: 'Latin America', code: 'BO' },
+      { name: 'Costa Rica', flag: '🇨🇷', region: 'Latin America', code: 'CR' },
+      { name: 'Panama', flag: '🇵🇦', region: 'Latin America', code: 'PA' },
+      { name: 'Guatemala', flag: '🇬🇹', region: 'Latin America', code: 'GT' },
+      { name: 'Honduras', flag: '🇭🇳', region: 'Latin America', code: 'HN' },
+      { name: 'El Salvador', flag: '🇸🇻', region: 'Latin America', code: 'SV' },
+      { name: 'Nicaragua', flag: '🇳🇮', region: 'Latin America', code: 'NI' },
+      { name: 'Venezuela', flag: '🇻🇪', region: 'Latin America', code: 'VE' },
+      { name: 'Guyana', flag: '🇬🇾', region: 'Latin America', code: 'GY' },
+      { name: 'Suriname', flag: '🇸🇷', region: 'Latin America', code: 'SR' },
+      { name: 'Belize', flag: '🇧🇿', region: 'Latin America', code: 'BZ' },
       // Caribbean
-      { name: 'Jamaica', flag: 'ðŸ‡¯ðŸ‡²', region: 'Caribbean', code: 'JM' },
-      { name: 'Trinidad and Tobago', flag: 'ðŸ‡¹ðŸ‡¹', region: 'Caribbean', code: 'TT' },
-      { name: 'Bahamas', flag: 'ðŸ‡§ðŸ‡¸', region: 'Caribbean', code: 'BS' },
-      { name: 'Barbados', flag: 'ðŸ‡§ðŸ‡§', region: 'Caribbean', code: 'BB' },
-      { name: 'Dominican Republic', flag: 'ðŸ‡©ðŸ‡´', region: 'Caribbean', code: 'DO' },
-      { name: 'Puerto Rico', flag: 'ðŸ‡µðŸ‡·', region: 'Caribbean', code: 'PR' },
-      { name: 'Cuba', flag: 'ðŸ‡¨ðŸ‡º', region: 'Caribbean', code: 'CU' },
-      { name: 'Haiti', flag: 'ðŸ‡­ðŸ‡¹', region: 'Caribbean', code: 'HT' },
-      { name: 'Saint Lucia', flag: 'ðŸ‡±ðŸ‡¨', region: 'Caribbean', code: 'LC' },
-      { name: 'Grenada', flag: 'ðŸ‡¬ðŸ‡©', region: 'Caribbean', code: 'GD' },
-      { name: 'Antigua and Barbuda', flag: 'ðŸ‡¦ðŸ‡¬', region: 'Caribbean', code: 'AG' },
-      { name: 'Saint Kitts and Nevis', flag: 'ðŸ‡°ðŸ‡³', region: 'Caribbean', code: 'KN' },
+      { name: 'Jamaica', flag: '🇯🇲', region: 'Caribbean', code: 'JM' },
+      { name: 'Trinidad and Tobago', flag: '🇹🇹', region: 'Caribbean', code: 'TT' },
+      { name: 'Bahamas', flag: '🇧🇸', region: 'Caribbean', code: 'BS' },
+      { name: 'Barbados', flag: '🇧🇧', region: 'Caribbean', code: 'BB' },
+      { name: 'Dominican Republic', flag: '🇩🇴', region: 'Caribbean', code: 'DO' },
+      { name: 'Puerto Rico', flag: '🇵🇷', region: 'Caribbean', code: 'PR' },
+      { name: 'Cuba', flag: '🇨🇺', region: 'Caribbean', code: 'CU' },
+      { name: 'Haiti', flag: '🇭🇹', region: 'Caribbean', code: 'HT' },
+      { name: 'Saint Lucia', flag: '🇱🇨', region: 'Caribbean', code: 'LC' },
+      { name: 'Grenada', flag: '🇬🇩', region: 'Caribbean', code: 'GD' },
+      { name: 'Antigua and Barbuda', flag: '🇦🇬', region: 'Caribbean', code: 'AG' },
+      { name: 'Saint Kitts and Nevis', flag: '🇰🇳', region: 'Caribbean', code: 'KN' },
       // Europe
-      { name: 'Russia', flag: 'ðŸ‡·ðŸ‡º', region: 'Europe', code: 'RU' },
-      { name: 'Kosovo', flag: 'ðŸ‡½ðŸ‡°', region: 'Europe', code: 'XK' },
-      { name: 'Faroe Islands', flag: 'ðŸ‡«ðŸ‡´', region: 'Europe', code: 'FO' },
+      { name: 'Russia', flag: '🇷🇺', region: 'Europe', code: 'RU' },
+      { name: 'Kosovo', flag: '🇽🇰', region: 'Europe', code: 'XK' },
+      { name: 'Faroe Islands', flag: '🇫🇴', region: 'Europe', code: 'FO' },
       // North America
-      { name: 'Greenland', flag: 'ðŸ‡¬ðŸ‡±', region: 'North America', code: 'GL' },
+      { name: 'Greenland', flag: '🇬🇱', region: 'North America', code: 'GL' },
       // Oceania
-      { name: 'New Caledonia', flag: 'ðŸ‡³ðŸ‡¨', region: 'Oceania', code: 'NC' },
-      { name: 'French Polynesia', flag: 'ðŸ‡µðŸ‡«', region: 'Oceania', code: 'PF' },
-      { name: 'Guam', flag: 'ðŸ‡¬ðŸ‡º', region: 'Oceania', code: 'GU' },
+      { name: 'New Caledonia', flag: '🇳🇨', region: 'Oceania', code: 'NC' },
+      { name: 'French Polynesia', flag: '🇵🇫', region: 'Oceania', code: 'PF' },
+      { name: 'Guam', flag: '🇬🇺', region: 'Oceania', code: 'GU' },
       // East & SE Asia
-      { name: 'Timor-Leste', flag: 'ðŸ‡¹ðŸ‡±', region: 'East & SE Asia', code: 'TL' },
+      { name: 'Timor-Leste', flag: '🇹🇱', region: 'East & SE Asia', code: 'TL' },
       // Middle East
-      { name: 'Syria', flag: 'ðŸ‡¸ðŸ‡¾', region: 'Middle East', code: 'SY' },
+      { name: 'Syria', flag: '🇸🇾', region: 'Middle East', code: 'SY' },
       // Africa
-      { name: 'South Sudan', flag: 'ðŸ‡¸ðŸ‡¸', region: 'Africa', code: 'SS' },
-      { name: 'Chad', flag: 'ðŸ‡¹ðŸ‡©', region: 'Africa', code: 'TD' },
-      { name: 'Central African Republic', flag: 'ðŸ‡¨ðŸ‡«', region: 'Africa', code: 'CF' },
+      { name: 'South Sudan', flag: '🇸🇸', region: 'Africa', code: 'SS' },
+      { name: 'Chad', flag: '🇹🇩', region: 'Africa', code: 'TD' },
+      { name: 'Central African Republic', flag: '🇨🇫', region: 'Africa', code: 'CF' },
     ];
     const TOTAL_MODELLED = 190;
     const FUNCTIONS = [
@@ -533,21 +523,21 @@
     // ========== SIDEBAR ==========
     function Sidebar({ active, setActive, collapsed, setCollapsed }) {
       const items = [
-        {id:'dashboard', label:'Dashboard', icon:'â–¦'},
-        {id:'calculator', label:'Calculator', icon:'â–¤'},
-        {id:'engagement', label:'Engagement', icon:'ðŸ‘¥'},
-        {id:'compare', label:'Compare', icon:'â‡„'},
-        {id:'bands', label:'Pay bands', icon:'â–¥'},
-        {id:'benefits', label:'Leave & benefits', icon:'â™¥'},
-        {id:'tax', label:'Tax & statutory', icon:'ðŸ›'},
-        {id:'wages', label:'Min & max wages', icon:'âš–'},
-        {id:'coverage', label:'Coverage', icon:'ðŸ“‹'},
+        {id:'dashboard', label:'Dashboard', icon:'▦'},
+        {id:'calculator', label:'Calculator', icon:'▤'},
+        {id:'engagement', label:'Engagement', icon:'👥'},
+        {id:'compare', label:'Compare', icon:'⇄'},
+        {id:'bands', label:'Pay bands', icon:'▥'},
+        {id:'benefits', label:'Leave & benefits', icon:'♥'},
+        {id:'tax', label:'Tax & statutory', icon:'🏛'},
+        {id:'wages', label:'Min & max wages', icon:'⚖'},
+        {id:'coverage', label:'Coverage', icon:'📋'},
       ];
       return (
         <aside className={`fixed left-0 top-0 h-full bg-slate-900 text-slate-300 flex flex-col z-50 transition-all ${collapsed?'w-16':'w-56'}`}>
           <div className="p-4 flex items-center gap-3 border-b border-slate-800">
             <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-white font-bold text-sm shrink-0">CI</div>
-            {!collapsed && <div><div className="text-white font-semibold text-sm">Compensation IQ</div><div className="text-xs text-slate-400">Global pay intelligence Â· 2026</div></div>}
+            {!collapsed && <div><div className="text-white font-semibold text-sm">Compensation IQ</div><div className="text-xs text-slate-400">Global pay intelligence · 2026</div></div>}
           </div>
           <nav className="flex-1 py-2 overflow-y-auto sidebar-scroll">
             {items.map(it => (
@@ -560,7 +550,7 @@
           </nav>
           <div className="p-3 border-t border-slate-800">
             {!collapsed && <div className="text-xs text-slate-500 bg-slate-800/50 rounded-lg p-2 mb-2">Planning estimates, not payroll or legal advice.</div>}
-            <button onClick={() => setCollapsed(!collapsed)} className="text-xs text-slate-400 hover:text-white">{collapsed?'â†’':'â† Collapse'}</button>
+            <button onClick={() => setCollapsed(!collapsed)} className="text-xs text-slate-400 hover:text-white">{collapsed?'→':'← Collapse'}</button>
           </div>
         </aside>
       );
@@ -687,7 +677,7 @@
         <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-5 relative">
           <h3 className="font-semibold">Median compensation by market</h3>
           <p className="text-xs text-slate-500 mb-4">
-            Median CTC vs take-home, USD / year Â· {regionLabel || 'World'} Â· {data.length} countries
+            Median CTC vs take-home, USD / year · {regionLabel || 'World'} · {data.length} countries
           </p>
           <div className="relative">
             <div className="absolute left-0 top-0 bottom-6 w-10 flex flex-col justify-between text-[10px] text-slate-400 pointer-events-none">
@@ -749,7 +739,7 @@
       return (
         <div className="bg-white rounded-xl border border-slate-200 p-5 mb-4 relative">
           <h3 className="font-semibold">Where each unit of employer cost goes</h3>
-          <p className="text-xs text-slate-500 mb-4">% of CTC at the market median Â· {regionLabel || 'World'} Â· {rows.length} markets</p>
+          <p className="text-xs text-slate-500 mb-4">% of CTC at the market median · {regionLabel || 'World'} · {rows.length} markets</p>
           <div className="relative">
             {/* Y-axis labels */}
             <div className="absolute left-0 top-0 bottom-6 w-8 flex flex-col justify-between text-[10px] text-slate-400 pointer-events-none">
@@ -762,7 +752,7 @@
               ))}
               {rows.map((d,i)=>{
                 const total = d.th + d.tx + d.es + d.ec;
-                // scale so 100% of data â‰ˆ ~83% of chart height (matches 120% axis)
+                // scale so 100% of data ≈ ~83% of chart height (matches 120% axis)
                 const scale = 100 / 120;
                 return (
                   <div
@@ -923,7 +913,7 @@
           <button type="button" onClick={() => setOpen(!open)}
             className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm min-w-[180px] bg-white text-left flex items-center justify-between gap-2 hover:border-slate-300">
             <span className="truncate text-slate-700">{display}</span>
-            <span className="text-slate-400 text-xs">â–¾</span>
+            <span className="text-slate-400 text-xs">▾</span>
           </button>
           {open && (
             <>
@@ -995,7 +985,7 @@
             </div>
             <div>
               <div className="text-xs font-medium text-slate-500 uppercase mb-1">
-                Focus Market Â· {focusCount} in {region === 'World' ? 'World' : region}
+                Focus Market · {focusCount} in {region === 'World' ? 'World' : region}
               </div>
               <select className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm min-w-[220px]"
                 value={focusMarket} onChange={e => setFocusMarket(e.target.value)}>
@@ -1033,7 +1023,7 @@
         const avgTakePct = list.reduce((s,m) => s + (m.take / m.ctc), 0) / (list.length || 1) * 100;
         const top = ctcs[ctcs.length - 1] || 1;
         const bot = ctcs[0] || 1;
-        const spread = (top / bot).toFixed(1) + 'Ã—';
+        const spread = (top / bot).toFixed(1) + '×';
         // Employer load strictly from countries in this region
         const loads = list.map(m => EMPLOYER_LOAD_BY_CODE[m.code]).filter(v => v != null);
         const avgLoad = loads.length
@@ -1051,12 +1041,12 @@
       // Rank of focus market within current region markets (by CTC)
       const focusRank = useMemo(() => {
         const fc = ALL_COUNTRIES.find(c => c.name === focusMarket);
-        if (!fc) return 'â€”';
+        if (!fc) return '—';
         const idx = regionMarkets.findIndex(m => m.code === fc.code);
         if (idx >= 0) return '#' + (idx + 1);
         // fallback global rank in ALL_COUNTRIES
         const g = ALL_COUNTRIES.findIndex(c => c.name === focusMarket);
-        return g >= 0 ? '#' + (g + 1) : 'â€”';
+        return g >= 0 ? '#' + (g + 1) : '—';
       }, [focusMarket, regionMarkets]);
 
       const focusCountry = ALL_COUNTRIES.find(c => c.name === focusMarket);
@@ -1091,8 +1081,8 @@
             <h1 className="text-2xl font-bold">Executive compensation dashboard</h1>
             <p className="text-slate-500 text-sm mt-1">
               {region === 'World'
-                ? 'Global market pay, employer cost and take-home across benchmarked markets â€” USD at reference rates.'
-                : `Analysis for ${regionLabel}: ${regionMarkets.length} countries Â· focus ${focusMarket} â€” USD at reference rates.`}
+                ? 'Global market pay, employer cost and take-home across benchmarked markets — USD at reference rates.'
+                : `Analysis for ${regionLabel}: ${regionMarkets.length} countries · focus ${focusMarket} — USD at reference rates.`}
             </p>
           </div>
           <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
@@ -1103,7 +1093,7 @@
             {[
               {l:'MARKETS',v:kpis.markets,s:`of ${TOTAL_MODELLED} modelled`},
               {l:'MEDIAN PAY',v:kpis.medianPay,s:'USD / year'},
-              {l:'TOP Ã· BOTTOM',v:kpis.spread,s:'market spread'},
+              {l:'TOP ÷ BOTTOM',v:kpis.spread,s:'market spread'},
               {l:'EMPLOYER LOAD',v:kpis.employerLoad,s:'avg. on gross'},
               {l:'TAKE-HOME',v:kpis.takeHome,s:'of employer cost'},
             ].map((k,i)=>(
@@ -1131,7 +1121,7 @@
               <div className="space-y-2.5">
                 {region === 'World' ? REGIONS.map((r,i)=>(
                   <div key={i} className="flex items-center gap-2">
-                    <div className="w-28 text-xs text-slate-600 truncate">{r.name} Â· {r.count}</div>
+                    <div className="w-28 text-xs text-slate-600 truncate">{r.name} · {r.count}</div>
                     <div className="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden">
                       <div className="bar-fill h-full bg-blue-500 rounded-full" style={{width:`${(r.avg/210)*100}%`}}></div>
                     </div>
@@ -1139,7 +1129,7 @@
                   </div>
                 )) : regionMarkets.map((m,i)=>(
                   <div key={i} className={`flex items-center gap-2 ${m.name === focusMarket || m.code === (focusCountry && focusCountry.code) ? 'font-semibold' : ''}`}>
-                    <div className="w-28 text-xs text-slate-600 truncate">{m.code} Â· {m.name}</div>
+                    <div className="w-28 text-xs text-slate-600 truncate">{m.code} · {m.name}</div>
                     <div className="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden">
                       <div className={`bar-fill h-full rounded-full ${m.name === focusMarket || m.code === (focusCountry && focusCountry.code) ? 'bg-teal-500' : 'bg-blue-500'}`}
                         style={{width:`${(m.ctc / (regionMarkets[0].ctc || 1))*100}%`}}></div>
@@ -1154,13 +1144,13 @@
           {/* Charts row 2 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div className="bg-white rounded-xl border border-slate-200 p-5">
-              <h3 className="font-semibold">Pay progression Â· {focusMarket}</h3>
-              <p className="text-xs text-slate-500 mb-3">Median with minâ€“max band by level</p>
+              <h3 className="font-semibold">Pay progression · {focusMarket}</h3>
+              <p className="text-xs text-slate-500 mb-3">Median with min–max band by level</p>
               <PayProgressionChart />
             </div>
             <div className="bg-white rounded-xl border border-slate-200 p-5">
               <h3 className="font-semibold">Employer cost load</h3>
-              <p className="text-xs text-slate-500 mb-3">Statutory employer cost, % of gross Â· {regionLabel}</p>
+              <p className="text-xs text-slate-500 mb-3">Statutory employer cost, % of gross · {regionLabel}</p>
               {employerLoadRows.length === 0 && (
                 <p className="text-xs text-slate-400">No markets in this region.</p>
               )}
@@ -1176,7 +1166,7 @@
             </div>
             <div className="bg-white rounded-xl border border-slate-200 p-5">
               <h3 className="font-semibold">Pay range by market</h3>
-              <p className="text-xs text-slate-500 mb-3">Min â†’ max with median line Â· {regionLabel}</p>
+              <p className="text-xs text-slate-500 mb-3">Min → max with median line · {regionLabel}</p>
               <PayRangeChart markets={regionMarkets} />
             </div>
           </div>
@@ -1186,8 +1176,8 @@
 
           {/* Matrix */}
           <div className="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
-            <h3 className="font-semibold">Function Ã— level matrix Â· {focusMarket}</h3>
-            <p className="text-xs text-slate-500 mb-4">Median USD / year Â· darker = higher Â· indicative scale for focus market</p>
+            <h3 className="font-semibold">Function · level matrix · {focusMarket}</h3>
+            <p className="text-xs text-slate-500 mb-4">Median USD / year · darker = higher · indicative scale for focus market</p>
             <table className="w-full text-sm">
               <thead>
                 <tr>
@@ -1235,7 +1225,7 @@
       const isIndia = focusMarket === 'India' || (focusCountry && focusCountry.code === 'IN');
 
       const calc = useMemo(() => {
-        // Labour Codes style: basic â‰¥50% of remuneration
+        // Labour Codes style: basic ≥50% of remuneration
         let basic = ctc * 0.488;
         let empPF = basic * 0.12;
         let gratuity = basic * 0.0481;
@@ -1260,7 +1250,7 @@
         else if (taxableNew > 900000) taxNewBase = 45000 + (taxableNew - 900000) * 0.15;
         else if (taxableNew > 600000) taxNewBase = (taxableNew - 600000) * 0.10;
         else if (taxableNew > 300000) taxNewBase = (taxableNew - 300000) * 0.05;
-        // Sec 87A rebate: tax nil if income â‰¤ 12L (simplified)
+        // Sec 87A rebate: tax nil if income ≤ 12L (simplified)
         if (annGross <= 1200000) taxNewBase = Math.max(0, taxNewBase - 60000);
         const surchargeNew = taxableNew > 10000000 ? taxNewBase * 0.15 : (taxableNew > 5000000 ? taxNewBase * 0.10 : 0);
         const cessNew = (taxNewBase + surchargeNew) * 0.04;
@@ -1276,7 +1266,7 @@
         if (taxableOld > 1000000) taxOldBase = 112500 + (taxableOld - 1000000) * 0.30;
         else if (taxableOld > 500000) taxOldBase = 12500 + (taxableOld - 500000) * 0.20;
         else if (taxableOld > 250000) taxOldBase = (taxableOld - 250000) * 0.05;
-        // 87A rebate old: up to 12,500 if taxable â‰¤ 5L
+        // 87A rebate old: up to 12,500 if taxable ≤ 5L
         if (taxableOld <= 500000) taxOldBase = Math.max(0, taxOldBase - 12500);
         const surchargeOld = taxableOld > 10000000 ? taxOldBase * 0.15 : (taxableOld > 5000000 ? taxOldBase * 0.10 : 0);
         const cessOld = (taxOldBase + surchargeOld) * 0.04;
@@ -1302,7 +1292,7 @@
         };
       }, [ctc, oldDed, regime]);
 
-      const fmt = n => 'â‚¹' + Math.round(n).toLocaleString('en-IN');
+      const fmt = n => '₹' + Math.round(n).toLocaleString('en-IN');
 
       return (
         <div>
@@ -1311,7 +1301,7 @@
           <div className="flex flex-col lg:flex-row gap-6">
           <div className="w-full lg:w-80 space-y-4 shrink-0">
             <div className="bg-white rounded-xl border border-slate-200 p-5">
-              <div className="text-xs font-semibold text-slate-500 uppercase mb-3">1 Â· Market</div>
+              <div className="text-xs font-semibold text-slate-500 uppercase mb-3">1 · Market</div>
               <label className="block text-xs text-slate-500 mb-1">Country</label>
               <div className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-3 bg-slate-50">
                 {(focusCountry && focusCountry.flag) || ''} {focusMarket}
@@ -1321,14 +1311,14 @@
                   <label className="block text-xs text-slate-500 mb-1">Tax regime (India)</label>
                   <select className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-2"
                     value={regime} onChange={e => setRegime(e.target.value)}>
-                    <option value="auto">Auto Â· lower tax (recommended)</option>
+                    <option value="auto">Auto · lower tax (recommended)</option>
                     <option value="new">New regime</option>
                     <option value="old">Old regime</option>
                   </select>
                   <div className="text-xs text-slate-500 bg-slate-50 rounded-lg px-2.5 py-2 mb-1">
                     {regime === 'auto' && <>Applying <strong>{calc.better === 'new' ? 'New' : 'Old'}</strong> regime (lower tax by {fmt(calc.savings)}/yr)</>}
-                    {regime === 'new' && <>New regime applied Â· standard deduction â‚¹75,000</>}
-                    {regime === 'old' && <>Old regime applied Â· use deductions below</>}
+                    {regime === 'new' && <>New regime applied · standard deduction ₹75,000</>}
+                    {regime === 'old' && <>Old regime applied · use deductions below</>}
                   </div>
                 </>
               )}
@@ -1342,7 +1332,7 @@
               )}
             </div>
             <div className="bg-white rounded-xl border border-slate-200 p-5">
-              <div className="text-xs font-semibold text-slate-500 uppercase mb-3">2 Â· Salary input</div>
+              <div className="text-xs font-semibold text-slate-500 uppercase mb-3">2 · Salary input</div>
               <label className="block text-xs text-slate-500 mb-1">Employment type</label>
               <select className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-2" value={empType} onChange={e=>setEmpType(e.target.value)}>
                 <option>Permanent / Regular</option>
@@ -1363,14 +1353,14 @@
               <select className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-3"><option>Cost to company (CTC)</option><option>Gross pay</option></select>
               <label className="block text-xs text-slate-500 mb-1">Enter monthly CTC</label>
               <input type="number" value={ctc} onChange={e=>setCtc(+e.target.value||0)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-1" />
-              <div className="flex justify-between text-xs text-slate-400 mb-2"><span>Monthly CTC Â· {fmt(ctc)}</span><span>{fmt(ctc*12)}</span></div>
+              <div className="flex justify-between text-xs text-slate-400 mb-2"><span>Monthly CTC · {fmt(ctc)}</span><span>{fmt(ctc*12)}</span></div>
               <input type="range" min="50000" max="2000000" step="5000" value={ctc} onChange={e=>setCtc(+e.target.value)} className="w-full mb-4" />
-              <button className="w-full border border-slate-200 rounded-lg py-2 text-sm text-slate-600 hover:bg-slate-50 mb-3">â˜° Customize components</button>
+              <button className="w-full border border-slate-200 rounded-lg py-2 text-sm text-slate-600 hover:bg-slate-50 mb-3">☰ Customize components</button>
               {isIndia && (regime === 'old' || regime === 'auto') && (
                 <>
                   <label className="block text-xs text-slate-500 mb-1">Old-regime deductions / exemptions per year</label>
                   <input type="number" value={oldDed} onChange={e=>setOldDed(+e.target.value||0)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
-                  <p className="text-xs text-slate-400 mt-1">HRA / 80C / 80D / 80CCD(1B) NPS / home-loan interest. Employee PF is counted under 80C (â‚¹1.5L cap).</p>
+                  <p className="text-xs text-slate-400 mt-1">HRA / 80C / 80D / 80CCD(1B) NPS / home-loan interest. Employee PF is counted under 80C (₹1.5L cap).</p>
                 </>
               )}
             </div>
@@ -1381,10 +1371,10 @@
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h2 className="font-semibold text-lg">Salary outcome</h2>
-                  <p className="text-sm text-slate-500">{(focusCountry && focusCountry.flag) || ''} {focusMarket} Â· {empType}</p>
+                  <p className="text-sm text-slate-500">{(focusCountry && focusCountry.flag) || ''} {focusMarket} · {empType}</p>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">New Labour Codes Â· Framework Updated</span>
+                  <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">New Labour Codes · Framework Updated</span>
                   {isIndia && (
                     <span className={`text-xs px-2 py-1 rounded font-medium ${calc.applied === 'new' ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-800'}`}>
                       {calc.applied === 'new' ? 'New regime' : 'Old regime'} applied
@@ -1425,10 +1415,10 @@
                   <tr><td className="py-1.5 px-3 text-slate-600">HRA (50% of basic)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.hra)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.hra)}</td></tr>
                   <tr><td className="py-1.5 px-3 text-slate-600">Special allowance</td><td className="text-right py-1.5 px-3">{fmt(calc.m.special)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.special)}</td></tr>
                   <tr className="bg-slate-50 text-xs text-slate-500"><td colSpan="3" className="py-1.5 px-3">EMPLOYEE CONTRIBUTIONS</td></tr>
-                  <tr><td className="py-1.5 px-3 text-slate-600">âˆ’ Employee PF (12% of basic)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.empPF_e)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.empPF_e)}</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">− Employee PF (12% of basic)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.empPF_e)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.empPF_e)}</td></tr>
                   <tr className="font-medium"><td className="py-2 px-3">Net (before income tax)</td><td className="text-right py-2 px-3">{fmt(calc.m.netBT)}</td><td className="text-right py-2 px-3">{fmt(calc.a.netBT)}</td></tr>
-                  <tr className="bg-slate-50 text-xs text-slate-500"><td colSpan="3" className="py-1.5 px-3">INCOME TAX Â· {calc.applied === 'new' ? 'NEW REGIME' : 'OLD REGIME'}</td></tr>
-                  <tr><td className="py-1.5 px-3 text-slate-600">âˆ’ Income tax (incl. surcharge + 4% cess)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.tax)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.tax)}</td></tr>
+                  <tr className="bg-slate-50 text-xs text-slate-500"><td colSpan="3" className="py-1.5 px-3">INCOME TAX · {calc.applied === 'new' ? 'NEW REGIME' : 'OLD REGIME'}</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">− Income tax (incl. surcharge + 4% cess)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.tax)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.tax)}</td></tr>
                   <tr className="font-semibold bg-teal-50"><td className="py-2 px-3">Post-tax net (take-home)</td><td className="text-right py-2 px-3">{fmt(calc.m.takeHome)}</td><td className="text-right py-2 px-3">{fmt(calc.a.takeHome)}</td></tr>
                 </tbody>
               </table>
@@ -1475,13 +1465,13 @@
                       </button>
                     </div>
                     <div className={`rounded-lg px-3 py-2 text-sm ${calc.better === 'new' ? 'bg-teal-50 text-teal-800' : 'bg-amber-50 text-amber-900'}`}>
-                      <strong>Recommendation:</strong> Opt for the <strong>{calc.better === 'new' ? 'New' : 'Old'}</strong> regime â€”
+                      <strong>Recommendation:</strong> Opt for the <strong>{calc.better === 'new' ? 'New' : 'Old'}</strong> regime —
                       saves <strong>{fmt(calc.savings)}</strong> in tax per year
                       {calc.better === 'old' ? ' with your current deductions' : ' (default for most salaried profiles)'}.
                     </div>
                     <button type="button" onClick={() => setRegime('auto')}
                       className="mt-2 text-xs text-slate-500 hover:text-slate-800 underline">
-                      Reset to Auto Â· lower tax
+                      Reset to Auto · lower tax
                     </button>
                   </>
                 ) : (
@@ -1495,7 +1485,7 @@
 
             <div className="bg-slate-50 rounded-xl border border-slate-200 p-4 text-xs text-slate-500">
               <strong>Method & compliance notes</strong><br/>
-              India FY 2026-27 under the Labour Codes wage definition (basic â‰¥ 50% of remuneration). New regime: â‚¹75,000 standard deduction, 87A rebate to â‚¹12L with marginal relief. Old regime: â‚¹50,000 standard deduction, EPF under 80C plus your deductions. Surcharge 10/15/25(/37)% with marginal relief, 4% cess. ESI applies where gross â‰¤ â‚¹21,000/month. Planning estimate only â€” verify with local payroll before relying on it.
+              India FY 2026-27 under the Labour Codes wage definition (basic ≥ 50% of remuneration). New regime: ₹75,000 standard deduction, 87A rebate to ₹12L with marginal relief. Old regime: ₹50,000 standard deduction, EPF under 80C plus your deductions. Surcharge 10/15/25(/37)% with marginal relief, 4% cess. ESI applies where gross ≤ ₹21,000/month. Planning estimate only — verify with local payroll before relying on it.
             </div>
           </div>
         </div>
@@ -1559,28 +1549,28 @@
         {title:'Public holidays', desc:'Daily-paid seasonal staff may not be paid for unworked holidays.', detail:'India: National (3) plus state festival holidays', status:'Covered'},
         {title:'Sick leave and sick pay', desc:'Waiting periods and minimum service often apply.', detail:'India: Varies by state/establishment; ESI sickness benefit for covered employees', status:'Covered'},
         {title:'Maternity, paternity and parental leave', desc:'Qualifying-service rules can exclude short terms.', detail:'India: 26 weeks for qualifying employees', status:'Covered'},
-        {title:'Health insurance', desc:'Employer plans often exclude short terms.', detail:'India: ESI for gross â‰¤ â‚¹21,000/month; group health insurance is contractual', status:'Covered'},
-        {title:'Gratuity, end-of-service and severance', desc:'Service thresholds and tax caps apply.', detail:'India: Gratuity (15/26 days Ã— years) capped at â‚¹20 lakh; retrenchment compensation', status:'Covered'},
+        {title:'Health insurance', desc:'Employer plans often exclude short terms.', detail:'India: ESI for gross ≤ ₹21,000/month; group health insurance is contractual', status:'Covered'},
+        {title:'Gratuity, end-of-service and severance', desc:'Service thresholds and tax caps apply.', detail:'India: Gratuity (15/26 days × years) capped at ₹20 lakh; retrenchment compensation', status:'Covered'},
         {title:'Notice and termination protection', desc:'Varies by contract and tenure.', detail:'India: Varies by contract and tenure', status:'Covered'},
         {title:'Unemployment insurance', desc:'Often limited to insured persons.', detail:'India: ESI unemployment allowance (ABVKY) for insured persons', status:'Covered'},
-        {title:'Statutory bonus / 13th month', desc:'Where mandatory, prorated to time served.', detail:'India: Statutory bonus 8.33â€“20% (wage â‰¤ â‚¹21,000)', status:'Covered'},
-        {title:'Working-time and overtime protection', desc:'Applies to employees.', detail:'India: 48 hours/week; overtime at 2Ã— wage', status:'Covered'},
+        {title:'Statutory bonus / 13th month', desc:'Where mandatory, prorated to time served.', detail:'India: Statutory bonus 8.33–20% (wage ≤ ₹21,000)', status:'Covered'},
+        {title:'Working-time and overtime protection', desc:'Applies to employees.', detail:'India: 48 hours/week; overtime at 2× wage', status:'Covered'},
         {title:'Workplace injury cover', desc:'Independent workers insure themselves.', detail:'India: ESI / Employee Compensation Act', status:'Covered'},
         {title:'Equity and long-term incentives', desc:'Plan rules decide.', detail:'Plan rules decide.', status:'Check eligibility'},
         {title:'Tax withheld by the engager', desc:'Some countries require withholding on fees (e.g. India TDS).', detail:'India TDS on salary / fees', status:'Covered'},
         {title:'Employer levies (training, housing, welfare)', desc:'Agency recharges them in its fee.', detail:'India: various state levies', status:'Covered'},
       ];
       const matrix = [
-        ['Statutory social security and pension','âœ“','âœ“','âœ“','A','S','S'],
-        ['Paid annual leave','âœ“','â—','â—','A','Ã—','Ã—'],
-        ['Public holidays','âœ“','âœ“','?','A','Ã—','Ã—'],
-        ['Sick leave and sick pay','âœ“','?','?','A','Ã—','Ã—'],
-        ['Maternity, paternity and parental leave','âœ“','?','?','A','Ã—','Ã—'],
-        ['Health insurance','âœ“','?','?','A','Ã—','Ã—'],
-        ['Gratuity, end-of-service and severance','âœ“','?','?','A','Ã—','Ã—'],
-        ['Notice and termination protection','âœ“','?','?','A','Ã—','Ã—'],
-        ['Unemployment insurance','âœ“','âœ“','?','A','Ã—','Ã—'],
-        ['Statutory bonus / 13th month','âœ“','â—','â—','A','Ã—','Ã—'],
+        ['Statutory social security and pension','✓','✓','✓','A','S','S'],
+        ['Paid annual leave','✓','◐','◐','A','×','×'],
+        ['Public holidays','✓','✓','?','A','×','×'],
+        ['Sick leave and sick pay','✓','?','?','A','×','×'],
+        ['Maternity, paternity and parental leave','✓','?','?','A','×','×'],
+        ['Health insurance','✓','?','?','A','×','×'],
+        ['Gratuity, end-of-service and severance','✓','?','?','A','×','×'],
+        ['Notice and termination protection','✓','?','?','A','×','×'],
+        ['Unemployment insurance','✓','✓','?','A','×','×'],
+        ['Statutory bonus / 13th month','✓','◐','◐','A','×','×'],
       ];
       const statusBadge = (s) => s==='Covered' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
       return (
@@ -1650,7 +1640,7 @@
                     {row.slice(1).map((cell,j)=>(
                       <td key={j} className="text-center py-2">
                         <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-medium
-                          ${cell==='âœ“'?'bg-emerald-100 text-emerald-700':cell==='A'?'bg-blue-100 text-blue-700':cell==='S'?'bg-slate-100 text-slate-500':cell==='?'||cell==='â—'?'bg-amber-100 text-amber-700':'bg-slate-50 text-slate-400'}`}>
+                          ${cell==='✓'?'bg-emerald-100 text-emerald-700':cell==='A'?'bg-blue-100 text-blue-700':cell==='S'?'bg-slate-100 text-slate-500':cell==='?'||cell==='◐'?'bg-amber-100 text-amber-700':'bg-slate-50 text-slate-400'}`}>
                           {cell}
                         </span>
                       </td>
@@ -1659,7 +1649,7 @@
                 ))}
               </tbody>
             </table>
-            <p className="text-xs text-slate-400 mt-3">âœ“ Covered Â· â— Partial / prorated Â· ? Conditional Â· A Via agency Â· S Self Â· Ã— Not covered</p>
+            <p className="text-xs text-slate-400 mt-3">✓ Covered · ◐ Partial / prorated · ? Conditional · A Via agency · S Self · × Not covered</p>
           </div>
         </div>
       );
@@ -1668,12 +1658,12 @@
     // ========== COMPARE ==========
     function Compare({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
       const rows = [
-        {flag:'ðŸ‡¦ðŸ‡ª', name:'United Arab Emirates', ctc:'AED 260,000', usd:'$70,796', th:'96.6%', tax:'0%', contrib:'0%', load:'3.5%'},
-        {flag:'ðŸ‡®ðŸ‡³', name:'India', ctc:'â‚¹18,00,000', usd:'$20,339', th:'79.2%', tax:'6.7%', contrib:'5.9%', load:'8.9%'},
-        {flag:'ðŸ‡ºðŸ‡¸', name:'United States', ctc:'$155,000', usd:'$155,000', th:'70.7%', tax:'15%', contrib:'7.1%', load:'7.7%'},
-        {flag:'ðŸ‡¸ðŸ‡¬', name:'Singapore', ctc:'S$115,000', usd:'$88,462', th:'66.2%', tax:'2.8%', contrib:'16.7%', load:'16.7%'},
-        {flag:'ðŸ‡¬ðŸ‡§', name:'United Kingdom', ctc:'Â£62,000', usd:'$82,667', th:'63.4%', tax:'14.2%', contrib:'8.5%', load:'16.1%'},
-        {flag:'ðŸ‡©ðŸ‡ª', name:'Germany', ctc:'â‚¬70,000', usd:'$81,395', th:'52.8%', tax:'12.3%', contrib:'17.5%', load:'21.1%'},
+        {flag:'🇦🇪', name:'United Arab Emirates', ctc:'AED 260,000', usd:'$70,796', th:'96.6%', tax:'0%', contrib:'0%', load:'3.5%'},
+        {flag:'🇮🇳', name:'India', ctc:'₹18,00,000', usd:'$20,339', th:'79.2%', tax:'6.7%', contrib:'5.9%', load:'8.9%'},
+        {flag:'🇺🇸', name:'United States', ctc:'$155,000', usd:'$155,000', th:'70.7%', tax:'15%', contrib:'7.1%', load:'7.7%'},
+        {flag:'🇸🇬', name:'Singapore', ctc:'S$115,000', usd:'$88,462', th:'66.2%', tax:'2.8%', contrib:'16.7%', load:'16.7%'},
+        {flag:'🇬🇧', name:'United Kingdom', ctc:'£62,000', usd:'$82,667', th:'63.4%', tax:'14.2%', contrib:'8.5%', load:'16.1%'},
+        {flag:'🇩🇪', name:'Germany', ctc:'€70,000', usd:'$81,395', th:'52.8%', tax:'12.3%', contrib:'17.5%', load:'21.1%'},
       ];
       const bars = [
         {c:'AE', th:96.6, tax:0, es:0},
@@ -1696,7 +1686,7 @@
                 <div className="text-xs font-medium text-slate-500 uppercase mb-1">Countries (6/12)</div>
                 <div className="flex flex-wrap gap-1.5 items-center">
                   {['IN','US','GB','DE','SG','AE'].map(c => (
-                    <span key={c} className="text-xs bg-slate-100 px-2 py-1 rounded-full">{c} Ã—</span>
+                    <span key={c} className="text-xs bg-slate-100 px-2 py-1 rounded-full">{c} ×</span>
                   ))}
                   <button className="text-xs bg-slate-900 text-white px-3 py-1 rounded-lg">Add</button>
                 </div>
@@ -1759,17 +1749,17 @@
     function PayBands({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
       const [hover, setHover] = useState(null);
       const bandFuncs = [
-        {f:'GENERAL / ADMIN', min:'â‚¹8,10,000', med:'â‚¹10,80,000', max:'â‚¹13,82,400'},
-        {f:'HUMAN RESOURCES', min:'â‚¹5,50,000', med:'â‚¹8,50,000', max:'â‚¹13,00,000'},
-        {f:'FINANCE', min:'â‚¹6,50,000', med:'â‚¹10,00,000', max:'â‚¹16,00,000'},
-        {f:'TECHNOLOGY', min:'â‚¹10,00,000', med:'â‚¹18,00,000', max:'â‚¹28,00,000', highlight:true},
-        {f:'ENGINEERING', min:'â‚¹9,00,000', med:'â‚¹16,00,000', max:'â‚¹26,00,000'},
-        {f:'SALES', min:'â‚¹7,00,000', med:'â‚¹12,00,000', max:'â‚¹20,00,000'},
-        {f:'LEGAL & COMPLIANCE', min:'â‚¹12,15,000', med:'â‚¹16,20,000', max:'â‚¹20,73,600'},
-        {f:'OPERATIONS', min:'â‚¹10,12,500', med:'â‚¹13,50,000', max:'â‚¹17,28,000'},
-        {f:'SUPPLY CHAIN', min:'â‚¹10,12,500', med:'â‚¹13,50,000', max:'â‚¹17,28,000'},
-        {f:'HEALTHCARE', min:'â‚¹10,68,750', med:'â‚¹14,25,000', max:'â‚¹18,24,000'},
-        {f:'MARKETING', min:'â‚¹7,50,000', med:'â‚¹13,00,000', max:'â‚¹22,00,000'},
+        {f:'GENERAL / ADMIN', min:'₹8,10,000', med:'₹10,80,000', max:'₹13,82,400'},
+        {f:'HUMAN RESOURCES', min:'₹5,50,000', med:'₹8,50,000', max:'₹13,00,000'},
+        {f:'FINANCE', min:'₹6,50,000', med:'₹10,00,000', max:'₹16,00,000'},
+        {f:'TECHNOLOGY', min:'₹10,00,000', med:'₹18,00,000', max:'₹28,00,000', highlight:true},
+        {f:'ENGINEERING', min:'₹9,00,000', med:'₹16,00,000', max:'₹26,00,000'},
+        {f:'SALES', min:'₹7,00,000', med:'₹12,00,000', max:'₹20,00,000'},
+        {f:'LEGAL & COMPLIANCE', min:'₹12,15,000', med:'₹16,20,000', max:'₹20,73,600'},
+        {f:'OPERATIONS', min:'₹10,12,500', med:'₹13,50,000', max:'₹17,28,000'},
+        {f:'SUPPLY CHAIN', min:'₹10,12,500', med:'₹13,50,000', max:'₹17,28,000'},
+        {f:'HEALTHCARE', min:'₹10,68,750', med:'₹14,25,000', max:'₹18,24,000'},
+        {f:'MARKETING', min:'₹7,50,000', med:'₹13,00,000', max:'₹22,00,000'},
       ];
       const ladder = [
         {l:'Entry', min: 4, med: 8, max: 14},
@@ -1780,7 +1770,7 @@
         {l:'Executive', min: 100, med: 150, max: 220},
       ];
       const yMax = 220;
-      const fmtL = (v) => 'â‚¹' + (v * 100000).toLocaleString('en-IN');
+      const fmtL = (v) => '₹' + (v * 100000).toLocaleString('en-IN');
       return (
         <div>
           <div className="mb-5">
@@ -1790,17 +1780,17 @@
           <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
             funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels} />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Minimum</div><div className="text-xl font-bold mt-1">â‚¹10,00,000</div><div className="text-xs text-slate-400">â‚¹83,333 / month</div></div>
-            <div className="bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-xl p-4"><div className="text-xs opacity-90 uppercase">Median</div><div className="text-xl font-bold mt-1">â‚¹18,00,000</div><div className="text-xs opacity-80">â‚¹1,50,000 / month</div></div>
-            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Maximum</div><div className="text-xl font-bold mt-1">â‚¹28,00,000</div><div className="text-xs text-slate-400">â‚¹2,33,333 / month</div></div>
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Minimum</div><div className="text-xl font-bold mt-1">₹10,00,000</div><div className="text-xs text-slate-400">₹83,333 / month</div></div>
+            <div className="bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-xl p-4"><div className="text-xs opacity-90 uppercase">Median</div><div className="text-xl font-bold mt-1">₹18,00,000</div><div className="text-xs opacity-80">₹1,50,000 / month</div></div>
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Maximum</div><div className="text-xl font-bold mt-1">₹28,00,000</div><div className="text-xs text-slate-400">₹2,33,333 / month</div></div>
             <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Band spread</div><div className="text-xl font-bold mt-1">180%</div><div className="text-xs text-slate-400">Researched band</div></div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="bg-white rounded-xl border border-slate-200 p-5 relative">
-              <h3 className="font-semibold mb-3">Level ladder Â· IT</h3>
+              <h3 className="font-semibold mb-3">Level ladder · IT</h3>
               <div className="relative">
                 <div className="absolute left-0 top-0 bottom-6 w-14 flex flex-col justify-between text-[9px] text-slate-400 pointer-events-none">
-                  <span>â‚¹2,20,00,000</span><span>â‚¹1,65,00,000</span><span>â‚¹1,10,00,000</span><span>â‚¹55,00,000</span><span>â‚¹0</span>
+                  <span>₹2,20,00,000</span><span>₹1,65,00,000</span><span>₹1,10,00,000</span><span>₹55,00,000</span><span>₹0</span>
                 </div>
                 <div className="ml-14 flex items-end gap-2 h-52 border-l border-b border-slate-200 pl-1 relative">
                   {[0.25,0.5,0.75,1].map((f,i)=>(
@@ -1866,18 +1856,18 @@
     function Benefits({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
       const focusCountry = ALL_COUNTRIES.find(c => c.name === focusMarket);
       const items = [
-        {icon:'ðŸ“…', title:'Annual leave', desc:'1 day per 20 days worked after 240 days (180 under the OSH Code); state Shops Acts vary'},
-        {icon:'ðŸ©º', title:'Sick leave', desc:'Varies by state/establishment; ESI sickness benefit for covered employees'},
-        {icon:'ðŸ‘¶', title:'Maternity', desc:'26 weeks for qualifying employees'},
-        {icon:'ðŸ‘¨', title:'Paternity', desc:'No general statutory private-sector entitlement'},
-        {icon:'ðŸ‘ª', title:'Parental', desc:'CrÃ¨che facility for 50+ employees'},
-        {icon:'ðŸ³', title:'Public holidays', desc:'National (3) plus state festival holidays'},
-        {icon:'ðŸ ', title:'Family leave', desc:"Maternity benefit and ESI dependants' benefit"},
-        {icon:'ðŸ’š', title:'Healthcare', desc:'ESI for gross â‰¤ â‚¹21,000/month; group health insurance is contractual'},
-        {icon:'ðŸ¦', title:'Retirement', desc:'EPF/EPS 12% + 12%; gratuity; NPS optional'},
-        {icon:'ðŸ“‰', title:'Unemployment', desc:'ESI unemployment allowance (ABVKY) for insured persons'},
-        {icon:'ðŸ“‹', title:'Severance', desc:'Gratuity (15/26 days Ã— years) capped at â‚¹20 lakh; retrenchment compensation'},
-        {icon:'ðŸŽ', title:'Other benefits', desc:'Statutory bonus 8.33â€“20% (wage â‰¤ â‚¹21,000), professional tax, LWF'},
+        {icon:'📅', title:'Annual leave', desc:'1 day per 20 days worked after 240 days (180 under the OSH Code); state Shops Acts vary'},
+        {icon:'🩺', title:'Sick leave', desc:'Varies by state/establishment; ESI sickness benefit for covered employees'},
+        {icon:'👶', title:'Maternity', desc:'26 weeks for qualifying employees'},
+        {icon:'👨', title:'Paternity', desc:'No general statutory private-sector entitlement'},
+        {icon:'👪', title:'Parental', desc:'Crèche facility for 50+ employees'},
+        {icon:'🏳', title:'Public holidays', desc:'National (3) plus state festival holidays'},
+        {icon:'🏠', title:'Family leave', desc:"Maternity benefit and ESI dependants' benefit"},
+        {icon:'💚', title:'Healthcare', desc:'ESI for gross ≤ ₹21,000/month; group health insurance is contractual'},
+        {icon:'🏦', title:'Retirement', desc:'EPF/EPS 12% + 12%; gratuity; NPS optional'},
+        {icon:'📉', title:'Unemployment', desc:'ESI unemployment allowance (ABVKY) for insured persons'},
+        {icon:'📋', title:'Severance', desc:'Gratuity (15/26 days × years) capped at ₹20 lakh; retrenchment compensation'},
+        {icon:'🎁', title:'Other benefits', desc:'Statutory bonus 8.33–20% (wage ≤ ₹21,000), professional tax, LWF'},
       ];
       return (
         <div>
@@ -1919,23 +1909,23 @@
             funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels}
             extra={
               <div>
-                <div className="text-xs font-medium text-slate-500 uppercase mb-1">Annual gross salary (â‚¹)</div>
+                <div className="text-xs font-medium text-slate-500 uppercase mb-1">Annual gross salary (₹)</div>
                 <input type="text" defaultValue="58,64,700" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm w-40" />
               </div>
             }
           />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Gross</div><div className="text-xl font-bold mt-1">â‚¹58,64,700</div></div>
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Gross</div><div className="text-xl font-bold mt-1">₹58,64,700</div></div>
             <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Effective tax</div><div className="text-xl font-bold mt-1">25.7%</div></div>
             <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Employee social</div><div className="text-xl font-bold mt-1">6.4%</div></div>
-            <div className="bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-xl p-4"><div className="text-xs opacity-90 uppercase">Take-home</div><div className="text-xl font-bold mt-1">â‚¹39,83,812</div><div className="text-xs opacity-80">â‚¹3,31,984 / month</div></div>
+            <div className="bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-xl p-4"><div className="text-xs opacity-90 uppercase">Take-home</div><div className="text-xl font-bold mt-1">₹39,83,812</div><div className="text-xs opacity-80">₹3,31,984 / month</div></div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="bg-white rounded-xl border border-slate-200 p-5">
               <h3 className="font-semibold mb-3">India Tax & Payroll Intelligence</h3>
               <table className="w-full text-sm">
                 <tbody className="divide-y divide-slate-100">
-                  {[['Authority','Income Tax Department / CBDT'],['Tax period','FY 2026â€“27'],['Year-end certificate','Form 16'],['Employee tax ID','PAN'],['Withholding','TDS u/s 192'],['Social security','EPF / EPS / ESI / Professional Tax / LWF'],['Annual filing','ITR / AIS / Form 26AS']].map((r,i)=>(
+                  {[['Authority','Income Tax Department / CBDT'],['Tax period','FY 2026–27'],['Year-end certificate','Form 16'],['Employee tax ID','PAN'],['Withholding','TDS u/s 192'],['Social security','EPF / EPS / ESI / Professional Tax / LWF'],['Annual filing','ITR / AIS / Form 26AS']].map((r,i)=>(
                     <tr key={i}><td className="py-2 text-slate-500">{r[0]}</td><td className="py-2 text-right font-medium">{r[1]}</td></tr>
                   ))}
                 </tbody>
@@ -1946,7 +1936,7 @@
               <table className="w-full text-sm">
                 <thead><tr className="bg-slate-900 text-white"><th className="text-left py-2 px-3">Line</th><th className="text-right py-2 px-3">Per year</th></tr></thead>
                 <tbody className="divide-y divide-slate-100">
-                  {[['Tax Â· Income tax Â· New regime (lower tax)','â‚¹13,16,910'],['Tax Â· Surcharge (with marginal relief)','â‚¹1,31,691'],['Tax Â· Health & education cess (4%)','â‚¹57,944'],['Employee Â· Employee PF (12% of basic)','â‚¹3,74,343'],['Employer Â· Employer PF (12% of basic)','â‚¹3,74,343'],['Employer Â· Gratuity (4.81% of basic)','â‚¹1,50,049']].map((r,i)=>(
+                  {[['Tax · Income tax · New regime (lower tax)','₹13,16,910'],['Tax · Surcharge (with marginal relief)','₹1,31,691'],['Tax · Health & education cess (4%)','₹57,944'],['Employee · Employee PF (12% of basic)','₹3,74,343'],['Employer · Employer PF (12% of basic)','₹3,74,343'],['Employer · Gratuity (4.81% of basic)','₹1,50,049']].map((r,i)=>(
                     <tr key={i}><td className="py-2 px-3 text-slate-600">{r[0]}</td><td className="text-right py-2 px-3 font-medium">{r[1]}</td></tr>
                   ))}
                 </tbody>
@@ -1960,12 +1950,12 @@
     // ========== MIN & MAX WAGES ==========
     function MinMaxWages({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
       const wageLevels = [
-        {l:'ENTRY', v:'â‚¹14,00,000', w:14},
-        {l:'PROFESSIONAL', v:'â‚¹28,00,000', w:28},
-        {l:'MANAGER', v:'â‚¹55,00,000', w:55},
-        {l:'SENIOR MANAGER', v:'â‚¹70,00,000', w:70},
-        {l:'DIRECTOR', v:'â‚¹1,30,00,000', w:130},
-        {l:'EXECUTIVE', v:'â‚¹2,20,00,000', w:220},
+        {l:'ENTRY', v:'₹14,00,000', w:14},
+        {l:'PROFESSIONAL', v:'₹28,00,000', w:28},
+        {l:'MANAGER', v:'₹55,00,000', w:55},
+        {l:'SENIOR MANAGER', v:'₹70,00,000', w:70},
+        {l:'DIRECTOR', v:'₹1,30,00,000', w:130},
+        {l:'EXECUTIVE', v:'₹2,20,00,000', w:220},
       ];
       return (
         <div>
@@ -1977,15 +1967,15 @@
             funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels} />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
             <div className="bg-white rounded-xl border border-slate-200 p-5">
-              <div className="flex items-center gap-2 text-xs text-emerald-600 font-medium mb-2">â†“ STATUTORY MINIMUM WAGE</div>
-              <h3 className="font-semibold text-lg mb-1">State schedules (e.g. Delhi unskilled ~â‚¹18,456/mo)</h3>
-              <p className="text-xs text-slate-500 mb-3">Regional / state + national floor Â· per Month / day Â· effective 2025â€“26 notifications</p>
-              <div className="bg-emerald-50 rounded-lg px-3 py-2 text-sm font-medium text-emerald-800 mb-3">â‰ˆ â‚¹2,21,472 a year full-time</div>
+              <div className="flex items-center gap-2 text-xs text-emerald-600 font-medium mb-2">↓ STATUTORY MINIMUM WAGE</div>
+              <h3 className="font-semibold text-lg mb-1">State schedules (e.g. Delhi unskilled ~₹18,456/mo)</h3>
+              <p className="text-xs text-slate-500 mb-3">Regional / state + national floor · per Month / day · effective 2025–26 notifications</p>
+              <div className="bg-emerald-50 rounded-lg px-3 py-2 text-sm font-medium text-emerald-800 mb-3">≈ ₹2,21,472 a year full-time</div>
               <p className="text-xs text-slate-500">The Code on Wages introduces a national floor wage; state notifications by skill category and zone still set the binding minimum. Check the latest state gazette.</p>
             </div>
             <div className="bg-white rounded-xl border border-slate-200 p-5">
-              <div className="flex items-center gap-2 text-xs text-blue-600 font-medium mb-2">â†‘ MARKET MAXIMUM Â· IT</div>
-              <div className="text-2xl font-bold mb-1">â‚¹2,20,00,000</div>
+              <div className="flex items-center gap-2 text-xs text-blue-600 font-medium mb-2">↑ MARKET MAXIMUM · IT</div>
+              <div className="text-2xl font-bold mb-1">₹2,20,00,000</div>
               <p className="text-xs text-slate-500 mb-4">Top of the executive band (annual CTC). Most countries have no statutory maximum wage.</p>
               {wageLevels.map((d,i)=>(
                 <div key={i} className="flex items-center gap-2 mb-2">
@@ -2002,7 +1992,7 @@
             <h3 className="font-semibold mb-3">Statutory wage ceilings & caps</h3>
             <p className="text-xs text-slate-500 mb-3">Annual earnings limits for social-security contributions and statutory schemes</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {[['EPF wage ceiling','â‚¹1,80,000'],['ESI coverage ceiling','â‚¹2,52,000'],['Statutory bonus eligibility (â‚¹21,000/mo)','â‚¹2,52,000'],['Gratuity tax-free cap','â‚¹20,00,000']].map((r,i)=>(
+              {[['EPF wage ceiling','₹1,80,000'],['ESI coverage ceiling','₹2,52,000'],['Statutory bonus eligibility (₹21,000/mo)','₹2,52,000'],['Gratuity tax-free cap','₹20,00,000']].map((r,i)=>(
                 <div key={i} className="flex justify-between items-center bg-slate-50 rounded-lg px-3 py-2">
                   <span className="text-sm text-slate-600">{r[0]}</span>
                   <span className="font-medium">{r[1]}</span>
@@ -2089,16 +2079,16 @@
                 <span className="text-3xl">{focusDetail.f}</span>
                 <div>
                   <div className="text-lg font-semibold">{focusDetail.n}</div>
-                  <div className="text-xs text-slate-500">{focusDetail.region} Â· {focusDetail.code}</div>
+                  <div className="text-xs text-slate-500">{focusDetail.region} · {focusDetail.code}</div>
                 </div>
                 <span className={`ml-auto text-xs px-2.5 py-1 rounded-full font-medium ${badge(focusDetail.m)}`}>{focusDetail.m}</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
-                  {l:'Pay bands', v: focusDetail.m === 'Encoded statute' ? 'Yes' : focusDetail.m === 'Approximate model' ? 'Anchored' : 'â€”'},
-                  {l:'Benefits', v: focusDetail.m !== 'Indicative estimate' ? 'Yes' : 'â€”'},
-                  {l:'Min wage', v: focusDetail.m !== 'Indicative estimate' ? 'Yes' : 'â€”'},
-                  {l:'Labour rules', v: focusDetail.m === 'Encoded statute' ? 'Yes' : 'â€”'},
+                  {l:'Pay bands', v: focusDetail.m === 'Encoded statute' ? 'Yes' : focusDetail.m === 'Approximate model' ? 'Anchored' : '—'},
+                  {l:'Benefits', v: focusDetail.m !== 'Indicative estimate' ? 'Yes' : '—'},
+                  {l:'Min wage', v: focusDetail.m !== 'Indicative estimate' ? 'Yes' : '—'},
+                  {l:'Labour rules', v: focusDetail.m === 'Encoded statute' ? 'Yes' : '—'},
                 ].map((k,i) => (
                   <div key={i} className="bg-slate-50 rounded-lg px-3 py-2">
                     <div className="text-xs text-slate-500">{k.l}</div>
@@ -2143,10 +2133,10 @@
                     onClick={() => setFocusMarket(c.n)} style={{cursor:'pointer'}}>
                     <td className="py-2 px-3 font-medium">{c.f} {c.n}</td>
                     <td className="py-2 px-3"><span className={`text-xs px-2 py-0.5 rounded-full font-medium ${badge(c.m)}`}>{c.m}</span></td>
-                    <td className="text-center py-2 px-3 text-slate-600">{c.m === 'Encoded statute' ? 'âœ“' : c.m === 'Approximate model' ? 'â—' : 'â€”'}</td>
-                    <td className="text-center py-2 px-3 text-slate-600">{c.m !== 'Indicative estimate' ? 'âœ“' : 'â€”'}</td>
-                    <td className="text-center py-2 px-3 text-slate-600">{c.m !== 'Indicative estimate' ? 'âœ“' : 'â€”'}</td>
-                    <td className="text-center py-2 px-3 text-slate-600">{c.m === 'Encoded statute' ? 'âœ“' : 'â€”'}</td>
+                    <td className="text-center py-2 px-3 text-slate-600">{c.m === 'Encoded statute' ? '✓' : c.m === 'Approximate model' ? '◐' : '—'}</td>
+                    <td className="text-center py-2 px-3 text-slate-600">{c.m !== 'Indicative estimate' ? '✓' : '—'}</td>
+                    <td className="text-center py-2 px-3 text-slate-600">{c.m !== 'Indicative estimate' ? '✓' : '—'}</td>
+                    <td className="text-center py-2 px-3 text-slate-600">{c.m === 'Encoded statute' ? '✓' : '—'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -2157,7 +2147,7 @@
     }
 
 
-    // ========== ADMIN Â· SIGN-IN LOG ==========
+    // ========== ADMIN · SIGN-IN LOG ==========
     const ADMIN_USER = 'Admin';
     const ADMIN_PW_KEY = 'ciq_admin_pw';
     const LOG_KEY = 'ciq_signin_log';
@@ -2278,7 +2268,7 @@
           {/* Bottom-right settings button */}
           <div className="fixed bottom-4 right-4 z-[60] flex items-center gap-2">
             <div className="text-xs text-slate-400 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm hidden sm:block">
-              Recreation Â· Compensation IQ
+              Recreation · Compensation IQ
             </div>
             <button
               type="button"
@@ -2286,7 +2276,7 @@
               title="Admin settings"
               className="w-10 h-10 rounded-full bg-slate-900 text-white shadow-lg flex items-center justify-center hover:bg-slate-800 transition border border-slate-700"
             >
-              âš™
+              ⚙
             </button>
             {open && (
               <>
@@ -2294,11 +2284,11 @@
                 <div className="absolute bottom-12 right-0 z-[70] w-52 bg-white border border-slate-200 rounded-xl shadow-xl py-1 overflow-hidden">
                   <button type="button" onClick={() => { setOpen(false); setAuthOpen(true); setError(''); }}
                     className="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 flex items-center gap-2">
-                    <span>ðŸ”</span> Admin access
+                    <span>🔐</span> Admin access
                   </button>
                   <button type="button" onClick={() => { setOpen(false); setAuthOpen(true); setError(''); }}
                     className="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 flex items-center gap-2">
-                    <span>ðŸ“‹</span> Sign-in log
+                    <span>📋</span> Sign-in log
                   </button>
                 </div>
               </>
@@ -2310,7 +2300,7 @@
             <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
               <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={() => setAuthOpen(false)} />
               <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 border border-teal-100">
-                <button type="button" onClick={() => setAuthOpen(false)} className="absolute top-3 right-3 text-slate-400 hover:text-slate-700 text-lg leading-none">Ã—</button>
+                <button type="button" onClick={() => setAuthOpen(false)} className="absolute top-3 right-3 text-slate-400 hover:text-slate-700 text-lg leading-none">×</button>
                 <h2 className="text-lg font-semibold text-slate-900 mb-1">Admin access</h2>
                 <p className="text-sm text-slate-500 mb-5">Enter the admin username and password to view the log.</p>
                 <form onSubmit={unlock} className="space-y-3">
@@ -2318,7 +2308,7 @@
                     placeholder="Admin"
                     className="w-full border border-slate-200 rounded-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400" />
                   <div className="relative">
-                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">ðŸ”’</span>
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔒</span>
                     <input type="password" value={pw} onChange={e => setPw(e.target.value)}
                       placeholder="Password"
                       className="w-full border border-slate-200 rounded-full pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400" />
@@ -2347,7 +2337,7 @@
                     <h2 className="text-lg font-semibold text-slate-900">Sign-in log</h2>
                     <p className="text-sm text-slate-500">Every registration and sign-in, newest first (IST).</p>
                   </div>
-                  <button type="button" onClick={() => setLogOpen(false)} className="text-slate-400 hover:text-slate-700 text-lg leading-none">Ã—</button>
+                  <button type="button" onClick={() => setLogOpen(false)} className="text-slate-400 hover:text-slate-700 text-lg leading-none">×</button>
                 </div>
                 <div className="p-5 overflow-y-auto">
                   <div className="grid grid-cols-3 gap-3 mb-4">
@@ -2364,13 +2354,13 @@
                   </div>
                   <div className="flex flex-wrap gap-2 mb-4 items-center">
                     <div className="relative flex-1 min-w-[180px]">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">ðŸ”</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
                       <input type="text" value={search} onChange={e => setSearch(e.target.value)}
                         placeholder="Search email, name or event"
                         className="w-full border border-slate-200 rounded-full pl-9 pr-3 py-2 text-sm" />
                     </div>
                     <button type="button" onClick={exportCsv}
-                      className="border border-slate-200 rounded-full px-3 py-2 text-sm hover:bg-slate-50">â†“ Export CSV</button>
+                      className="border border-slate-200 rounded-full px-3 py-2 text-sm hover:bg-slate-50">↓ Export CSV</button>
                     <button type="button" onClick={() => { setChangePwOpen(true); setError(''); }}
                       className="border border-slate-200 rounded-full px-3 py-2 text-sm hover:bg-slate-50">Change password</button>
                   </div>
@@ -2451,106 +2441,12 @@
       };
 
       const handleOAuth = (provider) => {
-        if (provider !== 'google') {
-          const samples = {
-            microsoft: { email: 'user@outlook.com', name: 'Microsoft User', event: 'Signed in' },
-            default: { email: 'guest@compensationiq.app', name: 'Guest user', event: 'Signed in' },
-          };
-          finish(samples[provider] || samples.default);
-          return;
-        }
-
-        setError('');
-        setBusy(true);
-
-        const startGoogleLogin = () => {
-          try {
-            if (!window.google || !window.google.accounts || !window.google.accounts.id) {
-              throw new Error('Google Sign-In is still loading. Please try again.');
-            }
-
-            const clientId =
-              window.__CIQ_AUTH__ &&
-              window.__CIQ_AUTH__.googleClientId;
-
-            if (!clientId) {
-              throw new Error('Google Client ID is missing from config.js.');
-            }
-
-            window.google.accounts.id.initialize({
-              client_id: clientId,
-              callback: (response) => {
-                try {
-                  if (!response || !response.credential) {
-                    throw new Error('Google did not return a credential.');
-                  }
-
-                  const parts = response.credential.split('.');
-                  if (parts.length !== 3) {
-                    throw new Error('Invalid Google credential.');
-                  }
-
-                  const payload = JSON.parse(
-                    decodeURIComponent(
-                      atob(parts[1].replace(/-/g, '+').replace(/_/g, '/'))
-                        .split('')
-                        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                        .join('')
-                    )
-                  );
-
-                  const info = {
-                    email: payload.email || '',
-                    name: payload.name || payload.email?.split('@')[0] || 'Google User',
-                    event: 'Signed in'
-                  };
-
-                  if (!info.email) {
-                    throw new Error('Google account email was not returned.');
-                  }
-
-                  setBusy(false);
-                  finish(info);
-                } catch (err) {
-                  console.error('Google authentication error:', err);
-                  setBusy(false);
-                  setError(err.message || 'Google sign-in failed.');
-                }
-              },
-              auto_select: false,
-              cancel_on_tap_outside: true
-            });
-
-            window.google.accounts.id.prompt((notification) => {
-              if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                setBusy(false);
-                setError(
-                  'Google sign-in could not open. Please allow Google sign-in pop-ups and try again.'
-                );
-              }
-            });
-          } catch (err) {
-            console.error('Google Sign-In initialization error:', err);
-            setBusy(false);
-            setError(err.message || 'Unable to start Google sign-in.');
-          }
+        const samples = {
+          google: { email: 'user.google@gmail.com', name: 'Google User', event: 'Signed in' },
+          microsoft: { email: 'user@outlook.com', name: 'Microsoft User', event: 'Signed in' },
+          default: { email: 'guest@compensationiq.app', name: 'Guest user', event: 'Signed in' },
         };
-
-        if (window.google && window.google.accounts && window.google.accounts.id) {
-          startGoogleLogin();
-        } else {
-          const started = Date.now();
-          const waitForGoogle = setInterval(() => {
-            if (window.google && window.google.accounts && window.google.accounts.id) {
-              clearInterval(waitForGoogle);
-              startGoogleLogin();
-            } else if (Date.now() - started > 10000) {
-              clearInterval(waitForGoogle);
-              setBusy(false);
-              setError('Google Sign-In could not be loaded. Check your internet connection.');
-            }
-          }, 100);
-        }
+        finish(samples[provider] || samples.default);
       };
 
       const handleEmailSubmit = (e) => {
@@ -2602,7 +2498,7 @@
             {/* left hero */}
             <div className="flex-1 pt-2">
               <div className="inline-flex items-center gap-1.5 text-xs bg-slate-800/80 border border-slate-700 text-slate-300 rounded-full px-3 py-1 mb-6">
-                <span className="text-teal-400">â—ˆ</span> 2026 planning model Â· {TOTAL_MODELLED}+ countries
+                <span className="text-teal-400">◈</span> 2026 planning model · {TOTAL_MODELLED}+ countries
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-5">
                 Global<br />
@@ -2610,14 +2506,14 @@
                 <span className="text-sky-400">Intelligence</span>
               </h1>
               <p className="text-slate-400 text-base max-w-md mb-8 leading-relaxed">
-                Turn any salary into the full payroll picture â€” employer cost, statutory contributions, income tax and take-home â€” with the labour-law context around it.
+                Turn any salary into the full payroll picture — employer cost, statutory contributions, income tax and take-home — with the labour-law context around it.
               </p>
               <button
                 type="button"
                 onClick={() => { setMode('email'); setError(''); }}
                 className="inline-flex items-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-medium px-6 py-3 rounded-full transition shadow-lg shadow-teal-500/25"
               >
-                Get started <span>â†’</span>
+                Get started <span>→</span>
               </button>
               <div className="flex gap-8 sm:gap-10 mt-12">
                 {[
@@ -2633,7 +2529,7 @@
               </div>
             </div>
 
-            {/* right â€“ auth card */}
+            {/* right – auth card */}
             <div className="w-full max-w-sm shrink-0">
               <div className="bg-slate-900/80 backdrop-blur border border-slate-700/80 rounded-2xl p-6 shadow-2xl">
                 {mode === 'landing' && (
@@ -2660,7 +2556,7 @@
                         { label: 'M', tip: 'Microsoft', provider: 'microsoft' },
                         { label: 'Y', tip: 'Yahoo', provider: 'default' },
                         { label: 'in', tip: 'LinkedIn', provider: 'default' },
-                        { label: 'âŒ˜', tip: 'GitHub', provider: 'default' },
+                        { label: '⌘', tip: 'GitHub', provider: 'default' },
                       ].map((item, i) => (
                         <button
                           key={i}
@@ -2679,7 +2575,7 @@
                       onClick={() => { setMode('email'); setError(''); }}
                       className="w-full flex items-center justify-center gap-2 border border-slate-600 text-slate-200 font-medium rounded-full py-2.5 text-sm hover:bg-slate-800 transition mb-4"
                     >
-                      âœ‰ Continue with email
+                      ✉ Continue with email
                     </button>
 
                     <p className="text-[11px] text-slate-500 text-center mb-5">
@@ -2688,9 +2584,9 @@
 
                     <div className="border-t border-slate-700 pt-4 space-y-3">
                       {[
-                        { icon: 'â–¤', title: 'Gross-to-net calculator', desc: 'CTC, statutory contributions, tax and take-home in seconds.' },
-                        { icon: 'â–¥', title: 'Pay bands & benchmarks', desc: 'Median, min and max by role and level across markets.' },
-                        { icon: 'ðŸ›', title: 'Tax & statutory', desc: 'Employer load, social security and labour-law context.' },
+                        { icon: '▤', title: 'Gross-to-net calculator', desc: 'CTC, statutory contributions, tax and take-home in seconds.' },
+                        { icon: '▥', title: 'Pay bands & benchmarks', desc: 'Median, min and max by role and level across markets.' },
+                        { icon: '🏛', title: 'Tax & statutory', desc: 'Employer load, social security and labour-law context.' },
                       ].map((f, i) => (
                         <div key={i} className="flex gap-3 items-start">
                           <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-sm shrink-0">{f.icon}</div>
@@ -2754,7 +2650,7 @@
                         disabled={busy}
                         className="w-full bg-teal-500 hover:bg-teal-400 disabled:opacity-60 text-white font-medium rounded-full py-2.5 text-sm transition shadow-lg shadow-teal-500/20"
                       >
-                        {busy ? 'Please waitâ€¦' : (mode === 'register' ? 'Register' : 'Sign in')}
+                        {busy ? 'Please wait…' : (mode === 'register' ? 'Register' : 'Sign in')}
                       </button>
                     </form>
                     <div className="mt-4 flex justify-between text-xs text-slate-500">
@@ -2776,7 +2672,7 @@
           </div>
 
           <footer className="relative z-10 px-6 sm:px-8 pb-6 flex flex-wrap justify-between text-[11px] text-slate-600 gap-2">
-            <span>Â© 2026 Global Compensation Intelligence Â· Created by Neeraj Kapil</span>
+            <span>© 2026 Global Compensation Intelligence · Created by Neeraj Kapil</span>
             <span>Planning estimates, not payroll or legal advice.</span>
           </footer>
         </div>
@@ -2873,8 +2769,5 @@
 </script>
 </body>
 </html>
-
-
-
 
 
