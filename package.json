@@ -1,0 +1,22 @@
+{
+  "name": "compensation-iq",
+  "version": "2026.1.0",
+  "description": "Global Compensation Intelligence \u2014 market pay, employer cost, tax regimes. Real OAuth via Supabase.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node test/api.test.js",
+    "seed": "node tools/seed-log.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  },
+  "author": "Neeraj",
+  "license": "UNLICENSED"
+}

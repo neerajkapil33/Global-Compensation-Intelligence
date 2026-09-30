@@ -1,28 +1,28 @@
-# Global Compensation Intelligence · Compensation IQ 2026
+# Compensation IQ · Global Compensation Intelligence 2026
 
 **Live:** https://neerajkapil33.github.io/Global-Compensation-Intelligence/
 
-## One entry file only
+## No duplicate UI files
 
-| File | Role |
+| Path | Role |
 |------|------|
-| `index.html` | **Only** app entry (GitHub Pages serves this) |
-| `config.js` | Supabase anon key (public) |
-| `manifest.webmanifest`, `sw.js`, icons | PWA |
+| `public/index.html` | **Only** app entry |
+| `public/config.js` | Supabase anon config |
+| `public/*` | PWA assets |
+| `server.js` | Express (local API) |
+| `lib/` | auth-store, markets-data |
 
-There is **no** second app under `public/` in this deploy package.
+GitHub Pages deploys **from `public/`** via Actions (not a second copy at repo root).
 
-## Supabase (required once)
-
-Authentication → URL Configuration:
+## Supabase
 
 - Site URL: `https://neerajkapil33.github.io/Global-Compensation-Intelligence/`
-- Redirect URLs:
-  - `https://neerajkapil33.github.io/Global-Compensation-Intelligence/**`
-  - `http://localhost:3000/**`
+- Redirect: `https://neerajkapil33.github.io/Global-Compensation-Intelligence/**` and `http://localhost:3000/**`
+- Enable Google under Authentication → Providers
 
-Enable Google under Authentication → Providers.
+## Local
 
-## Deploy
-
-Push this folder’s contents to the **root** of `main` on GitHub. Actions deploys Pages automatically.
+```bash
+cp .env.example .env
+npm install && npm start
+```
