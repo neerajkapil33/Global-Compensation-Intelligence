@@ -1,33 +1,6 @@
 /**
  * Compensation IQ — Express server (desktop + mobile PWA)
- * Real OAuth via Supabase Auth (set SUPABASE_URL + SUPABASE_ANON_KEY).
  */
-// Load local .env if present (no dotenv dependency required)
-(function loadEnv() {
-  try {
-    const fs = require('fs');
-    const path = require('path');
-    const envPath = path.join(__dirname, '.env');
-    if (!fs.existsSync(envPath)) return;
-    const text = fs.readFileSync(envPath, 'utf8');
-    text.split(/\r?\n/).forEach(function (line) {
-      const t = line.trim();
-      if (!t || t.startsWith('#')) return;
-      const i = t.indexOf('=');
-      if (i < 1) return;
-      const key = t.slice(0, i).trim();
-      let val = t.slice(i + 1).trim();
-      if (
-        (val.startsWith('"') && val.endsWith('"')) ||
-        (val.startsWith("'") && val.endsWith("'"))
-      ) {
-        val = val.slice(1, -1);
-      }
-      if (process.env[key] === undefined) process.env[key] = val;
-    });
-  } catch (e) {}
-})();
-
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
@@ -46,47 +19,10 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json({ limit: '1mb' }));
-app.use(express.static(__dirname));
-
-// Public auth config for the SPA (no secrets — only URL + publishable/anon key)
-app.get('/api/auth/config', (_req, res) => {
-  const url = process.env.SUPABASE_URL || '';
-  const anonKey = process.env.SUPABASE_ANON_KEY || '';
-  res.json({
-    ok: true,
-    provider: url && anonKey ? 'supabase' : 'mock',
-    supabaseUrl: url || null,
-    supabaseAnonKey: anonKey || null,
-  });
-});
-
-// Inject config as JS so the SPA can load it before React boots
-app.get('/config.js', (_req, res) => {
-  const url = process.env.SUPABASE_URL || '';
-  const anonKey = process.env.SUPABASE_ANON_KEY || '';
-  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-  res.setHeader('Cache-Control', 'no-store');
-  res.send(
-    'window.__CIQ_AUTH__ = ' +
-      JSON.stringify({
-        provider: url && anonKey ? 'supabase' : 'mock',
-        supabaseUrl: url || null,
-        supabaseAnonKey: anonKey || null,
-      }) +
-      ';'
-  );
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/health', (_req, res) => {
-  res.json({
-    ok: true,
-    app: 'Compensation IQ',
-    year: 2026,
-    auth:
-      process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY
-        ? 'supabase'
-        : 'mock',
-  });
+  res.json({ ok: true, app: 'Compensation IQ', year: 2026 });
 });
 
 app.post('/api/events', (req, res) => {
@@ -162,19 +98,14 @@ app.get('/api/markets', (req, res) => {
 });
 
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
-  const authMode =
-    process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY
-      ? 'Supabase OAuth (real)'
-      : 'Mock OAuth (set SUPABASE_URL + SUPABASE_ANON_KEY for real login)';
   console.log('');
   console.log('  Compensation IQ  ·  2026');
   console.log('  -----------------------');
-  console.log('  http://localhost:' + PORT);
+  console.log(`  http://localhost:${PORT}`);
   console.log('  Admin: Admin / admin123');
-  console.log('  Auth : ' + authMode);
   console.log('');
 });

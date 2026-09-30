@@ -1,30 +1,56 @@
-# Compensation IQ · Global Compensation Intelligence 2026
+# Compensation IQ · 2026
 
-**Live:** https://neerajkapil33.github.io/Global-Compensation-Intelligence/
+Global compensation intelligence — market pay, employer cost, tax regimes, and statutory context.
 
-## Single app entry (no duplicates)
-
-| File | Role |
-|------|------|
-| `index.html` | **Only** SPA entry |
-| `config.js` | Supabase public config |
-| `server.js` | Express API + static |
-| `lib/` | auth-store, markets-data |
-
-## Supabase
-
-- Site URL: `https://neerajkapil33.github.io/Global-Compensation-Intelligence/`
-- Redirect URLs: that URL `/**` and `http://localhost:3000/**`
-- Enable Google under Authentication → Providers
-
-## Local
+## Quick start
 
 ```bash
-cp .env.example .env
-npm install && npm start
+npm install
+npm start
 ```
 
-## GitHub Pages
+Open **http://localhost:3000**
 
-Deployed via Actions workflow `.github/workflows/pages.yml` on every push to `main`.
-Alternatively: Settings → Pages → Deploy from branch → `main` / root.
+| Platform | How |
+|----------|-----|
+| Desktop | Browser at `localhost:3000` |
+| Mobile  | Same URL on phone · Install PWA via “Add to Home Screen” |
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Run Express server |
+| `npm test` | Run API / unit tests |
+| `npm run seed` | Seed a demo sign-in event |
+
+## Project layout
+
+```
+.github/workflows/   CI
+lib/                 auth-store, markets-data
+public/              SPA, PWA (manifest, SW, icons)
+test/                automated tests
+tools/               helpers
+data/                admin + sign-in log (runtime)
+server.js
+package.json
+```
+
+## Admin
+
+- Username: `Admin`
+- Password: `admin123`
+- Open via ⚙ (bottom-right)
+
+## API
+
+- `GET /api/health`
+- `POST /api/events` — `{ email, name, event }`
+- `GET /api/events` — header `x-admin-password`
+- `GET /api/markets?region=Europe`
+- `POST /api/admin/unlock`
+
+## License
+
+UNLICENSED · Planning estimates only — not payroll or legal advice.
