@@ -26,4 +26,5 @@ npm install && npm start
 
 ## GitHub Pages
 
-Repo → Settings → Pages → Deploy from branch → `main` / `/ (root)`.
+Deployed via Actions workflow `.github/workflows/pages.yml` on every push to `main`.
+Alternatively: Settings → Pages → Deploy from branch → `main` / root.
