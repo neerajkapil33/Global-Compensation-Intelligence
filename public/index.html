@@ -1,0 +1,2880 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="theme-color" content="#0d9488" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Comp IQ" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compensation IQ Â· Global pay intelligence Â· 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; margin: 0; }
+    .kpi-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
+    .bar-fill { transition: width 0.4s ease; }
+    .filter-chip { transition: all 0.15s; cursor: pointer; }
+    .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+    .sidebar-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+  </style>
+<script>
+  // Google OAuth configuration
+  // Client ID is public and may be exposed in browser code.
+  // NEVER put the Google Client Secret here.
+  window.__CIQ_AUTH__ = {
+    provider: 'google',
+    googleClientId: '585877033501-4act00ps4v138vnuu6u94hogj39mfilk.apps.googleusercontent.com'
+  };
+</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo } = React;
+
+    // ========== DATA (from original app screenshots) ==========
+    const MARKETS = [
+      // North America
+      { code: 'US', ctc: 278000, take: 195000, region: 'North America', name: 'United States' },
+      { code: 'CA', ctc: 145000, take: 102000, region: 'North America', name: 'Canada' },
+      { code: 'MX', ctc: 52000, take: 38000, region: 'North America', name: 'Mexico' },
+      // Europe
+      { code: 'IE', ctc: 172000, take: 105000, region: 'Europe', name: 'Ireland' },
+      { code: 'GB', ctc: 168000, take: 112000, region: 'Europe', name: 'United Kingdom' },
+      { code: 'DE', ctc: 161207, take: 81122, region: 'Europe', name: 'Germany' },
+      { code: 'NL', ctc: 158000, take: 95000, region: 'Europe', name: 'Netherlands' },
+      { code: 'CH', ctc: 195000, take: 145000, region: 'Europe', name: 'Switzerland' },
+      { code: 'FR', ctc: 138000, take: 82000, region: 'Europe', name: 'France' },
+      { code: 'SE', ctc: 125000, take: 78000, region: 'Europe', name: 'Sweden' },
+      { code: 'NO', ctc: 132000, take: 85000, region: 'Europe', name: 'Norway' },
+      { code: 'DK', ctc: 128000, take: 80000, region: 'Europe', name: 'Denmark' },
+      { code: 'FI', ctc: 110000, take: 72000, region: 'Europe', name: 'Finland' },
+      { code: 'BE', ctc: 120000, take: 70000, region: 'Europe', name: 'Belgium' },
+      { code: 'AT', ctc: 115000, take: 68000, region: 'Europe', name: 'Austria' },
+      { code: 'ES', ctc: 95000, take: 62000, region: 'Europe', name: 'Spain' },
+      { code: 'IT', ctc: 98000, take: 60000, region: 'Europe', name: 'Italy' },
+      { code: 'PT', ctc: 72000, take: 48000, region: 'Europe', name: 'Portugal' },
+      { code: 'PL', ctc: 58000, take: 40000, region: 'Europe', name: 'Poland' },
+      // Oceania
+      { code: 'AU', ctc: 185000, take: 128000, region: 'Oceania', name: 'Australia' },
+      { code: 'NZ', ctc: 118000, take: 82000, region: 'Oceania', name: 'New Zealand' },
+      // Middle East
+      { code: 'AE', ctc: 148000, take: 140000, region: 'Middle East', name: 'United Arab Emirates' },
+      { code: 'SA', ctc: 125000, take: 115000, region: 'Middle East', name: 'Saudi Arabia' },
+      { code: 'QA', ctc: 135000, take: 128000, region: 'Middle East', name: 'Qatar' },
+      { code: 'IL', ctc: 105000, take: 72000, region: 'Middle East', name: 'Israel' },
+      // East & SE Asia
+      { code: 'SG', ctc: 155000, take: 128000, region: 'East & SE Asia', name: 'Singapore' },
+      { code: 'JP', ctc: 95000, take: 68000, region: 'East & SE Asia', name: 'Japan' },
+      { code: 'HK', ctc: 140000, take: 115000, region: 'East & SE Asia', name: 'Hong Kong' },
+      { code: 'KR', ctc: 88000, take: 62000, region: 'East & SE Asia', name: 'South Korea' },
+      { code: 'MY', ctc: 42000, take: 32000, region: 'East & SE Asia', name: 'Malaysia' },
+      // South Asia
+      { code: 'IN', ctc: 28000, take: 21000, region: 'South Asia', name: 'India' },
+      // Africa
+      { code: 'ZA', ctc: 45000, take: 32000, region: 'Africa', name: 'South Africa' },
+      { code: 'NG', ctc: 22000, take: 16000, region: 'Africa', name: 'Nigeria' },
+      // Latin America
+      { code: 'BR', ctc: 38000, take: 25000, region: 'Latin America', name: 'Brazil' },
+      { code: 'AR', ctc: 28000, take: 18000, region: 'Latin America', name: 'Argentina' },
+      { code: 'CL', ctc: 48000, take: 34000, region: 'Latin America', name: 'Chile' },
+    ];
+    const CODE_TO_REGION = Object.fromEntries(MARKETS.map(m => [m.code, m.region]));
+    const MARKET_BY_CODE = Object.fromEntries(MARKETS.map(m => [m.code, m]));
+
+    /** Markets for dashboard analysis: every country in the selected region (known pay or region-based estimate). */
+    function getMarketsForRegion(region) {
+      const PAY = {
+      'AE': { ctc: 148000, take: 140000 },
+      'AM': { ctc: 18000, take: 13000 },
+      'AR': { ctc: 28000, take: 18000 },
+      'AT': { ctc: 115000, take: 68000 },
+      'AU': { ctc: 185000, take: 128000 },
+      'AZ': { ctc: 25000, take: 18000 },
+      'BB': { ctc: 38000, take: 28000 },
+      'BD': { ctc: 10000, take: 7500 },
+      'BE': { ctc: 120000, take: 70000 },
+      'BG': { ctc: 35000, take: 25000 },
+      'BH': { ctc: 95000, take: 88000 },
+      'BO': { ctc: 15000, take: 11000 },
+      'BR': { ctc: 38000, take: 25000 },
+      'BS': { ctc: 45000, take: 34000 },
+      'BW': { ctc: 28000, take: 20000 },
+      'CA': { ctc: 145000, take: 102000 },
+      'CH': { ctc: 195000, take: 145000 },
+      'CI': { ctc: 14000, take: 10500 },
+      'CL': { ctc: 48000, take: 34000 },
+      'CN': { ctc: 65000, take: 48000 },
+      'CO': { ctc: 25000, take: 18000 },
+      'CR': { ctc: 32000, take: 23000 },
+      'CU': { ctc: 12000, take: 9000 },
+      'CZ': { ctc: 55000, take: 38000 },
+      'DE': { ctc: 161000, take: 81000 },
+      'DK': { ctc: 128000, take: 80000 },
+      'DO': { ctc: 20000, take: 14500 },
+      'DZ': { ctc: 16000, take: 12000 },
+      'EC': { ctc: 20000, take: 14500 },
+      'EE': { ctc: 52000, take: 36000 },
+      'EG': { ctc: 18000, take: 14000 },
+      'ES': { ctc: 95000, take: 62000 },
+      'ET': { ctc: 8000, take: 6000 },
+      'FI': { ctc: 110000, take: 72000 },
+      'FJ': { ctc: 28000, take: 20000 },
+      'FR': { ctc: 138000, take: 82000 },
+      'GB': { ctc: 168000, take: 112000 },
+      'GE': { ctc: 22000, take: 16000 },
+      'GH': { ctc: 15000, take: 11000 },
+      'GR': { ctc: 45000, take: 30000 },
+      'GT': { ctc: 18000, take: 13000 },
+      'HK': { ctc: 140000, take: 115000 },
+      'HR': { ctc: 42000, take: 29000 },
+      'HU': { ctc: 48000, take: 33000 },
+      'ID': { ctc: 22000, take: 17000 },
+      'IE': { ctc: 172000, take: 105000 },
+      'IL': { ctc: 105000, take: 72000 },
+      'IN': { ctc: 28000, take: 21000 },
+      'IS': { ctc: 118000, take: 75000 },
+      'IT': { ctc: 98000, take: 60000 },
+      'JM': { ctc: 25000, take: 18000 },
+      'JO': { ctc: 35000, take: 28000 },
+      'JP': { ctc: 95000, take: 68000 },
+      'KE': { ctc: 18000, take: 13000 },
+      'KH': { ctc: 12000, take: 9500 },
+      'KR': { ctc: 88000, take: 62000 },
+      'KW': { ctc: 110000, take: 100000 },
+      'KZ': { ctc: 32000, take: 24000 },
+      'LB': { ctc: 30000, take: 24000 },
+      'LK': { ctc: 14000, take: 10500 },
+      'LT': { ctc: 48000, take: 33000 },
+      'LU': { ctc: 165000, take: 100000 },
+      'LV': { ctc: 45000, take: 31000 },
+      'MA': { ctc: 25000, take: 18000 },
+      'MM': { ctc: 10000, take: 8000 },
+      'MU': { ctc: 35000, take: 25000 },
+      'MV': { ctc: 22000, take: 17000 },
+      'MX': { ctc: 52000, take: 38000 },
+      'MY': { ctc: 42000, take: 32000 },
+      'NA': { ctc: 30000, take: 22000 },
+      'NG': { ctc: 22000, take: 16000 },
+      'NL': { ctc: 158000, take: 95000 },
+      'NO': { ctc: 132000, take: 85000 },
+      'NP': { ctc: 8000, take: 6000 },
+      'NZ': { ctc: 118000, take: 82000 },
+      'OM': { ctc: 85000, take: 78000 },
+      'PA': { ctc: 40000, take: 30000 },
+      'PE': { ctc: 22000, take: 16000 },
+      'PG': { ctc: 22000, take: 16000 },
+      'PH': { ctc: 20000, take: 15000 },
+      'PK': { ctc: 12000, take: 9000 },
+      'PL': { ctc: 58000, take: 40000 },
+      'PR': { ctc: 55000, take: 40000 },
+      'PT': { ctc: 72000, take: 48000 },
+      'PY': { ctc: 18000, take: 13000 },
+      'QA': { ctc: 135000, take: 128000 },
+      'RO': { ctc: 42000, take: 30000 },
+      'RS': { ctc: 32000, take: 23000 },
+      'RW': { ctc: 11000, take: 8200 },
+      'SA': { ctc: 125000, take: 115000 },
+      'SE': { ctc: 125000, take: 78000 },
+      'SG': { ctc: 155000, take: 128000 },
+      'SI': { ctc: 55000, take: 38000 },
+      'SK': { ctc: 50000, take: 35000 },
+      'SN': { ctc: 12000, take: 9000 },
+      'TH': { ctc: 28000, take: 21000 },
+      'TN': { ctc: 20000, take: 14500 },
+      'TR': { ctc: 38000, take: 26000 },
+      'TT': { ctc: 32000, take: 24000 },
+      'TW': { ctc: 75000, take: 55000 },
+      'TZ': { ctc: 10000, take: 7500 },
+      'UA': { ctc: 28000, take: 20000 },
+      'UG': { ctc: 9000, take: 6800 },
+      'US': { ctc: 278000, take: 195000 },
+      'UY': { ctc: 35000, take: 24000 },
+      'UZ': { ctc: 15000, take: 11000 },
+      'VN': { ctc: 18000, take: 14000 },
+      'ZA': { ctc: 45000, take: 32000 }
+      };
+      const REGION_AVG_CTC = {
+      'North America': 158000,
+      'Europe': 95000,
+      'Oceania': 110000,
+      'Middle East': 90000,
+      'East & SE Asia': 55000,
+      'South Asia': 16000,
+      'Central Asia': 22000,
+      'Africa': 18000,
+      'Latin America': 28000,
+      'Caribbean': 30000
+      };
+      const countries = region === 'World'
+        ? ALL_COUNTRIES
+        : ALL_COUNTRIES.filter(c => c.region === region);
+      const list = countries.map((c, i) => {
+        const hit = PAY[c.code] || MARKET_BY_CODE[c.code];
+        if (hit) {
+          return {
+            code: c.code, name: c.name, flag: c.flag, region: c.region,
+            ctc: hit.ctc, take: hit.take, estimated: !PAY[c.code]
+          };
+        }
+        const base = REGION_AVG_CTC[c.region] || 40000;
+        const factor = 0.6 + ((i * 17 + c.code.charCodeAt(0)) % 35) / 100;
+        const ctc = Math.round(base * factor);
+        const take = Math.round(ctc * 0.68);
+        return { code: c.code, name: c.name, flag: c.flag, region: c.region, ctc, take, estimated: true };
+      });
+      return list.sort((a, b) => b.ctc - a.ctc);
+    }
+
+    // Full region list (matches original app structure)
+    const REGION_OPTIONS = [
+      'World',
+      'North America',
+      'Europe',
+      'Oceania',
+      'Middle East',
+      'East & SE Asia',
+      'South Asia',
+      'Central Asia',
+      'Africa',
+      'Latin America',
+      'Caribbean',
+    ];
+    const REGIONS = [
+      { name: 'North America', count: 4, avg: 207.7 },
+      { name: 'Europe', count: 47, avg: 95.0 },
+      { name: 'Oceania', count: 11, avg: 95.0 },
+      { name: 'Middle East', count: 15, avg: 90.0 },
+      { name: 'East & SE Asia', count: 19, avg: 55.0 },
+      { name: 'Africa', count: 47, avg: 22.0 },
+      { name: 'Latin America', count: 19, avg: 28.0 },
+      { name: 'South Asia', count: 8, avg: 16.0 },
+      { name: 'Central Asia', count: 8, avg: 22.0 },
+      { name: 'Caribbean', count: 12, avg: 30.0 },
+    ];
+    // Comprehensive country list for Focus Market (name, flag, region) â€” representative of 190+ modelled
+    const ALL_COUNTRIES = [
+      // North America
+      { name: 'United States', flag: 'ðŸ‡ºðŸ‡¸', region: 'North America', code: 'US' },
+      { name: 'Canada', flag: 'ðŸ‡¨ðŸ‡¦', region: 'North America', code: 'CA' },
+      { name: 'Mexico', flag: 'ðŸ‡²ðŸ‡½', region: 'North America', code: 'MX' },
+      // Europe
+      { name: 'United Kingdom', flag: 'ðŸ‡¬ðŸ‡§', region: 'Europe', code: 'GB' },
+      { name: 'Germany', flag: 'ðŸ‡©ðŸ‡ª', region: 'Europe', code: 'DE' },
+      { name: 'France', flag: 'ðŸ‡«ðŸ‡·', region: 'Europe', code: 'FR' },
+      { name: 'Netherlands', flag: 'ðŸ‡³ðŸ‡±', region: 'Europe', code: 'NL' },
+      { name: 'Ireland', flag: 'ðŸ‡®ðŸ‡ª', region: 'Europe', code: 'IE' },
+      { name: 'Switzerland', flag: 'ðŸ‡¨ðŸ‡­', region: 'Europe', code: 'CH' },
+      { name: 'Sweden', flag: 'ðŸ‡¸ðŸ‡ª', region: 'Europe', code: 'SE' },
+      { name: 'Norway', flag: 'ðŸ‡³ðŸ‡´', region: 'Europe', code: 'NO' },
+      { name: 'Denmark', flag: 'ðŸ‡©ðŸ‡°', region: 'Europe', code: 'DK' },
+      { name: 'Finland', flag: 'ðŸ‡«ðŸ‡®', region: 'Europe', code: 'FI' },
+      { name: 'Belgium', flag: 'ðŸ‡§ðŸ‡ª', region: 'Europe', code: 'BE' },
+      { name: 'Austria', flag: 'ðŸ‡¦ðŸ‡¹', region: 'Europe', code: 'AT' },
+      { name: 'Spain', flag: 'ðŸ‡ªðŸ‡¸', region: 'Europe', code: 'ES' },
+      { name: 'Italy', flag: 'ðŸ‡®ðŸ‡¹', region: 'Europe', code: 'IT' },
+      { name: 'Portugal', flag: 'ðŸ‡µðŸ‡¹', region: 'Europe', code: 'PT' },
+      { name: 'Poland', flag: 'ðŸ‡µðŸ‡±', region: 'Europe', code: 'PL' },
+      { name: 'Czechia', flag: 'ðŸ‡¨ðŸ‡¿', region: 'Europe', code: 'CZ' },
+      { name: 'Romania', flag: 'ðŸ‡·ðŸ‡´', region: 'Europe', code: 'RO' },
+      { name: 'Hungary', flag: 'ðŸ‡­ðŸ‡º', region: 'Europe', code: 'HU' },
+      { name: 'Greece', flag: 'ðŸ‡¬ðŸ‡·', region: 'Europe', code: 'GR' },
+      { name: 'Luxembourg', flag: 'ðŸ‡±ðŸ‡º', region: 'Europe', code: 'LU' },
+      { name: 'Iceland', flag: 'ðŸ‡®ðŸ‡¸', region: 'Europe', code: 'IS' },
+      { name: 'Estonia', flag: 'ðŸ‡ªðŸ‡ª', region: 'Europe', code: 'EE' },
+      { name: 'Latvia', flag: 'ðŸ‡±ðŸ‡»', region: 'Europe', code: 'LV' },
+      { name: 'Lithuania', flag: 'ðŸ‡±ðŸ‡¹', region: 'Europe', code: 'LT' },
+      { name: 'Slovakia', flag: 'ðŸ‡¸ðŸ‡°', region: 'Europe', code: 'SK' },
+      { name: 'Slovenia', flag: 'ðŸ‡¸ðŸ‡®', region: 'Europe', code: 'SI' },
+      { name: 'Croatia', flag: 'ðŸ‡­ðŸ‡·', region: 'Europe', code: 'HR' },
+      { name: 'Bulgaria', flag: 'ðŸ‡§ðŸ‡¬', region: 'Europe', code: 'BG' },
+      { name: 'Serbia', flag: 'ðŸ‡·ðŸ‡¸', region: 'Europe', code: 'RS' },
+      { name: 'Ukraine', flag: 'ðŸ‡ºðŸ‡¦', region: 'Europe', code: 'UA' },
+      { name: 'Turkey', flag: 'ðŸ‡¹ðŸ‡·', region: 'Europe', code: 'TR' },
+      { name: 'Albania', flag: 'ðŸ‡¦ðŸ‡±', region: 'Europe', code: 'AL' },
+      { name: 'North Macedonia', flag: 'ðŸ‡²ðŸ‡°', region: 'Europe', code: 'MK' },
+      { name: 'Bosnia and Herzegovina', flag: 'ðŸ‡§ðŸ‡¦', region: 'Europe', code: 'BA' },
+      { name: 'Montenegro', flag: 'ðŸ‡²ðŸ‡ª', region: 'Europe', code: 'ME' },
+      { name: 'Moldova', flag: 'ðŸ‡²ðŸ‡©', region: 'Europe', code: 'MD' },
+      { name: 'Belarus', flag: 'ðŸ‡§ðŸ‡¾', region: 'Europe', code: 'BY' },
+      { name: 'Malta', flag: 'ðŸ‡²ðŸ‡¹', region: 'Europe', code: 'MT' },
+      { name: 'Cyprus', flag: 'ðŸ‡¨ðŸ‡¾', region: 'Europe', code: 'CY' },
+      { name: 'Andorra', flag: 'ðŸ‡¦ðŸ‡©', region: 'Europe', code: 'AD' },
+      { name: 'Monaco', flag: 'ðŸ‡²ðŸ‡¨', region: 'Europe', code: 'MC' },
+      { name: 'Liechtenstein', flag: 'ðŸ‡±ðŸ‡®', region: 'Europe', code: 'LI' },
+      { name: 'San Marino', flag: 'ðŸ‡¸ðŸ‡²', region: 'Europe', code: 'SM' },
+      // Oceania
+      { name: 'Australia', flag: 'ðŸ‡¦ðŸ‡º', region: 'Oceania', code: 'AU' },
+      { name: 'New Zealand', flag: 'ðŸ‡³ðŸ‡¿', region: 'Oceania', code: 'NZ' },
+      { name: 'Fiji', flag: 'ðŸ‡«ðŸ‡¯', region: 'Oceania', code: 'FJ' },
+      { name: 'Papua New Guinea', flag: 'ðŸ‡µðŸ‡¬', region: 'Oceania', code: 'PG' },
+      { name: 'Samoa', flag: 'ðŸ‡¼ðŸ‡¸', region: 'Oceania', code: 'WS' },
+      { name: 'Tonga', flag: 'ðŸ‡¹ðŸ‡´', region: 'Oceania', code: 'TO' },
+      { name: 'Vanuatu', flag: 'ðŸ‡»ðŸ‡º', region: 'Oceania', code: 'VU' },
+      { name: 'Solomon Islands', flag: 'ðŸ‡¸ðŸ‡§', region: 'Oceania', code: 'SB' },
+      // Middle East
+      { name: 'United Arab Emirates', flag: 'ðŸ‡¦ðŸ‡ª', region: 'Middle East', code: 'AE' },
+      { name: 'Saudi Arabia', flag: 'ðŸ‡¸ðŸ‡¦', region: 'Middle East', code: 'SA' },
+      { name: 'Qatar', flag: 'ðŸ‡¶ðŸ‡¦', region: 'Middle East', code: 'QA' },
+      { name: 'Kuwait', flag: 'ðŸ‡°ðŸ‡¼', region: 'Middle East', code: 'KW' },
+      { name: 'Bahrain', flag: 'ðŸ‡§ðŸ‡­', region: 'Middle East', code: 'BH' },
+      { name: 'Oman', flag: 'ðŸ‡´ðŸ‡²', region: 'Middle East', code: 'OM' },
+      { name: 'Israel', flag: 'ðŸ‡®ðŸ‡±', region: 'Middle East', code: 'IL' },
+      { name: 'Jordan', flag: 'ðŸ‡¯ðŸ‡´', region: 'Middle East', code: 'JO' },
+      { name: 'Lebanon', flag: 'ðŸ‡±ðŸ‡§', region: 'Middle East', code: 'LB' },
+      { name: 'Egypt', flag: 'ðŸ‡ªðŸ‡¬', region: 'Middle East', code: 'EG' },
+      { name: 'Iraq', flag: 'ðŸ‡®ðŸ‡¶', region: 'Middle East', code: 'IQ' },
+      { name: 'Iran', flag: 'ðŸ‡®ðŸ‡·', region: 'Middle East', code: 'IR' },
+      { name: 'Yemen', flag: 'ðŸ‡¾ðŸ‡ª', region: 'Middle East', code: 'YE' },
+      { name: 'Palestine', flag: 'ðŸ‡µðŸ‡¸', region: 'Middle East', code: 'PS' },
+      // East & SE Asia
+      { name: 'Singapore', flag: 'ðŸ‡¸ðŸ‡¬', region: 'East & SE Asia', code: 'SG' },
+      { name: 'Japan', flag: 'ðŸ‡¯ðŸ‡µ', region: 'East & SE Asia', code: 'JP' },
+      { name: 'Hong Kong', flag: 'ðŸ‡­ðŸ‡°', region: 'East & SE Asia', code: 'HK' },
+      { name: 'South Korea', flag: 'ðŸ‡°ðŸ‡·', region: 'East & SE Asia', code: 'KR' },
+      { name: 'Taiwan', flag: 'ðŸ‡¹ðŸ‡¼', region: 'East & SE Asia', code: 'TW' },
+      { name: 'China', flag: 'ðŸ‡¨ðŸ‡³', region: 'East & SE Asia', code: 'CN' },
+      { name: 'Malaysia', flag: 'ðŸ‡²ðŸ‡¾', region: 'East & SE Asia', code: 'MY' },
+      { name: 'Thailand', flag: 'ðŸ‡¹ðŸ‡­', region: 'East & SE Asia', code: 'TH' },
+      { name: 'Indonesia', flag: 'ðŸ‡®ðŸ‡©', region: 'East & SE Asia', code: 'ID' },
+      { name: 'Philippines', flag: 'ðŸ‡µðŸ‡­', region: 'East & SE Asia', code: 'PH' },
+      { name: 'Vietnam', flag: 'ðŸ‡»ðŸ‡³', region: 'East & SE Asia', code: 'VN' },
+      { name: 'Cambodia', flag: 'ðŸ‡°ðŸ‡­', region: 'East & SE Asia', code: 'KH' },
+      { name: 'Myanmar', flag: 'ðŸ‡²ðŸ‡²', region: 'East & SE Asia', code: 'MM' },
+      { name: 'Laos', flag: 'ðŸ‡±ðŸ‡¦', region: 'East & SE Asia', code: 'LA' },
+      { name: 'Brunei', flag: 'ðŸ‡§ðŸ‡³', region: 'East & SE Asia', code: 'BN' },
+      { name: 'Mongolia', flag: 'ðŸ‡²ðŸ‡³', region: 'East & SE Asia', code: 'MN' },
+      { name: 'Macau', flag: 'ðŸ‡²ðŸ‡´', region: 'East & SE Asia', code: 'MO' },
+      { name: 'North Korea', flag: 'ðŸ‡°ðŸ‡µ', region: 'East & SE Asia', code: 'KP' },
+      // South Asia
+      { name: 'India', flag: 'ðŸ‡®ðŸ‡³', region: 'South Asia', code: 'IN' },
+      { name: 'Pakistan', flag: 'ðŸ‡µðŸ‡°', region: 'South Asia', code: 'PK' },
+      { name: 'Bangladesh', flag: 'ðŸ‡§ðŸ‡©', region: 'South Asia', code: 'BD' },
+      { name: 'Sri Lanka', flag: 'ðŸ‡±ðŸ‡°', region: 'South Asia', code: 'LK' },
+      { name: 'Nepal', flag: 'ðŸ‡³ðŸ‡µ', region: 'South Asia', code: 'NP' },
+      { name: 'Maldives', flag: 'ðŸ‡²ðŸ‡»', region: 'South Asia', code: 'MV' },
+      { name: 'Bhutan', flag: 'ðŸ‡§ðŸ‡¹', region: 'South Asia', code: 'BT' },
+      { name: 'Afghanistan', flag: 'ðŸ‡¦ðŸ‡«', region: 'South Asia', code: 'AF' },
+      // Central Asia
+      { name: 'Kazakhstan', flag: 'ðŸ‡°ðŸ‡¿', region: 'Central Asia', code: 'KZ' },
+      { name: 'Uzbekistan', flag: 'ðŸ‡ºðŸ‡¿', region: 'Central Asia', code: 'UZ' },
+      { name: 'Azerbaijan', flag: 'ðŸ‡¦ðŸ‡¿', region: 'Central Asia', code: 'AZ' },
+      { name: 'Georgia', flag: 'ðŸ‡¬ðŸ‡ª', region: 'Central Asia', code: 'GE' },
+      { name: 'Armenia', flag: 'ðŸ‡¦ðŸ‡²', region: 'Central Asia', code: 'AM' },
+      { name: 'Turkmenistan', flag: 'ðŸ‡¹ðŸ‡²', region: 'Central Asia', code: 'TM' },
+      { name: 'Kyrgyzstan', flag: 'ðŸ‡°ðŸ‡¬', region: 'Central Asia', code: 'KG' },
+      { name: 'Tajikistan', flag: 'ðŸ‡¹ðŸ‡¯', region: 'Central Asia', code: 'TJ' },
+      // Africa
+      { name: 'South Africa', flag: 'ðŸ‡¿ðŸ‡¦', region: 'Africa', code: 'ZA' },
+      { name: 'Nigeria', flag: 'ðŸ‡³ðŸ‡¬', region: 'Africa', code: 'NG' },
+      { name: 'Kenya', flag: 'ðŸ‡°ðŸ‡ª', region: 'Africa', code: 'KE' },
+      { name: 'Ghana', flag: 'ðŸ‡¬ðŸ‡­', region: 'Africa', code: 'GH' },
+      { name: 'Morocco', flag: 'ðŸ‡²ðŸ‡¦', region: 'Africa', code: 'MA' },
+      { name: 'Tunisia', flag: 'ðŸ‡¹ðŸ‡³', region: 'Africa', code: 'TN' },
+      { name: 'Ethiopia', flag: 'ðŸ‡ªðŸ‡¹', region: 'Africa', code: 'ET' },
+      { name: 'Tanzania', flag: 'ðŸ‡¹ðŸ‡¿', region: 'Africa', code: 'TZ' },
+      { name: 'Uganda', flag: 'ðŸ‡ºðŸ‡¬', region: 'Africa', code: 'UG' },
+      { name: 'Rwanda', flag: 'ðŸ‡·ðŸ‡¼', region: 'Africa', code: 'RW' },
+      { name: 'Senegal', flag: 'ðŸ‡¸ðŸ‡³', region: 'Africa', code: 'SN' },
+      { name: 'Ivory Coast', flag: 'ðŸ‡¨ðŸ‡®', region: 'Africa', code: 'CI' },
+      { name: 'Botswana', flag: 'ðŸ‡§ðŸ‡¼', region: 'Africa', code: 'BW' },
+      { name: 'Namibia', flag: 'ðŸ‡³ðŸ‡¦', region: 'Africa', code: 'NA' },
+      { name: 'Mauritius', flag: 'ðŸ‡²ðŸ‡º', region: 'Africa', code: 'MU' },
+      { name: 'Algeria', flag: 'ðŸ‡©ðŸ‡¿', region: 'Africa', code: 'DZ' },
+      { name: 'Libya', flag: 'ðŸ‡±ðŸ‡¾', region: 'Africa', code: 'LY' },
+      { name: 'Sudan', flag: 'ðŸ‡¸ðŸ‡©', region: 'Africa', code: 'SD' },
+      { name: 'Angola', flag: 'ðŸ‡¦ðŸ‡´', region: 'Africa', code: 'AO' },
+      { name: 'Mozambique', flag: 'ðŸ‡²ðŸ‡¿', region: 'Africa', code: 'MZ' },
+      { name: 'Zambia', flag: 'ðŸ‡¿ðŸ‡²', region: 'Africa', code: 'ZM' },
+      { name: 'Zimbabwe', flag: 'ðŸ‡¿ðŸ‡¼', region: 'Africa', code: 'ZW' },
+      { name: 'Cameroon', flag: 'ðŸ‡¨ðŸ‡²', region: 'Africa', code: 'CM' },
+      { name: 'DR Congo', flag: 'ðŸ‡¨ðŸ‡©', region: 'Africa', code: 'CD' },
+      { name: 'Congo', flag: 'ðŸ‡¨ðŸ‡¬', region: 'Africa', code: 'CG' },
+      { name: 'Gabon', flag: 'ðŸ‡¬ðŸ‡¦', region: 'Africa', code: 'GA' },
+      { name: 'Madagascar', flag: 'ðŸ‡²ðŸ‡¬', region: 'Africa', code: 'MG' },
+      { name: 'Malawi', flag: 'ðŸ‡²ðŸ‡¼', region: 'Africa', code: 'MW' },
+      { name: 'Mali', flag: 'ðŸ‡²ðŸ‡±', region: 'Africa', code: 'ML' },
+      { name: 'Burkina Faso', flag: 'ðŸ‡§ðŸ‡«', region: 'Africa', code: 'BF' },
+      { name: 'Niger', flag: 'ðŸ‡³ðŸ‡ª', region: 'Africa', code: 'NE' },
+      { name: 'Benin', flag: 'ðŸ‡§ðŸ‡¯', region: 'Africa', code: 'BJ' },
+      { name: 'Togo', flag: 'ðŸ‡¹ðŸ‡¬', region: 'Africa', code: 'TG' },
+      { name: 'Sierra Leone', flag: 'ðŸ‡¸ðŸ‡±', region: 'Africa', code: 'SL' },
+      { name: 'Liberia', flag: 'ðŸ‡±ðŸ‡·', region: 'Africa', code: 'LR' },
+      { name: 'Guinea', flag: 'ðŸ‡¬ðŸ‡³', region: 'Africa', code: 'GN' },
+      { name: 'Gambia', flag: 'ðŸ‡¬ðŸ‡²', region: 'Africa', code: 'GM' },
+      { name: 'Mauritania', flag: 'ðŸ‡²ðŸ‡·', region: 'Africa', code: 'MR' },
+      { name: 'Somalia', flag: 'ðŸ‡¸ðŸ‡´', region: 'Africa', code: 'SO' },
+      { name: 'Eritrea', flag: 'ðŸ‡ªðŸ‡·', region: 'Africa', code: 'ER' },
+      { name: 'Djibouti', flag: 'ðŸ‡©ðŸ‡¯', region: 'Africa', code: 'DJ' },
+      { name: 'Seychelles', flag: 'ðŸ‡¸ðŸ‡¨', region: 'Africa', code: 'SC' },
+      { name: 'Eswatini', flag: 'ðŸ‡¸ðŸ‡¿', region: 'Africa', code: 'SZ' },
+      { name: 'Lesotho', flag: 'ðŸ‡±ðŸ‡¸', region: 'Africa', code: 'LS' },
+      // Latin America
+      { name: 'Brazil', flag: 'ðŸ‡§ðŸ‡·', region: 'Latin America', code: 'BR' },
+      { name: 'Argentina', flag: 'ðŸ‡¦ðŸ‡·', region: 'Latin America', code: 'AR' },
+      { name: 'Chile', flag: 'ðŸ‡¨ðŸ‡±', region: 'Latin America', code: 'CL' },
+      { name: 'Colombia', flag: 'ðŸ‡¨ðŸ‡´', region: 'Latin America', code: 'CO' },
+      { name: 'Peru', flag: 'ðŸ‡µðŸ‡ª', region: 'Latin America', code: 'PE' },
+      { name: 'Uruguay', flag: 'ðŸ‡ºðŸ‡¾', region: 'Latin America', code: 'UY' },
+      { name: 'Ecuador', flag: 'ðŸ‡ªðŸ‡¨', region: 'Latin America', code: 'EC' },
+      { name: 'Paraguay', flag: 'ðŸ‡µðŸ‡¾', region: 'Latin America', code: 'PY' },
+      { name: 'Bolivia', flag: 'ðŸ‡§ðŸ‡´', region: 'Latin America', code: 'BO' },
+      { name: 'Costa Rica', flag: 'ðŸ‡¨ðŸ‡·', region: 'Latin America', code: 'CR' },
+      { name: 'Panama', flag: 'ðŸ‡µðŸ‡¦', region: 'Latin America', code: 'PA' },
+      { name: 'Guatemala', flag: 'ðŸ‡¬ðŸ‡¹', region: 'Latin America', code: 'GT' },
+      { name: 'Honduras', flag: 'ðŸ‡­ðŸ‡³', region: 'Latin America', code: 'HN' },
+      { name: 'El Salvador', flag: 'ðŸ‡¸ðŸ‡»', region: 'Latin America', code: 'SV' },
+      { name: 'Nicaragua', flag: 'ðŸ‡³ðŸ‡®', region: 'Latin America', code: 'NI' },
+      { name: 'Venezuela', flag: 'ðŸ‡»ðŸ‡ª', region: 'Latin America', code: 'VE' },
+      { name: 'Guyana', flag: 'ðŸ‡¬ðŸ‡¾', region: 'Latin America', code: 'GY' },
+      { name: 'Suriname', flag: 'ðŸ‡¸ðŸ‡·', region: 'Latin America', code: 'SR' },
+      { name: 'Belize', flag: 'ðŸ‡§ðŸ‡¿', region: 'Latin America', code: 'BZ' },
+      // Caribbean
+      { name: 'Jamaica', flag: 'ðŸ‡¯ðŸ‡²', region: 'Caribbean', code: 'JM' },
+      { name: 'Trinidad and Tobago', flag: 'ðŸ‡¹ðŸ‡¹', region: 'Caribbean', code: 'TT' },
+      { name: 'Bahamas', flag: 'ðŸ‡§ðŸ‡¸', region: 'Caribbean', code: 'BS' },
+      { name: 'Barbados', flag: 'ðŸ‡§ðŸ‡§', region: 'Caribbean', code: 'BB' },
+      { name: 'Dominican Republic', flag: 'ðŸ‡©ðŸ‡´', region: 'Caribbean', code: 'DO' },
+      { name: 'Puerto Rico', flag: 'ðŸ‡µðŸ‡·', region: 'Caribbean', code: 'PR' },
+      { name: 'Cuba', flag: 'ðŸ‡¨ðŸ‡º', region: 'Caribbean', code: 'CU' },
+      { name: 'Haiti', flag: 'ðŸ‡­ðŸ‡¹', region: 'Caribbean', code: 'HT' },
+      { name: 'Saint Lucia', flag: 'ðŸ‡±ðŸ‡¨', region: 'Caribbean', code: 'LC' },
+      { name: 'Grenada', flag: 'ðŸ‡¬ðŸ‡©', region: 'Caribbean', code: 'GD' },
+      { name: 'Antigua and Barbuda', flag: 'ðŸ‡¦ðŸ‡¬', region: 'Caribbean', code: 'AG' },
+      { name: 'Saint Kitts and Nevis', flag: 'ðŸ‡°ðŸ‡³', region: 'Caribbean', code: 'KN' },
+      // Europe
+      { name: 'Russia', flag: 'ðŸ‡·ðŸ‡º', region: 'Europe', code: 'RU' },
+      { name: 'Kosovo', flag: 'ðŸ‡½ðŸ‡°', region: 'Europe', code: 'XK' },
+      { name: 'Faroe Islands', flag: 'ðŸ‡«ðŸ‡´', region: 'Europe', code: 'FO' },
+      // North America
+      { name: 'Greenland', flag: 'ðŸ‡¬ðŸ‡±', region: 'North America', code: 'GL' },
+      // Oceania
+      { name: 'New Caledonia', flag: 'ðŸ‡³ðŸ‡¨', region: 'Oceania', code: 'NC' },
+      { name: 'French Polynesia', flag: 'ðŸ‡µðŸ‡«', region: 'Oceania', code: 'PF' },
+      { name: 'Guam', flag: 'ðŸ‡¬ðŸ‡º', region: 'Oceania', code: 'GU' },
+      // East & SE Asia
+      { name: 'Timor-Leste', flag: 'ðŸ‡¹ðŸ‡±', region: 'East & SE Asia', code: 'TL' },
+      // Middle East
+      { name: 'Syria', flag: 'ðŸ‡¸ðŸ‡¾', region: 'Middle East', code: 'SY' },
+      // Africa
+      { name: 'South Sudan', flag: 'ðŸ‡¸ðŸ‡¸', region: 'Africa', code: 'SS' },
+      { name: 'Chad', flag: 'ðŸ‡¹ðŸ‡©', region: 'Africa', code: 'TD' },
+      { name: 'Central African Republic', flag: 'ðŸ‡¨ðŸ‡«', region: 'Africa', code: 'CF' },
+    ];
+    const TOTAL_MODELLED = 190;
+    const FUNCTIONS = [
+      'TECHNOLOGY','FINANCE','SALES','LEGAL & COMPLIANCE','HUMAN RESOURCES','OPERATIONS',
+      'ENGINEERING','MARKETING','SUPPLY CHAIN','HEALTHCARE','GENERAL / ADMIN'
+    ];
+    const LEVELS = ['ENTRY','PROFESSIONAL','MANAGER','SENIOR MANAGER','DIRECTOR','EXECUTIVE'];
+    const INDIA_MATRIX = {
+      'TECHNOLOGY': [9,20.3,39.5,54.2,96,158.2],
+      'FINANCE': [6.2,11.3,22.6,36.2,62.1,113],
+      'SALES': [6.2,13.6,24.9,39.5,73.4,124.3],
+      'LEGAL & COMPLIANCE': [8.8,18.3,32,40.3,58.6,82.4],
+      'HUMAN RESOURCES': [5.1,9.6,18.1,28.2,50.8,90.4],
+      'OPERATIONS': [7.3,15.3,26.7,33.6,48.8,68.6],
+      'ENGINEERING': [8.5,18.1,36.2,50.8,90.4,146.9],
+      'MARKETING': [6.5,14.0,26.0,38.0,70.0,120.0],
+      'SUPPLY CHAIN': [7.3,15.3,26.7,33.6,48.8,68.6],
+      'HEALTHCARE': [7.7,16.1,28.2,35.4,51.5,72.5],
+      'GENERAL / ADMIN': [5.9,12.2,21.4,26.8,39.1,54.9],
+    };
+    const EMPLOYER_LOAD = [
+      // North America
+      {c:'US',p:8},{c:'CA',p:10},{c:'MX',p:16},
+      // Europe
+      {c:'FR',p:42},{c:'NL',p:38},{c:'DE',p:28},{c:'IE',p:22},{c:'GB',p:14},
+      {c:'CH',p:12},{c:'SE',p:31},{c:'NO',p:14},{c:'DK',p:12},{c:'FI',p:24},
+      {c:'BE',p:27},{c:'AT',p:25},{c:'ES',p:30},{c:'IT',p:32},{c:'PT',p:24},{c:'PL',p:20},
+      // Oceania
+      {c:'AU',p:12},{c:'NZ',p:10},
+      // Middle East
+      {c:'AE',p:4},{c:'SA',p:12},{c:'QA',p:5},{c:'IL',p:8},
+      // East & SE Asia
+      {c:'SG',p:18},{c:'JP',p:15},{c:'HK',p:5},{c:'KR',p:12},{c:'MY',p:25},
+      // South Asia
+      {c:'IN',p:11},
+      // Africa
+      {c:'ZA',p:6},{c:'NG',p:8},
+      // Latin America
+      {c:'BR',p:28},{c:'AR',p:22},{c:'CL',p:8},
+    ];
+    const EMPLOYER_LOAD_BY_CODE = Object.fromEntries(EMPLOYER_LOAD.map(d => [d.c, d.p]));
+    const COST_BREAK = [
+      {c:'AE',th:94.0,tx:0.0,es:2.0,ec:4.0},
+      {c:'SA',th:90.0,tx:2.0,es:3.0,ec:5.0},
+      {c:'SG',th:75.0,tx:5.0,es:10.0,ec:10.0},
+      {c:'CA',th:72.0,tx:12.0,es:6.0,ec:10.0},
+      {c:'ZA',th:70.0,tx:18.0,es:4.0,ec:8.0},
+      {c:'IN',th:65.2,tx:18.0,es:5.9,ec:10.9},
+      {c:'US',th:70.0,tx:15.0,es:7.0,ec:8.0},
+      {c:'MY',th:68.0,tx:12.0,es:8.0,ec:12.0},
+      {c:'JP',th:65.0,tx:15.0,es:8.0,ec:12.0},
+      {c:'NZ',th:68.0,tx:20.0,es:4.0,ec:8.0},
+      {c:'AU',th:68.0,tx:22.0,es:3.0,ec:7.0},
+      {c:'MX',th:65.0,tx:15.0,es:8.0,ec:12.0},
+      {c:'GB',th:63.0,tx:20.0,es:7.0,ec:10.0},
+      {c:'IE',th:58.0,tx:25.0,es:6.0,ec:11.0},
+      {c:'DE',th:55.0,tx:22.0,es:10.0,ec:13.0},
+      {c:'BR',th:50.3,tx:13.2,es:4.6,ec:31.9},
+      {c:'NL',th:52.0,tx:28.0,es:8.0,ec:12.0},
+      {c:'FR',th:50.0,tx:25.0,es:12.0,ec:13.0},
+    ];
+
+    // ========== SIDEBAR ==========
+    function Sidebar({ active, setActive, collapsed, setCollapsed }) {
+      const items = [
+        {id:'dashboard', label:'Dashboard', icon:'â–¦'},
+        {id:'calculator', label:'Calculator', icon:'â–¤'},
+        {id:'engagement', label:'Engagement', icon:'ðŸ‘¥'},
+        {id:'compare', label:'Compare', icon:'â‡„'},
+        {id:'bands', label:'Pay bands', icon:'â–¥'},
+        {id:'benefits', label:'Leave & benefits', icon:'â™¥'},
+        {id:'tax', label:'Tax & statutory', icon:'ðŸ›'},
+        {id:'wages', label:'Min & max wages', icon:'âš–'},
+        {id:'coverage', label:'Coverage', icon:'ðŸ“‹'},
+      ];
+      return (
+        <aside className={`fixed left-0 top-0 h-full bg-slate-900 text-slate-300 flex flex-col z-50 transition-all ${collapsed?'w-16':'w-56'}`}>
+          <div className="p-4 flex items-center gap-3 border-b border-slate-800">
+            <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-white font-bold text-sm shrink-0">CI</div>
+            {!collapsed && <div><div className="text-white font-semibold text-sm">Compensation IQ</div><div className="text-xs text-slate-400">Global pay intelligence Â· 2026</div></div>}
+          </div>
+          <nav className="flex-1 py-2 overflow-y-auto sidebar-scroll">
+            {items.map(it => (
+              <button key={it.id} onClick={() => setActive(it.id)}
+                className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm ${active===it.id?'bg-slate-800 text-white':'hover:bg-slate-800/60'}`}>
+                <span className="w-5 text-center">{it.icon}</span>
+                {!collapsed && <span>{it.label}</span>}
+              </button>
+            ))}
+          </nav>
+          <div className="p-3 border-t border-slate-800">
+            {!collapsed && <div className="text-xs text-slate-500 bg-slate-800/50 rounded-lg p-2 mb-2">Planning estimates, not payroll or legal advice.</div>}
+            <button onClick={() => setCollapsed(!collapsed)} className="text-xs text-slate-400 hover:text-white">{collapsed?'â†’':'â† Collapse'}</button>
+          </div>
+        </aside>
+      );
+    }
+
+    // ========== PAY PROGRESSION CHART (smooth area + median line) ==========
+    function PayProgressionChart() {
+      const [hover, setHover] = useState(null);
+      // Data matching the style in the user's screenshot (USD, India)
+      const data = [
+        { l: 'Junior',       min: 5500,  med: 8200,  max: 12500 },
+        { l: 'Professional', min: 9926,  med: 14972, max: 21730 },
+        { l: 'Senior',       min: 22000, med: 32000, max: 48000 },
+        { l: 'Manager',      min: 35000, med: 48000, max: 72000 },
+        { l: 'Director',     min: 55000, med: 78000, max: 120000 },
+        { l: 'Executive',    min: 85000, med: 115000, max: 160000 },
+      ];
+      const W = 320, H = 180, padL = 36, padR = 12, padT = 12, padB = 28;
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const yMax = 160000;
+      const x = (i) => padL + (i / (data.length - 1)) * plotW;
+      const y = (v) => padT + plotH - (v / yMax) * plotH;
+      // Smooth-ish path using quadratic midpoints
+      const linePath = (key) => {
+        let d = `M ${x(0)} ${y(data[0][key])}`;
+        for (let i = 0; i < data.length - 1; i++) {
+          const x0 = x(i), y0 = y(data[i][key]);
+          const x1 = x(i + 1), y1 = y(data[i + 1][key]);
+          const mx = (x0 + x1) / 2;
+          d += ` Q ${x0 + (mx - x0) * 0.5} ${y0} ${mx} ${(y0 + y1) / 2}`;
+          d += ` Q ${x1 - (x1 - mx) * 0.5} ${y1} ${x1} ${y1}`;
+        }
+        return d;
+      };
+      // Band area: max path then reverse min path
+      const bandPath = () => {
+        let d = `M ${x(0)} ${y(data[0].max)}`;
+        for (let i = 0; i < data.length - 1; i++) {
+          const x0 = x(i), y0 = y(data[i].max);
+          const x1 = x(i + 1), y1 = y(data[i + 1].max);
+          const mx = (x0 + x1) / 2;
+          d += ` Q ${x0 + (mx - x0) * 0.5} ${y0} ${mx} ${(y0 + y1) / 2}`;
+          d += ` Q ${x1 - (x1 - mx) * 0.5} ${y1} ${x1} ${y1}`;
+        }
+        // reverse along min
+        for (let i = data.length - 1; i > 0; i--) {
+          const x0 = x(i), y0 = y(data[i].min);
+          const x1 = x(i - 1), y1 = y(data[i - 1].min);
+          const mx = (x0 + x1) / 2;
+          d += ` L ${x0} ${y0}`;
+          d += ` Q ${x0 + (mx - x0) * 0.5} ${y0} ${mx} ${(y0 + y1) / 2}`;
+          d += ` Q ${x1 - (x1 - mx) * 0.5} ${y1} ${x1} ${y1}`;
+        }
+        d += ' Z';
+        return d;
+      };
+      const fmt = (v) => '$' + v.toLocaleString('en-US');
+      return (
+        <div className="relative" style={{ width: '100%', maxWidth: 360 }}>
+          <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" onMouseLeave={() => setHover(null)}>
+            {/* grid lines */}
+            {[0, 40, 80, 120, 160].map((v) => (
+              <g key={v}>
+                <line x1={padL} y1={y(v * 1000)} x2={W - padR} y2={y(v * 1000)} stroke="#e2e8f0" strokeDasharray="3 3" />
+                <text x={padL - 6} y={y(v * 1000) + 3} textAnchor="end" fontSize="9" fill="#94a3b8">${v}k</text>
+              </g>
+            ))}
+            {/* min-max band */}
+            <path d={bandPath()} fill="#a7f3d0" fillOpacity="0.45" />
+            {/* median line */}
+            <path d={linePath('med')} fill="none" stroke="#059669" strokeWidth="2.5" strokeLinecap="round" />
+            {/* points + hover targets */}
+            {data.map((d, i) => (
+              <g key={i}>
+                <circle
+                  cx={x(i)} cy={y(d.med)} r={hover === i ? 5 : 3.5}
+                  fill="#fff" stroke="#059669" strokeWidth="2"
+                  style={{ cursor: 'pointer' }}
+                  onMouseEnter={() => setHover(i)}
+                />
+                {/* larger invisible hit area */}
+                <circle
+                  cx={x(i)} cy={y(d.med)} r={14}
+                  fill="transparent"
+                  style={{ cursor: 'pointer' }}
+                  onMouseEnter={() => setHover(i)}
+                />
+                <text x={x(i)} y={H - 8} textAnchor="middle" fontSize="9" fill="#64748b">{d.l}</text>
+              </g>
+            ))}
+            {/* vertical guide when hovering */}
+            {hover !== null && (
+              <line x1={x(hover)} y1={padT} x2={x(hover)} y2={padT + plotH} stroke="#94a3b8" strokeDasharray="3 3" />
+            )}
+          </svg>
+          {/* tooltip */}
+          {hover !== null && (
+            <div
+              className="absolute bg-white border border-slate-200 rounded-lg shadow-lg px-3 py-2 text-xs pointer-events-none z-10"
+              style={{
+                left: `${(x(hover) / W) * 100}%`,
+                top: 20,
+                transform: 'translateX(-50%)',
+                minWidth: 120,
+              }}
+            >
+              <div className="font-semibold text-slate-800 mb-1">{data[hover].l}</div>
+              <div className="text-slate-400">max : {fmt(data[hover].max)}</div>
+              <div className="text-emerald-600 font-medium">Median : {fmt(data[hover].med)}</div>
+              <div className="text-slate-400">min : {fmt(data[hover].min)}</div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ========== MEDIAN COMPENSATION BY MARKET (bars + hover tooltip) ==========
+    function MedianByMarketChart({ markets, regionLabel, focusCode }) {
+      const [hover, setHover] = useState(null);
+      const data = (markets && markets.length ? markets : MARKETS).slice(0, 24);
+      const maxCtc = Math.max(...data.map(m => m.ctc), 1);
+      const fmt = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      return (
+        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-5 relative">
+          <h3 className="font-semibold">Median compensation by market</h3>
+          <p className="text-xs text-slate-500 mb-4">
+            Median CTC vs take-home, USD / year Â· {regionLabel || 'World'} Â· {data.length} countries
+          </p>
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-6 w-10 flex flex-col justify-between text-[10px] text-slate-400 pointer-events-none">
+              <span>{'$' + Math.round(maxCtc/1000) + 'k'}</span>
+              <span>{'$' + Math.round(maxCtc*0.75/1000) + 'k'}</span>
+              <span>{'$' + Math.round(maxCtc*0.5/1000) + 'k'}</span>
+              <span>{'$' + Math.round(maxCtc*0.25/1000) + 'k'}</span>
+              <span>$0k</span>
+            </div>
+            <div className="ml-10 flex items-end gap-0.5 h-56 border-l border-b border-slate-200 pl-1 relative overflow-x-auto">
+              {[0.25,0.5,0.75,1].map((f,i)=>(
+                <div key={i} className="absolute left-0 right-0 border-t border-dashed border-slate-100" style={{bottom:`${f*100}%`}} />
+              ))}
+              {data.map((m,i)=>(
+                <div
+                  key={m.code + '-' + i}
+                  className="flex-1 min-w-[18px] flex flex-col items-center h-full justify-end relative cursor-pointer"
+                  onMouseEnter={() => setHover(i)}
+                  onMouseLeave={() => setHover(null)}
+                >
+                  <div className="w-full flex gap-px items-end h-full transition-opacity" style={{opacity: hover===null||hover===i ? 1 : 0.35}}>
+                    <div className={`flex-1 rounded-t ${m.code === focusCode ? 'bg-teal-700' : 'bg-slate-800'}`} style={{height:`${(m.ctc/maxCtc)*100}%`}} />
+                    <div className={`flex-1 rounded-t ${m.code === focusCode ? 'bg-teal-400' : 'bg-emerald-500'}`} style={{height:`${(m.take/maxCtc)*100}%`}} />
+                  </div>
+                  <span className={`text-[9px] mt-1.5 ${m.code === focusCode ? 'text-teal-700 font-bold' : 'text-slate-500'}`}>{m.code}</span>
+                  {hover === i && (
+                    <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-white border border-slate-200 rounded-lg shadow-lg px-3 py-2 text-xs z-20 whitespace-nowrap pointer-events-none">
+                      <div className="font-semibold text-slate-800 mb-1">{m.flag || ''} {m.name || m.code}</div>
+                      <div className="text-slate-700">Median CTC : {fmt(m.ctc)}</div>
+                      <div className="text-emerald-600">Take-home : {fmt(m.take)}</div>
+                      {m.estimated && <div className="text-slate-400 mt-0.5">Indicative estimate</div>}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex gap-4 mt-3 text-xs text-slate-600 ml-10">
+            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-slate-800 rounded-sm"></span> Median CTC</span>
+            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-emerald-500 rounded-sm"></span> Take-home</span>
+          </div>
+        </div>
+      );
+    }
+
+    // ========== COST BREAKDOWN CHART (stacked + tooltip) ==========
+    function CostBreakdownChart({ markets, regionLabel }) {
+      const [hover, setHover] = useState(null);
+      const byCode = Object.fromEntries(COST_BREAK.map(d => [d.c, d]));
+      const src = markets && markets.length ? markets : MARKETS;
+      const rows = src.slice(0, 14).map(m => {
+        if (byCode[m.code]) return byCode[m.code];
+        const load = EMPLOYER_LOAD_BY_CODE[m.code] || 12;
+        const th = Math.max(50, 100 - load - 15);
+        const tx = Math.min(25, 100 - th - load);
+        const es = Math.max(0, 100 - th - tx - load);
+        return { c: m.code, th, tx, es, ec: load };
+      });
+      return (
+        <div className="bg-white rounded-xl border border-slate-200 p-5 mb-4 relative">
+          <h3 className="font-semibold">Where each unit of employer cost goes</h3>
+          <p className="text-xs text-slate-500 mb-4">% of CTC at the market median Â· {regionLabel || 'World'} Â· {rows.length} markets</p>
+          <div className="relative">
+            {/* Y-axis labels */}
+            <div className="absolute left-0 top-0 bottom-6 w-8 flex flex-col justify-between text-[10px] text-slate-400 pointer-events-none">
+              <span>120%</span><span>90%</span><span>60%</span><span>30%</span><span>0%</span>
+            </div>
+            <div className="ml-8 flex items-end gap-1 h-52 border-l border-b border-slate-200 pl-1 relative">
+              {/* horizontal grid */}
+              {[0.25,0.5,0.75,1].map((f,i)=>(
+                <div key={i} className="absolute left-0 right-0 border-t border-dashed border-slate-100" style={{bottom:`${f*100}%`}} />
+              ))}
+              {rows.map((d,i)=>{
+                const total = d.th + d.tx + d.es + d.ec;
+                // scale so 100% of data â‰ˆ ~83% of chart height (matches 120% axis)
+                const scale = 100 / 120;
+                return (
+                  <div
+                    key={i}
+                    className="flex-1 flex flex-col items-center h-full justify-end relative cursor-pointer group"
+                    onMouseEnter={() => setHover(i)}
+                    onMouseLeave={() => setHover(null)}
+                  >
+                    <div className="w-full flex flex-col-reverse rounded-t overflow-hidden transition-opacity" style={{height:`${total * scale}%`, opacity: hover===null||hover===i ? 1 : 0.45}}>
+                      <div className="bg-emerald-500 w-full" style={{height:`${(d.th/total)*100}%`}} />
+                      <div className="bg-amber-500 w-full" style={{height:`${(d.tx/total)*100}%`}} />
+                      <div className="bg-blue-500 w-full" style={{height:`${(d.es/total)*100}%`}} />
+                      <div className="bg-slate-800 w-full" style={{height:`${(d.ec/total)*100}%`}} />
+                    </div>
+                    <span className="text-[9px] text-slate-500 mt-1.5">{d.c}</span>
+                    {/* tooltip */}
+                    {hover === i && (
+                      <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-white border border-slate-200 rounded-lg shadow-lg px-3 py-2 text-xs z-20 whitespace-nowrap pointer-events-none">
+                        <div className="font-semibold text-slate-800 mb-1.5">{d.c}</div>
+                        <div className="text-emerald-600">Take-home : {d.th.toFixed(1)}%</div>
+                        <div className="text-amber-500">Tax : {d.tx.toFixed(1)}%</div>
+                        <div className="text-blue-500">Employee social : {d.es.toFixed(1)}%</div>
+                        <div className="text-slate-700">Employer cost : {d.ec.toFixed(1)}%</div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-4 mt-3 text-xs text-slate-600 ml-8">
+            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-emerald-500 rounded-sm"></span> Take-home</span>
+            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-amber-500 rounded-sm"></span> Tax</span>
+            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-blue-500 rounded-sm"></span> Employee social</span>
+            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-slate-800 rounded-sm"></span> Employer cost</span>
+          </div>
+        </div>
+      );
+    }
+
+    // ========== PAY RANGE BY MARKET CHART ==========
+    function PayRangeChart({ markets }) {
+      const [hover, setHover] = useState(null);
+      const src = markets && markets.length ? markets : MARKETS;
+      const data = src.slice(0, 12).map(m => ({
+        m: m.code,
+        min: Math.round(m.ctc * 0.72 / 1000),
+        med: Math.round(m.ctc / 1000),
+        max: Math.round(m.ctc * 1.35 / 1000),
+      }));
+      const W = 340, H = 190, padL = 36, padR = 10, padT = 10, padB = 26;
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const yMax = Math.max(...data.map(d => d.max), 1);
+      const n = data.length;
+      const slot = plotW / n;
+      const barW = Math.min(22, slot * 0.55);
+      const xCenter = (i) => padL + slot * i + slot / 2;
+      const y = (v) => padT + plotH - (v / yMax) * plotH;
+      const fmt = (v) => '$' + Math.round(v * 1000).toLocaleString('en-US');
+      // median line path
+      let medPath = `M ${xCenter(0)} ${y(data[0].med)}`;
+      for (let i = 1; i < n; i++) medPath += ` L ${xCenter(i)} ${y(data[i].med)}`;
+      return (
+        <div className="relative" style={{ width: '100%', maxWidth: 380 }}>
+          <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" onMouseLeave={() => setHover(null)}>
+            {/* grid */}
+            {[0, 95, 190, 285, 380].map((v) => (
+              <g key={v}>
+                <line x1={padL} y1={y(v)} x2={W - padR} y2={y(v)} stroke="#e2e8f0" strokeDasharray="3 3" />
+                <text x={padL - 5} y={y(v) + 3} textAnchor="end" fontSize="9" fill="#94a3b8">${v}k</text>
+              </g>
+            ))}
+            {/* range bars (min-max boxes) */}
+            {data.map((d, i) => {
+              const top = y(d.max);
+              const bot = y(d.min);
+              const h = bot - top;
+              return (
+                <g key={i}>
+                  <rect
+                    x={xCenter(i) - barW / 2}
+                    y={top}
+                    width={barW}
+                    height={Math.max(h, 2)}
+                    rx="3"
+                    fill="#93c5fd"
+                    fillOpacity={hover === i ? 0.95 : 0.75}
+                    style={{ cursor: 'pointer' }}
+                    onMouseEnter={() => setHover(i)}
+                  />
+                  {/* invisible wider hit area */}
+                  <rect
+                    x={xCenter(i) - slot / 2}
+                    y={padT}
+                    width={slot}
+                    height={plotH}
+                    fill="transparent"
+                    style={{ cursor: 'pointer' }}
+                    onMouseEnter={() => setHover(i)}
+                  />
+                </g>
+              );
+            })}
+            {/* median connecting line */}
+            <path d={medPath} fill="none" stroke="#1e293b" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            {/* median dots */}
+            {data.map((d, i) => (
+              <circle
+                key={i}
+                cx={xCenter(i)}
+                cy={y(d.med)}
+                r={hover === i ? 4.5 : 3.5}
+                fill="#fff"
+                stroke="#1e293b"
+                strokeWidth="1.75"
+                style={{ cursor: 'pointer' }}
+                onMouseEnter={() => setHover(i)}
+              />
+            ))}
+            {/* country labels */}
+            {data.map((d, i) => (
+              <text key={i} x={xCenter(i)} y={H - 6} textAnchor="middle" fontSize="9" fill="#64748b">{d.m}</text>
+            ))}
+            {/* vertical guide */}
+            {hover !== null && (
+              <line x1={xCenter(hover)} y1={padT} x2={xCenter(hover)} y2={padT + plotH} stroke="#94a3b8" strokeDasharray="3 3" />
+            )}
+          </svg>
+          {hover !== null && (
+            <div
+              className="absolute bg-white border border-slate-200 rounded-lg shadow-lg px-3 py-2 text-xs pointer-events-none z-10"
+              style={{
+                left: `${(xCenter(hover) / W) * 100}%`,
+                top: 16,
+                transform: 'translateX(-50%)',
+                minWidth: 110,
+              }}
+            >
+              <div className="font-semibold text-slate-800 mb-1">{data[hover].m}</div>
+              <div className="text-blue-400">Range : {fmt(data[hover].max - data[hover].min)}</div>
+              <div className="text-slate-700 font-medium">Median : {fmt(data[hover].med)}</div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ========== MULTI-SELECT DROPDOWN ==========
+    function MultiSelectDropdown({ label, options, selected, setSelected, allLabel, searchPlaceholder, showSearch }) {
+      const [open, setOpen] = useState(false);
+      const [search, setSearch] = useState('');
+      const filtered = showSearch ? options.filter(o => o.toLowerCase().includes(search.toLowerCase())) : options;
+      const allSelected = selected.length === 0 || selected.length === options.length;
+      const display = allSelected ? allLabel : (selected.length === 1 ? selected[0] : selected.length + ' selected');
+      return (
+        <div className="relative">
+          <div className="text-xs font-medium text-slate-500 uppercase mb-1">{label}</div>
+          <button type="button" onClick={() => setOpen(!open)}
+            className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm min-w-[180px] bg-white text-left flex items-center justify-between gap-2 hover:border-slate-300">
+            <span className="truncate text-slate-700">{display}</span>
+            <span className="text-slate-400 text-xs">â–¾</span>
+          </button>
+          {open && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
+              <div className="absolute z-50 mt-1 w-64 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
+                {showSearch ? (
+                  <div className="p-2 border-b border-slate-100">
+                    <input type="text" placeholder={searchPlaceholder || 'Search...'} value={search}
+                      onChange={e => setSearch(e.target.value)}
+                      className="w-full border border-slate-200 rounded-lg px-2.5 py-1.5 text-sm" autoFocus />
+                  </div>
+                ) : (
+                  <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
+                    <span className="text-xs text-slate-500">Select levels</span>
+                    <button type="button" onClick={() => setSelected([])} className="text-xs text-teal-600 font-medium hover:text-teal-700">Select all</button>
+                  </div>
+                )}
+                <div className="max-h-56 overflow-y-auto py-1">
+                  {filtered.map(o => {
+                    const checked = selected.length === 0 || selected.includes(o);
+                    return (
+                      <label key={o} className="flex items-center gap-2.5 px-3 py-2 hover:bg-slate-50 cursor-pointer text-sm">
+                        <input type="checkbox" checked={checked}
+                          onChange={() => {
+                            if (selected.length === 0) setSelected([o]);
+                            else if (selected.includes(o)) {
+                              const next = selected.filter(x => x !== o);
+                              setSelected(next.length === 0 ? [] : next);
+                            } else {
+                              const next = [...selected, o];
+                              setSelected(next.length === options.length ? [] : next);
+                            }
+                          }}
+                          className="w-4 h-4 rounded border-slate-300 text-teal-600 accent-teal-600" />
+                        <span className="text-slate-700 font-medium tracking-wide">{o}</span>
+                      </label>
+                    );
+                  })}
+                  {filtered.length === 0 && <div className="px-3 py-2 text-xs text-slate-400">No matches</div>}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    // ========== GLOBAL FILTERS ==========
+    function GlobalFilters({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels, extra }) {
+      const filteredCountries = region === 'World' ? ALL_COUNTRIES : ALL_COUNTRIES.filter(c => c.region === region);
+      const focusCount = filteredCountries.length;
+      return (
+        <div className="bg-white rounded-xl border border-slate-200 p-4 mb-5">
+          <div className="flex flex-wrap gap-5 items-start">
+            <div>
+              <div className="text-xs font-medium text-slate-500 uppercase mb-1">Region</div>
+              <select className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm min-w-[160px]" value={region}
+                onChange={e => {
+                  const nextRegion = e.target.value;
+                  setRegion(nextRegion);
+                  const nextList = nextRegion === 'World' ? ALL_COUNTRIES : ALL_COUNTRIES.filter(c => c.region === nextRegion);
+                  // Always keep focus market inside the selected region
+                  if (!nextList.find(c => c.name === focusMarket)) {
+                    if (nextList[0]) setFocusMarket(nextList[0].name);
+                  }
+                }}>
+                {REGION_OPTIONS.map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </div>
+            <div>
+              <div className="text-xs font-medium text-slate-500 uppercase mb-1">
+                Focus Market Â· {focusCount} in {region === 'World' ? 'World' : region}
+              </div>
+              <select className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm min-w-[220px]"
+                value={focusMarket} onChange={e => setFocusMarket(e.target.value)}>
+                {filteredCountries.map(c => (
+                  <option key={c.code} value={c.name}>{c.flag} {c.name}</option>
+                ))}
+              </select>
+            </div>
+            <MultiSelectDropdown label="Functions" options={FUNCTIONS} selected={funcs} setSelected={setFuncs}
+              allLabel="All functions" searchPlaceholder="Search function..." showSearch={true} />
+            <MultiSelectDropdown label="Level" options={LEVELS} selected={levels} setSelected={setLevels}
+              allLabel="All levels" showSearch={false} />
+            {extra}
+          </div>
+        </div>
+      );
+    }
+
+    // ========== DASHBOARD ==========
+    function Dashboard({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      const filteredCountries = region === 'World' ? ALL_COUNTRIES : ALL_COUNTRIES.filter(c => c.region === region);
+      const focusCount = filteredCountries.length;
+      const regionLabel = region === 'World' ? 'World' : region;
+
+      // Every country under the selected region (or all countries when World)
+      const regionMarkets = useMemo(() => getMarketsForRegion(region), [region]);
+      // Optional: narrow charts to focus country context while still showing region peers
+      const analysisMarkets = regionMarkets;
+
+      const kpis = useMemo(() => {
+        const list = regionMarkets;
+        const ctcs = list.map(m => m.ctc).sort((a,b) => a - b);
+        const takes = list.map(m => m.take);
+        const median = ctcs[Math.floor(ctcs.length / 2)] || 0;
+        const avgTakePct = list.reduce((s,m) => s + (m.take / m.ctc), 0) / (list.length || 1) * 100;
+        const top = ctcs[ctcs.length - 1] || 1;
+        const bot = ctcs[0] || 1;
+        const spread = (top / bot).toFixed(1) + 'Ã—';
+        // Employer load strictly from countries in this region
+        const loads = list.map(m => EMPLOYER_LOAD_BY_CODE[m.code]).filter(v => v != null);
+        const avgLoad = loads.length
+          ? loads.reduce((a,b)=>a+b,0) / loads.length
+          : 12;
+        return {
+          markets: String(focusCount),
+          medianPay: '$' + (median >= 1000 ? (median/1000).toFixed(1) + 'k' : Math.round(median)),
+          spread,
+          employerLoad: Math.round(avgLoad) + '%',
+          takeHome: avgTakePct.toFixed(1) + '%',
+        };
+      }, [regionMarkets, focusCount]);
+
+      // Rank of focus market within current region markets (by CTC)
+      const focusRank = useMemo(() => {
+        const fc = ALL_COUNTRIES.find(c => c.name === focusMarket);
+        if (!fc) return 'â€”';
+        const idx = regionMarkets.findIndex(m => m.code === fc.code);
+        if (idx >= 0) return '#' + (idx + 1);
+        // fallback global rank in ALL_COUNTRIES
+        const g = ALL_COUNTRIES.findIndex(c => c.name === focusMarket);
+        return g >= 0 ? '#' + (g + 1) : 'â€”';
+      }, [focusMarket, regionMarkets]);
+
+      const focusCountry = ALL_COUNTRIES.find(c => c.name === focusMarket);
+
+      // Pay-by-region bars: World shows all regions; specific region highlights that region with country breakdown via markets
+      const regionBars = useMemo(() => {
+        if (region === 'World') return REGIONS;
+        // Build from regionMarkets average
+        const avg = regionMarkets.reduce((s,m)=>s+m.ctc,0) / (regionMarkets.length || 1) / 1000;
+        return [{ name: region, count: focusCount, avg: Math.round(avg * 10) / 10 }];
+      }, [region, regionMarkets, focusCount]);
+
+      const employerLoadRows = useMemo(() => {
+        // Build load % strictly from countries in the selected region
+        const rows = regionMarkets.map(m => {
+          const p = EMPLOYER_LOAD_BY_CODE[m.code];
+          if (p != null) return { c: m.code, p, name: m.name };
+          // estimate from region typical if missing
+          const regionDefaults = {
+            'North America': 10, 'Europe': 25, 'Oceania': 11, 'Middle East': 6,
+            'East & SE Asia': 12, 'South Asia': 12, 'Africa': 8, 'Latin America': 20,
+            'Caribbean': 10, 'Central Asia': 12,
+          };
+          return { c: m.code, p: regionDefaults[m.region] || 12, name: m.name, estimated: true };
+        }).sort((a, b) => b.p - a.p).slice(0, 14);
+        return rows;
+      }, [regionMarkets]);
+
+      return (
+        <div>
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold">Executive compensation dashboard</h1>
+            <p className="text-slate-500 text-sm mt-1">
+              {region === 'World'
+                ? 'Global market pay, employer cost and take-home across benchmarked markets â€” USD at reference rates.'
+                : `Analysis for ${regionLabel}: ${regionMarkets.length} countries Â· focus ${focusMarket} â€” USD at reference rates.`}
+            </p>
+          </div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels} />
+
+          {/* KPI Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-5">
+            {[
+              {l:'MARKETS',v:kpis.markets,s:`of ${TOTAL_MODELLED} modelled`},
+              {l:'MEDIAN PAY',v:kpis.medianPay,s:'USD / year'},
+              {l:'TOP Ã· BOTTOM',v:kpis.spread,s:'market spread'},
+              {l:'EMPLOYER LOAD',v:kpis.employerLoad,s:'avg. on gross'},
+              {l:'TAKE-HOME',v:kpis.takeHome,s:'of employer cost'},
+            ].map((k,i)=>(
+              <div key={i} className="kpi-card bg-white rounded-xl border border-slate-200 p-4">
+                <div className="text-xs font-medium text-slate-500 uppercase">{k.l}</div>
+                <div className="text-2xl font-bold mt-1">{k.v}</div>
+                <div className="text-xs text-slate-400">{k.s}</div>
+              </div>
+            ))}
+            <div className="kpi-card bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl p-4 text-white">
+              <div className="text-xs font-medium uppercase opacity-90">FOCUS MARKET</div>
+              <div className="text-2xl font-bold mt-1">{focusRank}</div>
+              <div className="text-xs mt-0.5">
+                {(focusCountry && focusCountry.flag) || ''} {focusMarket}
+              </div>
+            </div>
+          </div>
+
+          {/* Charts row 1 */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+            <MedianByMarketChart markets={regionMarkets} regionLabel={regionLabel} focusCode={focusCountry && focusCountry.code} />
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <h3 className="font-semibold">{region === 'World' ? 'Pay by region' : 'Pay in ' + region}</h3>
+              <p className="text-xs text-slate-500 mb-4">Average median, USD</p>
+              <div className="space-y-2.5">
+                {region === 'World' ? REGIONS.map((r,i)=>(
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="w-28 text-xs text-slate-600 truncate">{r.name} Â· {r.count}</div>
+                    <div className="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="bar-fill h-full bg-blue-500 rounded-full" style={{width:`${(r.avg/210)*100}%`}}></div>
+                    </div>
+                    <div className="w-14 text-right text-xs font-medium">${r.avg}k</div>
+                  </div>
+                )) : regionMarkets.map((m,i)=>(
+                  <div key={i} className={`flex items-center gap-2 ${m.name === focusMarket || m.code === (focusCountry && focusCountry.code) ? 'font-semibold' : ''}`}>
+                    <div className="w-28 text-xs text-slate-600 truncate">{m.code} Â· {m.name}</div>
+                    <div className="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className={`bar-fill h-full rounded-full ${m.name === focusMarket || m.code === (focusCountry && focusCountry.code) ? 'bg-teal-500' : 'bg-blue-500'}`}
+                        style={{width:`${(m.ctc / (regionMarkets[0].ctc || 1))*100}%`}}></div>
+                    </div>
+                    <div className="w-14 text-right text-xs font-medium">${(m.ctc/1000).toFixed(0)}k</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Charts row 2 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <h3 className="font-semibold">Pay progression Â· {focusMarket}</h3>
+              <p className="text-xs text-slate-500 mb-3">Median with minâ€“max band by level</p>
+              <PayProgressionChart />
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <h3 className="font-semibold">Employer cost load</h3>
+              <p className="text-xs text-slate-500 mb-3">Statutory employer cost, % of gross Â· {regionLabel}</p>
+              {employerLoadRows.length === 0 && (
+                <p className="text-xs text-slate-400">No markets in this region.</p>
+              )}
+              {employerLoadRows.map((d,i)=>(
+                <div key={d.c + '-' + i} className="flex items-center gap-2 mb-1.5" title={d.name || d.c}>
+                  <div className="w-8 text-xs text-slate-600 font-medium">{d.c}</div>
+                  <div className="flex-1 h-3 bg-slate-100 rounded overflow-hidden">
+                    <div className="bar-fill h-full bg-amber-500 rounded" style={{width:`${Math.min(100, (d.p/45)*100)}%`}}></div>
+                  </div>
+                  <div className="w-8 text-xs text-right">{d.p}%</div>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <h3 className="font-semibold">Pay range by market</h3>
+              <p className="text-xs text-slate-500 mb-3">Min â†’ max with median line Â· {regionLabel}</p>
+              <PayRangeChart markets={regionMarkets} />
+            </div>
+          </div>
+
+          {/* Cost breakdown stacked */}
+          <CostBreakdownChart markets={regionMarkets} regionLabel={regionLabel} />
+
+          {/* Matrix */}
+          <div className="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+            <h3 className="font-semibold">Function Ã— level matrix Â· {focusMarket}</h3>
+            <p className="text-xs text-slate-500 mb-4">Median USD / year Â· darker = higher Â· indicative scale for focus market</p>
+            <table className="w-full text-sm">
+              <thead>
+                <tr>
+                  <th className="text-left py-2 pr-3 text-slate-500 font-medium text-xs">Function</th>
+                  {LEVELS.map(l => <th key={l} className="text-center px-1 py-2 text-slate-500 font-medium text-[10px]">{l}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {FUNCTIONS.map(fn => (
+                  <tr key={fn} className="border-t border-slate-100">
+                    <td className="py-1.5 pr-3 font-medium text-slate-700 text-xs whitespace-nowrap">{fn}</td>
+                    {INDIA_MATRIX[fn].map((val,i) => {
+                      let cls = 'bg-teal-50 text-slate-600';
+                      if (val >= 100) cls = 'bg-teal-600 text-white';
+                      else if (val >= 60) cls = 'bg-teal-500 text-white';
+                      else if (val >= 40) cls = 'bg-teal-400 text-slate-900';
+                      else if (val >= 25) cls = 'bg-teal-300 text-slate-900';
+                      else if (val >= 15) cls = 'bg-teal-200 text-slate-800';
+                      else if (val >= 10) cls = 'bg-teal-100 text-slate-700';
+                      return (
+                        <td key={i} className="px-0.5 py-1 text-center">
+                          <span className={`inline-block min-w-[56px] px-1.5 py-1 rounded-md text-[11px] font-medium ${cls}`}>
+                            ${val}k
+                          </span>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    // ========== CALCULATOR ==========
+    function Calculator({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      const [empType, setEmpType] = useState('Permanent / Regular');
+      const [period, setPeriod] = useState('Monthly');
+      const [ctc, setCtc] = useState(488725);
+      const [oldDed, setOldDed] = useState(150000);
+      const [regime, setRegime] = useState('auto'); // auto | new | old
+      const focusCountry = ALL_COUNTRIES.find(c => c.name === focusMarket);
+      const isIndia = focusMarket === 'India' || (focusCountry && focusCountry.code === 'IN');
+
+      const calc = useMemo(() => {
+        // Labour Codes style: basic â‰¥50% of remuneration
+        let basic = ctc * 0.488;
+        let empPF = basic * 0.12;
+        let gratuity = basic * 0.0481;
+        let gross = ctc - empPF - gratuity;
+        basic = gross * 0.532;
+        empPF = basic * 0.12;
+        gratuity = basic * 0.0481;
+        gross = ctc - empPF - gratuity;
+        const hra = basic * 0.5;
+        const special = Math.max(0, gross - basic - hra);
+        const empPF_e = basic * 0.12;
+        const netBT = gross - empPF_e;
+        const annGross = gross * 12;
+        const annEmpPF = empPF_e * 12;
+
+        // --- New regime (FY 2025-26 style slabs) ---
+        const stdNew = 75000;
+        let taxableNew = Math.max(0, annGross - stdNew);
+        let taxNewBase = 0;
+        if (taxableNew > 1500000) taxNewBase = 187500 + (taxableNew - 1500000) * 0.30;
+        else if (taxableNew > 1200000) taxNewBase = 127500 + (taxableNew - 1200000) * 0.20;
+        else if (taxableNew > 900000) taxNewBase = 45000 + (taxableNew - 900000) * 0.15;
+        else if (taxableNew > 600000) taxNewBase = (taxableNew - 600000) * 0.10;
+        else if (taxableNew > 300000) taxNewBase = (taxableNew - 300000) * 0.05;
+        // Sec 87A rebate: tax nil if income â‰¤ 12L (simplified)
+        if (annGross <= 1200000) taxNewBase = Math.max(0, taxNewBase - 60000);
+        const surchargeNew = taxableNew > 10000000 ? taxNewBase * 0.15 : (taxableNew > 5000000 ? taxNewBase * 0.10 : 0);
+        const cessNew = (taxNewBase + surchargeNew) * 0.04;
+        const taxNew = taxNewBase + surchargeNew + cessNew;
+
+        // --- Old regime ---
+        // Standard deduction 50k + EPF (80C) + user deductions (capped roughly)
+        const ded80C = Math.min(150000, annEmpPF + Math.min(oldDed, 150000));
+        const otherDed = Math.max(0, oldDed - Math.min(oldDed, 150000)); // remainder as other chapter VIA approx
+        const stdOld = 50000;
+        let taxableOld = Math.max(0, annGross - stdOld - ded80C - otherDed * 0.5);
+        let taxOldBase = 0;
+        if (taxableOld > 1000000) taxOldBase = 112500 + (taxableOld - 1000000) * 0.30;
+        else if (taxableOld > 500000) taxOldBase = 12500 + (taxableOld - 500000) * 0.20;
+        else if (taxableOld > 250000) taxOldBase = (taxableOld - 250000) * 0.05;
+        // 87A rebate old: up to 12,500 if taxable â‰¤ 5L
+        if (taxableOld <= 500000) taxOldBase = Math.max(0, taxOldBase - 12500);
+        const surchargeOld = taxableOld > 10000000 ? taxOldBase * 0.15 : (taxableOld > 5000000 ? taxOldBase * 0.10 : 0);
+        const cessOld = (taxOldBase + surchargeOld) * 0.04;
+        const taxOld = taxOldBase + surchargeOld + cessOld;
+
+        // Applied regime
+        const better = taxNew <= taxOld ? 'new' : 'old';
+        const applied = regime === 'auto' ? better : regime;
+        const totalTax = applied === 'new' ? taxNew : taxOld;
+        const mTax = totalTax / 12;
+        const takeHome = netBT - mTax;
+        const thPct = ctc > 0 ? (takeHome / ctc) * 100 : 0;
+        const savings = Math.abs(taxOld - taxNew);
+        const takeHomeNew = netBT - taxNew / 12;
+        const takeHomeOld = netBT - taxOld / 12;
+
+        return {
+          m: { ctc, empPF, gratuity, gross, basic, hra, special, empPF_e, netBT, tax: mTax, takeHome },
+          a: { ctc: ctc*12, empPF: empPF*12, gratuity: gratuity*12, gross: gross*12, basic: basic*12, hra: hra*12, special: special*12, empPF_e: empPF_e*12, netBT: netBT*12, tax: totalTax, takeHome: takeHome*12 },
+          thPct, taxNew, taxOld, applied, better, savings,
+          takeHomeNew: takeHomeNew * 12, takeHomeOld: takeHomeOld * 12,
+          taxableNew, taxableOld
+        };
+      }, [ctc, oldDed, regime]);
+
+      const fmt = n => 'â‚¹' + Math.round(n).toLocaleString('en-IN');
+
+      return (
+        <div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels} />
+          <div className="flex flex-col lg:flex-row gap-6">
+          <div className="w-full lg:w-80 space-y-4 shrink-0">
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <div className="text-xs font-semibold text-slate-500 uppercase mb-3">1 Â· Market</div>
+              <label className="block text-xs text-slate-500 mb-1">Country</label>
+              <div className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-3 bg-slate-50">
+                {(focusCountry && focusCountry.flag) || ''} {focusMarket}
+              </div>
+              {isIndia && (
+                <>
+                  <label className="block text-xs text-slate-500 mb-1">Tax regime (India)</label>
+                  <select className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-2"
+                    value={regime} onChange={e => setRegime(e.target.value)}>
+                    <option value="auto">Auto Â· lower tax (recommended)</option>
+                    <option value="new">New regime</option>
+                    <option value="old">Old regime</option>
+                  </select>
+                  <div className="text-xs text-slate-500 bg-slate-50 rounded-lg px-2.5 py-2 mb-1">
+                    {regime === 'auto' && <>Applying <strong>{calc.better === 'new' ? 'New' : 'Old'}</strong> regime (lower tax by {fmt(calc.savings)}/yr)</>}
+                    {regime === 'new' && <>New regime applied Â· standard deduction â‚¹75,000</>}
+                    {regime === 'old' && <>Old regime applied Â· use deductions below</>}
+                  </div>
+                </>
+              )}
+              {!isIndia && (
+                <>
+                  <label className="block text-xs text-slate-500 mb-1">Tax treatment</label>
+                  <select className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                    <option>Local statutory model</option>
+                  </select>
+                </>
+              )}
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <div className="text-xs font-semibold text-slate-500 uppercase mb-3">2 Â· Salary input</div>
+              <label className="block text-xs text-slate-500 mb-1">Employment type</label>
+              <select className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-2" value={empType} onChange={e=>setEmpType(e.target.value)}>
+                <option>Permanent / Regular</option>
+                <option>Fixed-term contract</option>
+                <option>Temporary / seasonal</option>
+                <option>Third-party / agency</option>
+                <option>Independent consultant</option>
+                <option>Freelancer (self-employed)</option>
+              </select>
+              <p className="text-xs text-slate-400 mb-3">Temporary and contract workers can remove standard salary components when the organisation pays the amount as a full payment.</p>
+              <label className="block text-xs text-slate-500 mb-1">Pay period</label>
+              <div className="flex gap-2 mb-3">
+                {['Monthly','Annual'].map(p=>(
+                  <button key={p} onClick={()=>setPeriod(p)} className={`flex-1 py-1.5 rounded-lg text-sm font-medium ${period===p?'bg-slate-900 text-white':'bg-slate-100 text-slate-600'}`}>{p}</button>
+                ))}
+              </div>
+              <label className="block text-xs text-slate-500 mb-1">Amount is</label>
+              <select className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-3"><option>Cost to company (CTC)</option><option>Gross pay</option></select>
+              <label className="block text-xs text-slate-500 mb-1">Enter monthly CTC</label>
+              <input type="number" value={ctc} onChange={e=>setCtc(+e.target.value||0)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-1" />
+              <div className="flex justify-between text-xs text-slate-400 mb-2"><span>Monthly CTC Â· {fmt(ctc)}</span><span>{fmt(ctc*12)}</span></div>
+              <input type="range" min="50000" max="2000000" step="5000" value={ctc} onChange={e=>setCtc(+e.target.value)} className="w-full mb-4" />
+              <button className="w-full border border-slate-200 rounded-lg py-2 text-sm text-slate-600 hover:bg-slate-50 mb-3">â˜° Customize components</button>
+              {isIndia && (regime === 'old' || regime === 'auto') && (
+                <>
+                  <label className="block text-xs text-slate-500 mb-1">Old-regime deductions / exemptions per year</label>
+                  <input type="number" value={oldDed} onChange={e=>setOldDed(+e.target.value||0)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
+                  <p className="text-xs text-slate-400 mt-1">HRA / 80C / 80D / 80CCD(1B) NPS / home-loan interest. Employee PF is counted under 80C (â‚¹1.5L cap).</p>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="flex-1 space-y-4">
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h2 className="font-semibold text-lg">Salary outcome</h2>
+                  <p className="text-sm text-slate-500">{(focusCountry && focusCountry.flag) || ''} {focusMarket} Â· {empType}</p>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">New Labour Codes Â· Framework Updated</span>
+                  {isIndia && (
+                    <span className={`text-xs px-2 py-1 rounded font-medium ${calc.applied === 'new' ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-800'}`}>
+                      {calc.applied === 'new' ? 'New regime' : 'Old regime'} applied
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3 mb-5">
+                <div className="bg-slate-50 rounded-xl p-4">
+                  <div className="text-xs text-slate-500 uppercase">Gross pay</div>
+                  <div className="text-xl font-bold mt-1">{fmt(calc.m.gross)}</div>
+                  <div className="text-xs text-slate-400">per month</div>
+                </div>
+                <div className="bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-xl p-4">
+                  <div className="text-xs opacity-90 uppercase">Estimated take-home</div>
+                  <div className="text-xl font-bold mt-1">{fmt(calc.m.takeHome)}</div>
+                  <div className="text-xs opacity-80">{calc.thPct.toFixed(1)}% of CTC</div>
+                </div>
+                <div className="bg-slate-50 rounded-xl p-4">
+                  <div className="text-xs text-slate-500 uppercase">Gross tax deduction</div>
+                  <div className="text-xl font-bold mt-1">{fmt(calc.m.tax)}</div>
+                  <div className="text-xs text-slate-400">Tax {((calc.m.tax/calc.m.gross)*100).toFixed(1)}% of gross</div>
+                </div>
+              </div>
+              <table className="w-full text-sm">
+                <thead><tr className="bg-slate-900 text-white">
+                  <th className="text-left py-2 px-3 rounded-tl-lg">Salary</th>
+                  <th className="text-right py-2 px-3">Monthly</th>
+                  <th className="text-right py-2 px-3 rounded-tr-lg">Annual</th>
+                </tr></thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="font-medium"><td className="py-2 px-3">CTC</td><td className="text-right py-2 px-3">{fmt(calc.m.ctc)}</td><td className="text-right py-2 px-3">{fmt(calc.a.ctc)}</td></tr>
+                  <tr className="bg-slate-50 text-xs text-slate-500"><td colSpan="3" className="py-1.5 px-3">EMPLOYER COSTS (INCLUDED IN CTC)</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">+ Employer PF (12% of basic)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.empPF)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.empPF)}</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">+ Gratuity (4.81% of basic)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.gratuity)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.gratuity)}</td></tr>
+                  <tr className="font-medium"><td className="py-2 px-3">Gross</td><td className="text-right py-2 px-3">{fmt(calc.m.gross)}</td><td className="text-right py-2 px-3">{fmt(calc.a.gross)}</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">Basic (50% of remuneration)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.basic)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.basic)}</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">HRA (50% of basic)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.hra)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.hra)}</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">Special allowance</td><td className="text-right py-1.5 px-3">{fmt(calc.m.special)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.special)}</td></tr>
+                  <tr className="bg-slate-50 text-xs text-slate-500"><td colSpan="3" className="py-1.5 px-3">EMPLOYEE CONTRIBUTIONS</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">âˆ’ Employee PF (12% of basic)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.empPF_e)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.empPF_e)}</td></tr>
+                  <tr className="font-medium"><td className="py-2 px-3">Net (before income tax)</td><td className="text-right py-2 px-3">{fmt(calc.m.netBT)}</td><td className="text-right py-2 px-3">{fmt(calc.a.netBT)}</td></tr>
+                  <tr className="bg-slate-50 text-xs text-slate-500"><td colSpan="3" className="py-1.5 px-3">INCOME TAX Â· {calc.applied === 'new' ? 'NEW REGIME' : 'OLD REGIME'}</td></tr>
+                  <tr><td className="py-1.5 px-3 text-slate-600">âˆ’ Income tax (incl. surcharge + 4% cess)</td><td className="text-right py-1.5 px-3">{fmt(calc.m.tax)}</td><td className="text-right py-1.5 px-3">{fmt(calc.a.tax)}</td></tr>
+                  <tr className="font-semibold bg-teal-50"><td className="py-2 px-3">Post-tax net (take-home)</td><td className="text-right py-2 px-3">{fmt(calc.m.takeHome)}</td><td className="text-right py-2 px-3">{fmt(calc.a.takeHome)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl border border-slate-200 p-5">
+                <h3 className="font-semibold mb-3">Where the CTC goes</h3>
+                {[
+                  {l:'Take-home',p:calc.thPct,c:'bg-emerald-500'},
+                  {l:'Income tax',p:(calc.m.tax/ctc)*100,c:'bg-amber-500'},
+                  {l:'Employee contrib.',p:(calc.m.empPF_e/ctc)*100,c:'bg-blue-500'},
+                  {l:'Employer cost',p:((calc.m.empPF+calc.m.gratuity)/ctc)*100,c:'bg-slate-800'},
+                ].map((x,i)=>(
+                  <div key={i} className="flex items-center gap-3 mb-2">
+                    <div className="w-28 text-sm text-slate-600">{x.l}</div>
+                    <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden"><div className={`h-full ${x.c} rounded-full`} style={{width:`${Math.min(x.p,100)}%`}}></div></div>
+                    <div className="w-12 text-right text-sm font-medium">{x.p.toFixed(1)}%</div>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-white rounded-xl border border-slate-200 p-5">
+                <h3 className="font-semibold mb-3">{isIndia ? 'India regime comparison (annual)' : 'Tax summary (annual)'}</h3>
+                {isIndia ? (
+                  <>
+                    <div className="grid grid-cols-2 gap-3 mb-3">
+                      <button type="button" onClick={() => setRegime('new')}
+                        className={`text-left rounded-xl border p-3 transition ${calc.applied === 'new' ? 'border-teal-500 bg-teal-50 ring-1 ring-teal-500' : 'border-slate-200 hover:border-slate-300'}`}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs font-medium text-slate-500 uppercase">New regime</span>
+                          {calc.better === 'new' && <span className="text-[10px] bg-teal-600 text-white px-1.5 py-0.5 rounded-full">Better</span>}
+                        </div>
+                        <div className="text-lg font-bold text-teal-700">{fmt(calc.taxNew)}</div>
+                        <div className="text-xs text-slate-500 mt-0.5">Take-home {fmt(calc.takeHomeNew)}/yr</div>
+                      </button>
+                      <button type="button" onClick={() => setRegime('old')}
+                        className={`text-left rounded-xl border p-3 transition ${calc.applied === 'old' ? 'border-amber-500 bg-amber-50 ring-1 ring-amber-500' : 'border-slate-200 hover:border-slate-300'}`}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs font-medium text-slate-500 uppercase">Old regime</span>
+                          {calc.better === 'old' && <span className="text-[10px] bg-amber-600 text-white px-1.5 py-0.5 rounded-full">Better</span>}
+                        </div>
+                        <div className="text-lg font-bold text-amber-800">{fmt(calc.taxOld)}</div>
+                        <div className="text-xs text-slate-500 mt-0.5">Take-home {fmt(calc.takeHomeOld)}/yr</div>
+                      </button>
+                    </div>
+                    <div className={`rounded-lg px-3 py-2 text-sm ${calc.better === 'new' ? 'bg-teal-50 text-teal-800' : 'bg-amber-50 text-amber-900'}`}>
+                      <strong>Recommendation:</strong> Opt for the <strong>{calc.better === 'new' ? 'New' : 'Old'}</strong> regime â€”
+                      saves <strong>{fmt(calc.savings)}</strong> in tax per year
+                      {calc.better === 'old' ? ' with your current deductions' : ' (default for most salaried profiles)'}.
+                    </div>
+                    <button type="button" onClick={() => setRegime('auto')}
+                      className="mt-2 text-xs text-slate-500 hover:text-slate-800 underline">
+                      Reset to Auto Â· lower tax
+                    </button>
+                  </>
+                ) : (
+                  <p className="text-sm text-slate-500">Select India as Focus Market to compare Old vs New tax regimes.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Same pay, different engagement */}
+            <EngagementCompareChart annualTakeHome={calc.a.takeHome} fmt={fmt} />
+
+            <div className="bg-slate-50 rounded-xl border border-slate-200 p-4 text-xs text-slate-500">
+              <strong>Method & compliance notes</strong><br/>
+              India FY 2026-27 under the Labour Codes wage definition (basic â‰¥ 50% of remuneration). New regime: â‚¹75,000 standard deduction, 87A rebate to â‚¹12L with marginal relief. Old regime: â‚¹50,000 standard deduction, EPF under 80C plus your deductions. Surcharge 10/15/25(/37)% with marginal relief, 4% cess. ESI applies where gross â‰¤ â‚¹21,000/month. Planning estimate only â€” verify with local payroll before relying on it.
+            </div>
+          </div>
+        </div>
+        </div>
+      );
+    }
+
+    function EngagementCompareChart({ annualTakeHome, fmt }) {
+      const [hover, setHover] = useState(null);
+      // Approximate relative take-home by engagement model (Permanent as baseline)
+      const models = [
+        { l: 'Permanent / Regular', mult: 1.00, active: true },
+        { l: 'Fixed-term contract', mult: 0.98 },
+        { l: 'Temporary / seasonal', mult: 0.92 },
+        { l: 'Third-party / agency', mult: 0.88 },
+        { l: 'Independent consultant', mult: 1.05 },
+        { l: 'Freelancer (self-employed)', mult: 1.08 },
+      ];
+      const maxVal = Math.max(...models.map(m => annualTakeHome * m.mult));
+      return (
+        <div className="bg-white rounded-xl border border-slate-200 p-5">
+          <h3 className="font-semibold">Same pay, different engagement</h3>
+          <p className="text-xs text-slate-500 mb-4">Annual take-home for the same amount under each model</p>
+          <div className="space-y-2.5">
+            {models.map((m, i) => {
+              const val = annualTakeHome * m.mult;
+              const pct = (val / maxVal) * 100;
+              return (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 relative cursor-pointer"
+                  onMouseEnter={() => setHover(i)}
+                  onMouseLeave={() => setHover(null)}
+                >
+                  <div className="w-36 text-xs text-slate-600 text-right shrink-0 leading-tight">{m.l}</div>
+                  <div className="flex-1 h-7 bg-slate-100 rounded relative">
+                    <div
+                      className={`h-full rounded transition-all ${m.active || hover === i ? 'bg-teal-500' : 'bg-slate-300'}`}
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                  {hover === i && (
+                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 bg-white border border-slate-200 rounded-lg shadow-lg px-3 py-2 text-xs z-20 whitespace-nowrap pointer-events-none">
+                      <div className="font-semibold text-slate-800 mb-0.5">{m.l}</div>
+                      <div className="text-slate-700">takeHome : {fmt(val)}</div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    // ========== ENGAGEMENT ==========
+    function Engagement({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      const benefits = [
+        {title:'Statutory social security and pension', desc:'Employees covered from day one subject to thresholds.', detail:'India: EPF/EPS 12% + 12%; gratuity; NPS optional', status:'Covered'},
+        {title:'Paid annual leave', desc:'Accrues with service; short terms often paid out at exit.', detail:'India: 1 day per 20 days worked after 240 days (180 under the OSH Code); state Shops Acts vary', status:'Covered'},
+        {title:'Public holidays', desc:'Daily-paid seasonal staff may not be paid for unworked holidays.', detail:'India: National (3) plus state festival holidays', status:'Covered'},
+        {title:'Sick leave and sick pay', desc:'Waiting periods and minimum service often apply.', detail:'India: Varies by state/establishment; ESI sickness benefit for covered employees', status:'Covered'},
+        {title:'Maternity, paternity and parental leave', desc:'Qualifying-service rules can exclude short terms.', detail:'India: 26 weeks for qualifying employees', status:'Covered'},
+        {title:'Health insurance', desc:'Employer plans often exclude short terms.', detail:'India: ESI for gross â‰¤ â‚¹21,000/month; group health insurance is contractual', status:'Covered'},
+        {title:'Gratuity, end-of-service and severance', desc:'Service thresholds and tax caps apply.', detail:'India: Gratuity (15/26 days Ã— years) capped at â‚¹20 lakh; retrenchment compensation', status:'Covered'},
+        {title:'Notice and termination protection', desc:'Varies by contract and tenure.', detail:'India: Varies by contract and tenure', status:'Covered'},
+        {title:'Unemployment insurance', desc:'Often limited to insured persons.', detail:'India: ESI unemployment allowance (ABVKY) for insured persons', status:'Covered'},
+        {title:'Statutory bonus / 13th month', desc:'Where mandatory, prorated to time served.', detail:'India: Statutory bonus 8.33â€“20% (wage â‰¤ â‚¹21,000)', status:'Covered'},
+        {title:'Working-time and overtime protection', desc:'Applies to employees.', detail:'India: 48 hours/week; overtime at 2Ã— wage', status:'Covered'},
+        {title:'Workplace injury cover', desc:'Independent workers insure themselves.', detail:'India: ESI / Employee Compensation Act', status:'Covered'},
+        {title:'Equity and long-term incentives', desc:'Plan rules decide.', detail:'Plan rules decide.', status:'Check eligibility'},
+        {title:'Tax withheld by the engager', desc:'Some countries require withholding on fees (e.g. India TDS).', detail:'India TDS on salary / fees', status:'Covered'},
+        {title:'Employer levies (training, housing, welfare)', desc:'Agency recharges them in its fee.', detail:'India: various state levies', status:'Covered'},
+      ];
+      const matrix = [
+        ['Statutory social security and pension','âœ“','âœ“','âœ“','A','S','S'],
+        ['Paid annual leave','âœ“','â—','â—','A','Ã—','Ã—'],
+        ['Public holidays','âœ“','âœ“','?','A','Ã—','Ã—'],
+        ['Sick leave and sick pay','âœ“','?','?','A','Ã—','Ã—'],
+        ['Maternity, paternity and parental leave','âœ“','?','?','A','Ã—','Ã—'],
+        ['Health insurance','âœ“','?','?','A','Ã—','Ã—'],
+        ['Gratuity, end-of-service and severance','âœ“','?','?','A','Ã—','Ã—'],
+        ['Notice and termination protection','âœ“','?','?','A','Ã—','Ã—'],
+        ['Unemployment insurance','âœ“','âœ“','?','A','Ã—','Ã—'],
+        ['Statutory bonus / 13th month','âœ“','â—','â—','A','Ã—','Ã—'],
+      ];
+      const statusBadge = (s) => s==='Covered' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
+      return (
+        <div>
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold">Engagement models</h1>
+            <p className="text-slate-500 text-sm mt-1">Who employs the worker, and which statutory benefits attach to each hiring model.</p>
+          </div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels}
+            extra={<>
+              <div>
+                <div className="text-xs font-medium text-slate-500 uppercase mb-1">Engagement model</div>
+                <select className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm">
+                  <option>Permanent / Regular</option><option>Fixed-term contract</option>
+                  <option>Temporary / seasonal</option><option>Third-party / agency</option>
+                  <option>Independent consultant</option><option>Freelancer</option>
+                </select>
+              </div>
+              <div>
+                <div className="text-xs font-medium text-slate-500 uppercase mb-1">Term</div>
+                <select className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm">
+                  <option>12 months</option><option>6 months</option><option>3 months</option>
+                </select>
+              </div>
+            </>}
+          />
+          <div className="bg-white rounded-xl border border-slate-200 p-5 mb-5">
+            <div className="flex items-center gap-3 mb-2">
+              <h2 className="font-semibold text-lg">Permanent / Regular</h2>
+              <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-medium">On your payroll</span>
+              <span className="text-sm text-slate-500">Legal employer: You</span>
+            </div>
+            <p className="text-sm text-slate-500 mb-4">On your payroll. You are the legal employer and carry the full statutory stack.</p>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+              {[{l:'COVERED',v:'14'},{l:'CHECK ELIGIBILITY',v:'1'},{l:'VIA AGENCY',v:'0'},{l:'PROVIDER HANDLES',v:'0'},{l:'NOT COVERED',v:'0'}].map((k,i)=>(
+                <div key={i} className="bg-slate-50 rounded-xl p-3 text-center">
+                  <div className="text-xs text-slate-500 uppercase">{k.l}</div>
+                  <div className="text-2xl font-bold mt-1">{k.v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+            {benefits.map((b,i)=>(
+              <div key={i} className="bg-white rounded-xl border border-slate-200 p-4">
+                <div className="flex justify-between items-start mb-1">
+                  <h3 className="font-medium text-sm">{b.title}</h3>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium shrink-0 ${statusBadge(b.status)}`}>{b.status}</span>
+                </div>
+                <p className="text-xs text-slate-500 mb-2">{b.desc}</p>
+                <div className="text-xs bg-slate-50 rounded-lg px-2 py-1.5 text-slate-600">{b.detail}</div>
+              </div>
+            ))}
+          </div>
+          <div className="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+            <h3 className="font-semibold mb-3">All six models side by side</h3>
+            <table className="w-full text-sm">
+              <thead><tr className="border-b border-slate-200">
+                <th className="text-left py-2 pr-3 text-slate-500 font-medium">Benefit</th>
+                {['Permanent','Fixed-term','Temporary','Third-party','Independent','Freelancer'].map(h=><th key={h} className="text-center px-2 py-2 text-slate-500 font-medium text-xs">{h}</th>)}
+              </tr></thead>
+              <tbody>
+                {matrix.map((row,i)=>(
+                  <tr key={i} className="border-b border-slate-100">
+                    <td className="py-2 pr-3 text-slate-700 text-xs">{row[0]}</td>
+                    {row.slice(1).map((cell,j)=>(
+                      <td key={j} className="text-center py-2">
+                        <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-medium
+                          ${cell==='âœ“'?'bg-emerald-100 text-emerald-700':cell==='A'?'bg-blue-100 text-blue-700':cell==='S'?'bg-slate-100 text-slate-500':cell==='?'||cell==='â—'?'bg-amber-100 text-amber-700':'bg-slate-50 text-slate-400'}`}>
+                          {cell}
+                        </span>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="text-xs text-slate-400 mt-3">âœ“ Covered Â· â— Partial / prorated Â· ? Conditional Â· A Via agency Â· S Self Â· Ã— Not covered</p>
+          </div>
+        </div>
+      );
+    }
+
+    // ========== COMPARE ==========
+    function Compare({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      const rows = [
+        {flag:'ðŸ‡¦ðŸ‡ª', name:'United Arab Emirates', ctc:'AED 260,000', usd:'$70,796', th:'96.6%', tax:'0%', contrib:'0%', load:'3.5%'},
+        {flag:'ðŸ‡®ðŸ‡³', name:'India', ctc:'â‚¹18,00,000', usd:'$20,339', th:'79.2%', tax:'6.7%', contrib:'5.9%', load:'8.9%'},
+        {flag:'ðŸ‡ºðŸ‡¸', name:'United States', ctc:'$155,000', usd:'$155,000', th:'70.7%', tax:'15%', contrib:'7.1%', load:'7.7%'},
+        {flag:'ðŸ‡¸ðŸ‡¬', name:'Singapore', ctc:'S$115,000', usd:'$88,462', th:'66.2%', tax:'2.8%', contrib:'16.7%', load:'16.7%'},
+        {flag:'ðŸ‡¬ðŸ‡§', name:'United Kingdom', ctc:'Â£62,000', usd:'$82,667', th:'63.4%', tax:'14.2%', contrib:'8.5%', load:'16.1%'},
+        {flag:'ðŸ‡©ðŸ‡ª', name:'Germany', ctc:'â‚¬70,000', usd:'$81,395', th:'52.8%', tax:'12.3%', contrib:'17.5%', load:'21.1%'},
+      ];
+      const bars = [
+        {c:'AE', th:96.6, tax:0, es:0},
+        {c:'IN', th:79.2, tax:6.7, es:5.9},
+        {c:'US', th:70.7, tax:15, es:7.1},
+        {c:'SG', th:66.2, tax:2.8, es:16.7},
+        {c:'GB', th:63.4, tax:14.2, es:8.5},
+        {c:'DE', th:52.8, tax:12.3, es:17.5},
+      ];
+      return (
+        <div>
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold">Compare countries</h1>
+            <p className="text-slate-500 text-sm mt-1">Each market evaluated at its own median CTC for the role and level. Ratios are comparable across currencies.</p>
+          </div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels}
+            extra={
+              <div className="flex-1">
+                <div className="text-xs font-medium text-slate-500 uppercase mb-1">Countries (6/12)</div>
+                <div className="flex flex-wrap gap-1.5 items-center">
+                  {['IN','US','GB','DE','SG','AE'].map(c => (
+                    <span key={c} className="text-xs bg-slate-100 px-2 py-1 rounded-full">{c} Ã—</span>
+                  ))}
+                  <button className="text-xs bg-slate-900 text-white px-3 py-1 rounded-lg">Add</button>
+                </div>
+              </div>
+            }
+          />
+          <div className="bg-white rounded-xl border border-slate-200 p-5 mb-5">
+            <h3 className="font-semibold mb-3">Employer cost split at the median</h3>
+            <div className="flex items-end gap-3 h-48">
+              {bars.map((d,i)=>(
+                <div key={i} className="flex-1 flex flex-col items-center h-full justify-end">
+                  <div className="w-full flex flex-col-reverse rounded-t overflow-hidden" style={{height:'100%'}}>
+                    <div className="bg-emerald-500" style={{height:`${d.th}%`}}></div>
+                    <div className="bg-amber-500" style={{height:`${d.tax}%`}}></div>
+                    <div className="bg-blue-500" style={{height:`${d.es}%`}}></div>
+                  </div>
+                  <span className="text-xs text-slate-500 mt-1">{d.c}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-4 mt-3 text-xs text-slate-600">
+              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-emerald-500 rounded-sm"></span> Take-home</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-amber-500 rounded-sm"></span> Tax</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-blue-500 rounded-sm"></span> Employee contrib.</span>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border border-slate-200 overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead><tr className="bg-slate-900 text-white">
+                <th className="text-left py-2.5 px-3">Country</th>
+                <th className="text-right py-2.5 px-3">Median CTC</th>
+                <th className="text-right py-2.5 px-3">USD</th>
+                <th className="text-right py-2.5 px-3">Take-home</th>
+                <th className="text-right py-2.5 px-3">Tax</th>
+                <th className="text-right py-2.5 px-3">Contrib.</th>
+                <th className="text-right py-2.5 px-3">Employer load</th>
+                <th className="text-right py-2.5 px-3">Model</th>
+              </tr></thead>
+              <tbody className="divide-y divide-slate-100">
+                {rows.map((r,i)=>(
+                  <tr key={i}>
+                    <td className="py-2.5 px-3 font-medium">{r.flag} {r.name}</td>
+                    <td className="text-right py-2.5 px-3">{r.ctc}</td>
+                    <td className="text-right py-2.5 px-3">{r.usd}</td>
+                    <td className="text-right py-2.5 px-3 text-emerald-600 font-medium">{r.th}</td>
+                    <td className="text-right py-2.5 px-3">{r.tax}</td>
+                    <td className="text-right py-2.5 px-3">{r.contrib}</td>
+                    <td className="text-right py-2.5 px-3">{r.load}</td>
+                    <td className="text-right py-2.5 px-3 text-xs text-slate-500">Encoded statute</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    // ========== PAY BANDS ==========
+    function PayBands({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      const [hover, setHover] = useState(null);
+      const bandFuncs = [
+        {f:'GENERAL / ADMIN', min:'â‚¹8,10,000', med:'â‚¹10,80,000', max:'â‚¹13,82,400'},
+        {f:'HUMAN RESOURCES', min:'â‚¹5,50,000', med:'â‚¹8,50,000', max:'â‚¹13,00,000'},
+        {f:'FINANCE', min:'â‚¹6,50,000', med:'â‚¹10,00,000', max:'â‚¹16,00,000'},
+        {f:'TECHNOLOGY', min:'â‚¹10,00,000', med:'â‚¹18,00,000', max:'â‚¹28,00,000', highlight:true},
+        {f:'ENGINEERING', min:'â‚¹9,00,000', med:'â‚¹16,00,000', max:'â‚¹26,00,000'},
+        {f:'SALES', min:'â‚¹7,00,000', med:'â‚¹12,00,000', max:'â‚¹20,00,000'},
+        {f:'LEGAL & COMPLIANCE', min:'â‚¹12,15,000', med:'â‚¹16,20,000', max:'â‚¹20,73,600'},
+        {f:'OPERATIONS', min:'â‚¹10,12,500', med:'â‚¹13,50,000', max:'â‚¹17,28,000'},
+        {f:'SUPPLY CHAIN', min:'â‚¹10,12,500', med:'â‚¹13,50,000', max:'â‚¹17,28,000'},
+        {f:'HEALTHCARE', min:'â‚¹10,68,750', med:'â‚¹14,25,000', max:'â‚¹18,24,000'},
+        {f:'MARKETING', min:'â‚¹7,50,000', med:'â‚¹13,00,000', max:'â‚¹22,00,000'},
+      ];
+      const ladder = [
+        {l:'Entry', min: 4, med: 8, max: 14},
+        {l:'Professional', min: 10, med: 18, max: 28},
+        {l:'Manager', min: 25, med: 40, max: 55},
+        {l:'Sr Manager', min: 35, med: 55, max: 70},
+        {l:'Director', min: 60, med: 90, max: 130},
+        {l:'Executive', min: 100, med: 150, max: 220},
+      ];
+      const yMax = 220;
+      const fmtL = (v) => 'â‚¹' + (v * 100000).toLocaleString('en-IN');
+      return (
+        <div>
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold">Pay bands</h1>
+            <p className="text-slate-500 text-sm mt-1">Minimum, median and maximum market pay by role and level (annual CTC, local currency).</p>
+          </div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels} />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Minimum</div><div className="text-xl font-bold mt-1">â‚¹10,00,000</div><div className="text-xs text-slate-400">â‚¹83,333 / month</div></div>
+            <div className="bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-xl p-4"><div className="text-xs opacity-90 uppercase">Median</div><div className="text-xl font-bold mt-1">â‚¹18,00,000</div><div className="text-xs opacity-80">â‚¹1,50,000 / month</div></div>
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Maximum</div><div className="text-xl font-bold mt-1">â‚¹28,00,000</div><div className="text-xs text-slate-400">â‚¹2,33,333 / month</div></div>
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Band spread</div><div className="text-xl font-bold mt-1">180%</div><div className="text-xs text-slate-400">Researched band</div></div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="bg-white rounded-xl border border-slate-200 p-5 relative">
+              <h3 className="font-semibold mb-3">Level ladder Â· IT</h3>
+              <div className="relative">
+                <div className="absolute left-0 top-0 bottom-6 w-14 flex flex-col justify-between text-[9px] text-slate-400 pointer-events-none">
+                  <span>â‚¹2,20,00,000</span><span>â‚¹1,65,00,000</span><span>â‚¹1,10,00,000</span><span>â‚¹55,00,000</span><span>â‚¹0</span>
+                </div>
+                <div className="ml-14 flex items-end gap-2 h-52 border-l border-b border-slate-200 pl-1 relative">
+                  {[0.25,0.5,0.75,1].map((f,i)=>(
+                    <div key={i} className="absolute left-0 right-0 border-t border-dashed border-slate-100" style={{bottom:`${f*100}%`}} />
+                  ))}
+                  {ladder.map((d,i)=>(
+                    <div
+                      key={i}
+                      className="flex-1 flex flex-col items-center h-full justify-end relative cursor-pointer"
+                      onMouseEnter={() => setHover(i)}
+                      onMouseLeave={() => setHover(null)}
+                    >
+                      <div className="w-full flex gap-0.5 items-end h-full transition-opacity" style={{opacity: hover===null||hover===i ? 1 : 0.4}}>
+                        <div className="flex-1 bg-slate-300 rounded-t" style={{height:`${(d.min/yMax)*100}%`}} />
+                        <div className="flex-1 bg-emerald-500 rounded-t" style={{height:`${(d.med/yMax)*100}%`}} />
+                        <div className="flex-1 bg-slate-800 rounded-t" style={{height:`${(d.max/yMax)*100}%`}} />
+                      </div>
+                      <span className="text-[10px] text-slate-500 mt-1.5">{d.l}</span>
+                      {hover === i && (
+                        <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-white border border-slate-200 rounded-lg shadow-lg px-3 py-2 text-xs z-20 whitespace-nowrap pointer-events-none">
+                          <div className="font-semibold text-slate-800 mb-1.5">{d.l}</div>
+                          <div className="text-slate-500">Min : {fmtL(d.min)}</div>
+                          <div className="text-emerald-600 font-medium">Median : {fmtL(d.med)}</div>
+                          <div className="text-slate-800">Max : {fmtL(d.max)}</div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-3 mt-2 ml-14 text-[10px] text-slate-500">
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-slate-300 rounded-sm"></span> Min</span>
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-emerald-500 rounded-sm"></span> Median</span>
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-slate-800 rounded-sm"></span> Max</span>
+              </div>
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead><tr className="bg-slate-900 text-white">
+                  <th className="text-left py-2 px-3">Function</th>
+                  <th className="text-right py-2 px-3">Min</th>
+                  <th className="text-right py-2 px-3">Median</th>
+                  <th className="text-right py-2 px-3">Max</th>
+                </tr></thead>
+                <tbody className="divide-y divide-slate-100">
+                  {bandFuncs.map((r,i)=>(
+                    <tr key={i} className={r.highlight?'bg-teal-50':''}>
+                      <td className="py-2 px-3 font-medium">{r.f}</td>
+                      <td className="text-right py-2 px-3">{r.min}</td>
+                      <td className="text-right py-2 px-3 font-medium">{r.med}</td>
+                      <td className="text-right py-2 px-3">{r.max}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ========== LEAVE & BENEFITS ==========
+    function Benefits({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      const focusCountry = ALL_COUNTRIES.find(c => c.name === focusMarket);
+      const items = [
+        {icon:'ðŸ“…', title:'Annual leave', desc:'1 day per 20 days worked after 240 days (180 under the OSH Code); state Shops Acts vary'},
+        {icon:'ðŸ©º', title:'Sick leave', desc:'Varies by state/establishment; ESI sickness benefit for covered employees'},
+        {icon:'ðŸ‘¶', title:'Maternity', desc:'26 weeks for qualifying employees'},
+        {icon:'ðŸ‘¨', title:'Paternity', desc:'No general statutory private-sector entitlement'},
+        {icon:'ðŸ‘ª', title:'Parental', desc:'CrÃ¨che facility for 50+ employees'},
+        {icon:'ðŸ³', title:'Public holidays', desc:'National (3) plus state festival holidays'},
+        {icon:'ðŸ ', title:'Family leave', desc:"Maternity benefit and ESI dependants' benefit"},
+        {icon:'ðŸ’š', title:'Healthcare', desc:'ESI for gross â‰¤ â‚¹21,000/month; group health insurance is contractual'},
+        {icon:'ðŸ¦', title:'Retirement', desc:'EPF/EPS 12% + 12%; gratuity; NPS optional'},
+        {icon:'ðŸ“‰', title:'Unemployment', desc:'ESI unemployment allowance (ABVKY) for insured persons'},
+        {icon:'ðŸ“‹', title:'Severance', desc:'Gratuity (15/26 days Ã— years) capped at â‚¹20 lakh; retrenchment compensation'},
+        {icon:'ðŸŽ', title:'Other benefits', desc:'Statutory bonus 8.33â€“20% (wage â‰¤ â‚¹21,000), professional tax, LWF'},
+      ];
+      return (
+        <div>
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold">Leave & statutory benefits</h1>
+            <p className="text-slate-500 text-sm mt-1">Leave entitlements, social protection, severance and working-time rules by country.</p>
+          </div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels} />
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-lg">{(focusCountry && focusCountry.flag) || ''}</span>
+            <span className="font-medium">{focusMarket}</span>
+            <span className="text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">14 of 14 items country-specific</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {items.map((it,i)=>(
+              <div key={i} className="bg-white rounded-xl border border-slate-200 p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-sm">{it.icon}</span>
+                  <h3 className="font-medium">{it.title}</h3>
+                </div>
+                <p className="text-xs text-slate-500">{it.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // ========== TAX & STATUTORY ==========
+    function TaxStatutory({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      return (
+        <div>
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold">Tax & statutory payroll</h1>
+            <p className="text-slate-500 text-sm mt-1">Income tax, social security, withholding and reporting obligations for an annual gross salary.</p>
+          </div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels}
+            extra={
+              <div>
+                <div className="text-xs font-medium text-slate-500 uppercase mb-1">Annual gross salary (â‚¹)</div>
+                <input type="text" defaultValue="58,64,700" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm w-40" />
+              </div>
+            }
+          />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Gross</div><div className="text-xl font-bold mt-1">â‚¹58,64,700</div></div>
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Effective tax</div><div className="text-xl font-bold mt-1">25.7%</div></div>
+            <div className="bg-white rounded-xl border border-slate-200 p-4"><div className="text-xs text-slate-500 uppercase">Employee social</div><div className="text-xl font-bold mt-1">6.4%</div></div>
+            <div className="bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-xl p-4"><div className="text-xs opacity-90 uppercase">Take-home</div><div className="text-xl font-bold mt-1">â‚¹39,83,812</div><div className="text-xs opacity-80">â‚¹3,31,984 / month</div></div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <h3 className="font-semibold mb-3">India Tax & Payroll Intelligence</h3>
+              <table className="w-full text-sm">
+                <tbody className="divide-y divide-slate-100">
+                  {[['Authority','Income Tax Department / CBDT'],['Tax period','FY 2026â€“27'],['Year-end certificate','Form 16'],['Employee tax ID','PAN'],['Withholding','TDS u/s 192'],['Social security','EPF / EPS / ESI / Professional Tax / LWF'],['Annual filing','ITR / AIS / Form 26AS']].map((r,i)=>(
+                    <tr key={i}><td className="py-2 text-slate-500">{r[0]}</td><td className="py-2 text-right font-medium">{r[1]}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="text-xs text-slate-400 mt-3">New-vs-old regime comparison, HRA, 80C, 80D, NPS, home-loan interest and previous-employer TDS affect the result.</p>
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <table className="w-full text-sm">
+                <thead><tr className="bg-slate-900 text-white"><th className="text-left py-2 px-3">Line</th><th className="text-right py-2 px-3">Per year</th></tr></thead>
+                <tbody className="divide-y divide-slate-100">
+                  {[['Tax Â· Income tax Â· New regime (lower tax)','â‚¹13,16,910'],['Tax Â· Surcharge (with marginal relief)','â‚¹1,31,691'],['Tax Â· Health & education cess (4%)','â‚¹57,944'],['Employee Â· Employee PF (12% of basic)','â‚¹3,74,343'],['Employer Â· Employer PF (12% of basic)','â‚¹3,74,343'],['Employer Â· Gratuity (4.81% of basic)','â‚¹1,50,049']].map((r,i)=>(
+                    <tr key={i}><td className="py-2 px-3 text-slate-600">{r[0]}</td><td className="text-right py-2 px-3 font-medium">{r[1]}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ========== MIN & MAX WAGES ==========
+    function MinMaxWages({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      const wageLevels = [
+        {l:'ENTRY', v:'â‚¹14,00,000', w:14},
+        {l:'PROFESSIONAL', v:'â‚¹28,00,000', w:28},
+        {l:'MANAGER', v:'â‚¹55,00,000', w:55},
+        {l:'SENIOR MANAGER', v:'â‚¹70,00,000', w:70},
+        {l:'DIRECTOR', v:'â‚¹1,30,00,000', w:130},
+        {l:'EXECUTIVE', v:'â‚¹2,20,00,000', w:220},
+      ];
+      return (
+        <div>
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold">Minimum & maximum wages</h1>
+            <p className="text-slate-500 text-sm mt-1">Statutory wage floors, market pay ceilings and contribution wage caps.</p>
+          </div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <div className="flex items-center gap-2 text-xs text-emerald-600 font-medium mb-2">â†“ STATUTORY MINIMUM WAGE</div>
+              <h3 className="font-semibold text-lg mb-1">State schedules (e.g. Delhi unskilled ~â‚¹18,456/mo)</h3>
+              <p className="text-xs text-slate-500 mb-3">Regional / state + national floor Â· per Month / day Â· effective 2025â€“26 notifications</p>
+              <div className="bg-emerald-50 rounded-lg px-3 py-2 text-sm font-medium text-emerald-800 mb-3">â‰ˆ â‚¹2,21,472 a year full-time</div>
+              <p className="text-xs text-slate-500">The Code on Wages introduces a national floor wage; state notifications by skill category and zone still set the binding minimum. Check the latest state gazette.</p>
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200 p-5">
+              <div className="flex items-center gap-2 text-xs text-blue-600 font-medium mb-2">â†‘ MARKET MAXIMUM Â· IT</div>
+              <div className="text-2xl font-bold mb-1">â‚¹2,20,00,000</div>
+              <p className="text-xs text-slate-500 mb-4">Top of the executive band (annual CTC). Most countries have no statutory maximum wage.</p>
+              {wageLevels.map((d,i)=>(
+                <div key={i} className="flex items-center gap-2 mb-2">
+                  <div className="w-28 text-xs text-slate-600">{d.l}</div>
+                  <div className="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-500 rounded-full" style={{width:`${(d.w/220)*100}%`}}></div>
+                  </div>
+                  <div className="w-24 text-right text-xs font-medium">{d.v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border border-slate-200 p-5">
+            <h3 className="font-semibold mb-3">Statutory wage ceilings & caps</h3>
+            <p className="text-xs text-slate-500 mb-3">Annual earnings limits for social-security contributions and statutory schemes</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {[['EPF wage ceiling','â‚¹1,80,000'],['ESI coverage ceiling','â‚¹2,52,000'],['Statutory bonus eligibility (â‚¹21,000/mo)','â‚¹2,52,000'],['Gratuity tax-free cap','â‚¹20,00,000']].map((r,i)=>(
+                <div key={i} className="flex justify-between items-center bg-slate-50 rounded-lg px-3 py-2">
+                  <span className="text-sm text-slate-600">{r[0]}</span>
+                  <span className="font-medium">{r[1]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ========== COVERAGE ==========
+    function Coverage({ region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels }) {
+      const [search, setSearch] = useState('');
+      const [tier, setTier] = useState('All tiers');
+      const kpis = [
+        {l:'COUNTRIES',v:'180'},{l:'ENCODED STATUTE',v:'17'},{l:'APPROXIMATE MODEL',v:'64'},{l:'INDICATIVE ESTIMATE',v:'99'}
+      ];
+      const sub = [
+        {l:'180',s:'Salary calculator (gross-to-net)'},{l:'8',s:'Researched pay bands'},
+        {l:'18',s:'Anchored pay bands'},{l:'13',s:'Leave & benefits'},
+        {l:'26',s:'Minimum wage'},{l:'12',s:'Tax authority profiles'},{l:'12',s:'Labour-law contract rules'}
+      ];
+      // Build coverage list from ALL_COUNTRIES + known model tiers
+      const modelByCode = {
+        AU:'Encoded statute', AT:'Approximate model', IN:'Encoded statute', US:'Encoded statute',
+        GB:'Encoded statute', DE:'Encoded statute', SG:'Encoded statute', AE:'Encoded statute',
+        CA:'Encoded statute', FR:'Encoded statute', NL:'Encoded statute', IE:'Encoded statute',
+        NZ:'Encoded statute', SA:'Encoded statute', JP:'Approximate model', BR:'Approximate model',
+        MX:'Approximate model', ZA:'Approximate model', MY:'Approximate model', CH:'Approximate model',
+      };
+      const countries = ALL_COUNTRIES.map(c => ({
+        f: c.flag, n: c.name, code: c.code, region: c.region,
+        m: modelByCode[c.code] || 'Indicative estimate',
+      }));
+      const regionList = region === 'World' ? countries : countries.filter(c => c.region === region);
+      const filtered = regionList.filter(c => {
+        const matchSearch = !search || c.n.toLowerCase().includes(search.toLowerCase());
+        const matchTier = tier === 'All tiers' || c.m === tier;
+        const matchFocus = !focusMarket || c.n === focusMarket || region === 'World';
+        // When a focus market is selected, still show region list but highlight; filter by search/tier primarily
+        return matchSearch && matchTier;
+      });
+      // If focus market selected and in list, sort it first
+      const sorted = [...filtered].sort((a, b) => {
+        if (a.n === focusMarket) return -1;
+        if (b.n === focusMarket) return 1;
+        return a.n.localeCompare(b.n);
+      });
+      const badge = (m) => m==='Encoded statute'?'bg-emerald-100 text-emerald-700':m==='Approximate model'?'bg-amber-100 text-amber-700':'bg-rose-100 text-rose-700';
+      const focusCountry = ALL_COUNTRIES.find(c => c.name === focusMarket);
+      const focusDetail = countries.find(c => c.n === focusMarket);
+      return (
+        <div>
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold">Data coverage</h1>
+            <p className="text-slate-500 text-sm mt-1">How deeply each country is modelled. Encoded statute is most detailed; indicative estimates use flat rates.</p>
+          </div>
+          <GlobalFilters region={region} setRegion={setRegion} focusMarket={focusMarket} setFocusMarket={setFocusMarket}
+            funcs={funcs} setFuncs={setFuncs} levels={levels} setLevels={setLevels}
+            extra={
+              <>
+                <div className="flex-1 min-w-[160px]">
+                  <div className="text-xs font-medium text-slate-500 uppercase mb-1">Search country</div>
+                  <input type="text" placeholder="Search country..." value={search} onChange={e => setSearch(e.target.value)}
+                    className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm w-full" />
+                </div>
+                <div>
+                  <div className="text-xs font-medium text-slate-500 uppercase mb-1">Model tier</div>
+                  <select className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" value={tier} onChange={e => setTier(e.target.value)}>
+                    <option>All tiers</option>
+                    <option>Encoded statute</option>
+                    <option>Approximate model</option>
+                    <option>Indicative estimate</option>
+                  </select>
+                </div>
+              </>
+            }
+          />
+          {/* Selected country detail card */}
+          {focusDetail && (
+            <div className="bg-white rounded-xl border border-slate-200 p-5 mb-5">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-3xl">{focusDetail.f}</span>
+                <div>
+                  <div className="text-lg font-semibold">{focusDetail.n}</div>
+                  <div className="text-xs text-slate-500">{focusDetail.region} Â· {focusDetail.code}</div>
+                </div>
+                <span className={`ml-auto text-xs px-2.5 py-1 rounded-full font-medium ${badge(focusDetail.m)}`}>{focusDetail.m}</span>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {[
+                  {l:'Pay bands', v: focusDetail.m === 'Encoded statute' ? 'Yes' : focusDetail.m === 'Approximate model' ? 'Anchored' : 'â€”'},
+                  {l:'Benefits', v: focusDetail.m !== 'Indicative estimate' ? 'Yes' : 'â€”'},
+                  {l:'Min wage', v: focusDetail.m !== 'Indicative estimate' ? 'Yes' : 'â€”'},
+                  {l:'Labour rules', v: focusDetail.m === 'Encoded statute' ? 'Yes' : 'â€”'},
+                ].map((k,i) => (
+                  <div key={i} className="bg-slate-50 rounded-lg px-3 py-2">
+                    <div className="text-xs text-slate-500">{k.l}</div>
+                    <div className="font-medium text-sm mt-0.5">{k.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            {kpis.map((k,i)=>(
+              <div key={i} className="bg-white rounded-xl border border-slate-200 p-4 text-center">
+                <div className="text-xs text-slate-500 uppercase">{k.l}</div>
+                <div className="text-3xl font-bold mt-1">{k.v}</div>
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            {sub.map((k,i)=>(
+              <div key={i} className="bg-slate-50 rounded-xl border border-slate-100 p-3">
+                <div className="text-lg font-bold">{k.l}</div>
+                <div className="text-xs text-slate-500">{k.s}</div>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-sm text-slate-500">{sorted.length} countries shown{region !== 'World' ? ` in ${region}` : ''}</div>
+          </div>
+          <div className="bg-white rounded-xl border border-slate-200 overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead><tr className="border-b border-slate-200">
+                <th className="text-left py-2.5 px-3 text-slate-500 font-medium">Country</th>
+                <th className="text-left py-2.5 px-3 text-slate-500 font-medium">Model</th>
+                <th className="text-center py-2.5 px-3 text-slate-500 font-medium">Pay bands</th>
+                <th className="text-center py-2.5 px-3 text-slate-500 font-medium">Benefits</th>
+                <th className="text-center py-2.5 px-3 text-slate-500 font-medium">Min wage</th>
+                <th className="text-center py-2.5 px-3 text-slate-500 font-medium">Labour rules</th>
+              </tr></thead>
+              <tbody className="divide-y divide-slate-100">
+                {sorted.map((c,i)=>(
+                  <tr key={i} className={c.n === focusMarket ? 'bg-teal-50' : ''}
+                    onClick={() => setFocusMarket(c.n)} style={{cursor:'pointer'}}>
+                    <td className="py-2 px-3 font-medium">{c.f} {c.n}</td>
+                    <td className="py-2 px-3"><span className={`text-xs px-2 py-0.5 rounded-full font-medium ${badge(c.m)}`}>{c.m}</span></td>
+                    <td className="text-center py-2 px-3 text-slate-600">{c.m === 'Encoded statute' ? 'âœ“' : c.m === 'Approximate model' ? 'â—' : 'â€”'}</td>
+                    <td className="text-center py-2 px-3 text-slate-600">{c.m !== 'Indicative estimate' ? 'âœ“' : 'â€”'}</td>
+                    <td className="text-center py-2 px-3 text-slate-600">{c.m !== 'Indicative estimate' ? 'âœ“' : 'â€”'}</td>
+                    <td className="text-center py-2 px-3 text-slate-600">{c.m === 'Encoded statute' ? 'âœ“' : 'â€”'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+
+    // ========== ADMIN Â· SIGN-IN LOG ==========
+    const ADMIN_USER = 'Admin';
+    const ADMIN_PW_KEY = 'ciq_admin_pw';
+    const LOG_KEY = 'ciq_signin_log';
+    const DEFAULT_ADMIN_PW = 'admin123';
+
+    function getAdminPassword() {
+      try { return localStorage.getItem(ADMIN_PW_KEY) || DEFAULT_ADMIN_PW; } catch (e) { return DEFAULT_ADMIN_PW; }
+    }
+    function setAdminPassword(pw) {
+      try { localStorage.setItem(ADMIN_PW_KEY, pw); } catch (e) {}
+    }
+    function loadSignInLog() {
+      try {
+        const raw = localStorage.getItem(LOG_KEY);
+        if (raw) return JSON.parse(raw);
+        // Seed first-visit demo so admin log is not empty
+        const seed = [{
+          id: 'seed-1',
+          date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+          time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true }),
+          ts: Date.now(),
+          email: 'tenzingtinlay@gmail.com',
+          name: 'Tenzing Tinlay',
+          event: 'Registered',
+        }];
+        localStorage.setItem(LOG_KEY, JSON.stringify(seed));
+        return seed;
+      } catch (e) { return []; }
+    }
+    function saveSignInLog(entries) {
+      try { localStorage.setItem(LOG_KEY, JSON.stringify(entries.slice(0, 500))); } catch (e) {}
+    }
+    function logSignInEvent({ email, name, event }) {
+      const now = new Date();
+      const entry = {
+        id: now.getTime() + '-' + Math.random().toString(36).slice(2, 7),
+        date: now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        time: now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true }),
+        ts: now.getTime(),
+        email: email || 'guest@compensationiq.app',
+        name: name || 'Guest user',
+        event: event || 'Signed in',
+      };
+      const list = loadSignInLog();
+      list.unshift(entry);
+      saveSignInLog(list);
+      // Also post to backend when running via npm start
+      try {
+        fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: entry.email, name: entry.name, event: entry.event }),
+        }).catch(function () {});
+      } catch (e) {}
+      return entry;
+    }
+
+    function AdminPanel() {
+      const [open, setOpen] = useState(false); // settings menu
+      const [authOpen, setAuthOpen] = useState(false);
+      const [logOpen, setLogOpen] = useState(false);
+      const [user, setUser] = useState('Admin');
+      const [pw, setPw] = useState('');
+      const [error, setError] = useState('');
+      const [search, setSearch] = useState('');
+      const [log, setLog] = useState(() => loadSignInLog());
+      const [changePwOpen, setChangePwOpen] = useState(false);
+      const [newPw, setNewPw] = useState('');
+      const [newPw2, setNewPw2] = useState('');
+
+      const refreshLog = () => setLog(loadSignInLog());
+
+      const unlock = (e) => {
+        e && e.preventDefault();
+        if (user === ADMIN_USER && pw === getAdminPassword()) {
+          setError('');
+          setAuthOpen(false);
+          setPw('');
+          refreshLog();
+          setLogOpen(true);
+        } else {
+          setError('Invalid username or password');
+        }
+      };
+
+      const filtered = log.filter(r => {
+        const q = search.toLowerCase();
+        if (!q) return true;
+        return (r.email + ' ' + r.name + ' ' + r.event).toLowerCase().includes(q);
+      });
+      const uniqueUsers = new Set(log.map(r => r.email.toLowerCase())).size;
+      const todayStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      const todayCount = log.filter(r => r.date === todayStr).length;
+
+      const exportCsv = () => {
+        const header = 'Date,Time,Email,Name,Event\n';
+        const rows = log.map(r => [r.date, r.time, r.email, r.name, r.event].map(x => '"' + String(x).replace(/"/g, '""') + '"').join(',')).join('\n');
+        const blob = new Blob([header + rows], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'signin-log.csv'; a.click();
+        URL.revokeObjectURL(url);
+      };
+
+      const doChangePw = (e) => {
+        e.preventDefault();
+        if (!newPw || newPw.length < 4) { setError('Password must be at least 4 characters'); return; }
+        if (newPw !== newPw2) { setError('Passwords do not match'); return; }
+        setAdminPassword(newPw);
+        setChangePwOpen(false);
+        setNewPw(''); setNewPw2('');
+        setError('');
+        alert('Admin password updated');
+      };
+
+      return (
+        <>
+          {/* Bottom-right settings button */}
+          <div className="fixed bottom-4 right-4 z-[60] flex items-center gap-2">
+            <div className="text-xs text-slate-400 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm hidden sm:block">
+              Recreation Â· Compensation IQ
+            </div>
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              title="Admin settings"
+              className="w-10 h-10 rounded-full bg-slate-900 text-white shadow-lg flex items-center justify-center hover:bg-slate-800 transition border border-slate-700"
+            >
+              âš™
+            </button>
+            {open && (
+              <>
+                <div className="fixed inset-0 z-[60]" onClick={() => setOpen(false)} />
+                <div className="absolute bottom-12 right-0 z-[70] w-52 bg-white border border-slate-200 rounded-xl shadow-xl py-1 overflow-hidden">
+                  <button type="button" onClick={() => { setOpen(false); setAuthOpen(true); setError(''); }}
+                    className="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 flex items-center gap-2">
+                    <span>ðŸ”</span> Admin access
+                  </button>
+                  <button type="button" onClick={() => { setOpen(false); setAuthOpen(true); setError(''); }}
+                    className="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 flex items-center gap-2">
+                    <span>ðŸ“‹</span> Sign-in log
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Admin login modal */}
+          {authOpen && (
+            <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
+              <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={() => setAuthOpen(false)} />
+              <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 border border-teal-100">
+                <button type="button" onClick={() => setAuthOpen(false)} className="absolute top-3 right-3 text-slate-400 hover:text-slate-700 text-lg leading-none">Ã—</button>
+                <h2 className="text-lg font-semibold text-slate-900 mb-1">Admin access</h2>
+                <p className="text-sm text-slate-500 mb-5">Enter the admin username and password to view the log.</p>
+                <form onSubmit={unlock} className="space-y-3">
+                  <input type="text" value={user} onChange={e => setUser(e.target.value)}
+                    placeholder="Admin"
+                    className="w-full border border-slate-200 rounded-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400" />
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">ðŸ”’</span>
+                    <input type="password" value={pw} onChange={e => setPw(e.target.value)}
+                      placeholder="Password"
+                      className="w-full border border-slate-200 rounded-full pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400" />
+                  </div>
+                  {error && <p className="text-xs text-rose-600">{error}</p>}
+                  <button type="submit"
+                    className="w-full bg-slate-400 hover:bg-slate-600 text-white font-medium rounded-full py-2.5 text-sm transition">
+                    Unlock
+                  </button>
+                </form>
+                <button type="button" onClick={() => alert('Default password is admin123 (change it after unlock).')}
+                  className="w-full text-center text-xs text-slate-400 mt-3 hover:text-slate-600">
+                  Forgot password?
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Sign-in log modal */}
+          {logOpen && (
+            <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
+              <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={() => setLogOpen(false)} />
+              <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col border border-teal-100">
+                <div className="p-5 border-b border-slate-100 flex items-start justify-between shrink-0">
+                  <div>
+                    <h2 className="text-lg font-semibold text-slate-900">Sign-in log</h2>
+                    <p className="text-sm text-slate-500">Every registration and sign-in, newest first (IST).</p>
+                  </div>
+                  <button type="button" onClick={() => setLogOpen(false)} className="text-slate-400 hover:text-slate-700 text-lg leading-none">Ã—</button>
+                </div>
+                <div className="p-5 overflow-y-auto">
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    {[
+                      {l:'TOTAL EVENTS', v: String(log.length)},
+                      {l:'UNIQUE USERS', v: String(uniqueUsers)},
+                      {l:'TODAY', v: String(todayCount)},
+                    ].map((k,i) => (
+                      <div key={i} className="border border-slate-200 rounded-xl px-4 py-3 text-center">
+                        <div className="text-[10px] uppercase tracking-wide text-slate-500 font-medium">{k.l}</div>
+                        <div className="text-2xl font-bold mt-0.5">{k.v}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-4 items-center">
+                    <div className="relative flex-1 min-w-[180px]">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">ðŸ”</span>
+                      <input type="text" value={search} onChange={e => setSearch(e.target.value)}
+                        placeholder="Search email, name or event"
+                        className="w-full border border-slate-200 rounded-full pl-9 pr-3 py-2 text-sm" />
+                    </div>
+                    <button type="button" onClick={exportCsv}
+                      className="border border-slate-200 rounded-full px-3 py-2 text-sm hover:bg-slate-50">â†“ Export CSV</button>
+                    <button type="button" onClick={() => { setChangePwOpen(true); setError(''); }}
+                      className="border border-slate-200 rounded-full px-3 py-2 text-sm hover:bg-slate-50">Change password</button>
+                  </div>
+                  {changePwOpen && (
+                    <form onSubmit={doChangePw} className="mb-4 p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap gap-2 items-end">
+                      <div>
+                        <label className="text-xs text-slate-500">New password</label>
+                        <input type="password" value={newPw} onChange={e => setNewPw(e.target.value)} className="block border border-slate-200 rounded-lg px-2 py-1.5 text-sm" />
+                      </div>
+                      <div>
+                        <label className="text-xs text-slate-500">Confirm</label>
+                        <input type="password" value={newPw2} onChange={e => setNewPw2(e.target.value)} className="block border border-slate-200 rounded-lg px-2 py-1.5 text-sm" />
+                      </div>
+                      <button type="submit" className="bg-teal-600 text-white text-sm px-3 py-1.5 rounded-lg">Save</button>
+                      <button type="button" onClick={() => setChangePwOpen(false)} className="text-sm text-slate-500 px-2">Cancel</button>
+                      {error && <p className="text-xs text-rose-600 w-full">{error}</p>}
+                    </form>
+                  )}
+                  <div className="border border-slate-200 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-slate-50 text-slate-500 text-left">
+                          <th className="py-2.5 px-3 font-medium">Date</th>
+                          <th className="py-2.5 px-3 font-medium">Time</th>
+                          <th className="py-2.5 px-3 font-medium">Email</th>
+                          <th className="py-2.5 px-3 font-medium">Name</th>
+                          <th className="py-2.5 px-3 font-medium">Event</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {filtered.length === 0 && (
+                          <tr><td colSpan="5" className="py-6 text-center text-slate-400">No sign-in events yet</td></tr>
+                        )}
+                        {filtered.map(r => (
+                          <tr key={r.id} className="hover:bg-slate-50">
+                            <td className="py-2.5 px-3 whitespace-nowrap">{r.date}</td>
+                            <td className="py-2.5 px-3 whitespace-nowrap">{r.time}</td>
+                            <td className="py-2.5 px-3">{r.email}</td>
+                            <td className="py-2.5 px-3">{r.name}</td>
+                            <td className="py-2.5 px-3">
+                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium border
+                                ${r.event === 'Registered' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                  r.event === 'Signed in' ? 'bg-sky-50 text-sky-700 border-sky-200' :
+                                  'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                                {r.event}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      );
+    }
+
+    // ========== LOGIN / LANDING PAGE ==========
+    function LoginPage({ onEnter }) {
+      const [mode, setMode] = useState('landing'); // landing | email | register
+      const [email, setEmail] = useState('');
+      const [name, setName] = useState('');
+      const [password, setPassword] = useState('');
+      const [error, setError] = useState('');
+      const [busy, setBusy] = useState(false);
+
+      const finish = (info) => {
+        logSignInEvent(info);
+        try {
+          localStorage.setItem('ciq_session', JSON.stringify({
+            email: info.email, name: info.name, at: Date.now()
+          }));
+        } catch (e) {}
+        onEnter(info);
+      };
+
+      const handleOAuth = (provider) => {
+        if (provider !== 'google') {
+          const samples = {
+            microsoft: { email: 'user@outlook.com', name: 'Microsoft User', event: 'Signed in' },
+            default: { email: 'guest@compensationiq.app', name: 'Guest user', event: 'Signed in' },
+          };
+          finish(samples[provider] || samples.default);
+          return;
+        }
+
+        setError('');
+        setBusy(true);
+
+        const startGoogleLogin = () => {
+          try {
+            if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+              throw new Error('Google Sign-In is still loading. Please try again.');
+            }
+
+            const clientId =
+              window.__CIQ_AUTH__ &&
+              window.__CIQ_AUTH__.googleClientId;
+
+            if (!clientId) {
+              throw new Error('Google Client ID is missing from config.js.');
+            }
+
+            window.google.accounts.id.initialize({
+              client_id: clientId,
+              callback: (response) => {
+                try {
+                  if (!response || !response.credential) {
+                    throw new Error('Google did not return a credential.');
+                  }
+
+                  const parts = response.credential.split('.');
+                  if (parts.length !== 3) {
+                    throw new Error('Invalid Google credential.');
+                  }
+
+                  const payload = JSON.parse(
+                    decodeURIComponent(
+                      atob(parts[1].replace(/-/g, '+').replace(/_/g, '/'))
+                        .split('')
+                        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                        .join('')
+                    )
+                  );
+
+                  const info = {
+                    email: payload.email || '',
+                    name: payload.name || payload.email?.split('@')[0] || 'Google User',
+                    event: 'Signed in'
+                  };
+
+                  if (!info.email) {
+                    throw new Error('Google account email was not returned.');
+                  }
+
+                  setBusy(false);
+                  finish(info);
+                } catch (err) {
+                  console.error('Google authentication error:', err);
+                  setBusy(false);
+                  setError(err.message || 'Google sign-in failed.');
+                }
+              },
+              auto_select: false,
+              cancel_on_tap_outside: true
+            });
+
+            window.google.accounts.id.prompt((notification) => {
+              if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                setBusy(false);
+                setError(
+                  'Google sign-in could not open. Please allow Google sign-in pop-ups and try again.'
+                );
+              }
+            });
+          } catch (err) {
+            console.error('Google Sign-In initialization error:', err);
+            setBusy(false);
+            setError(err.message || 'Unable to start Google sign-in.');
+          }
+        };
+
+        if (window.google && window.google.accounts && window.google.accounts.id) {
+          startGoogleLogin();
+        } else {
+          const started = Date.now();
+          const waitForGoogle = setInterval(() => {
+            if (window.google && window.google.accounts && window.google.accounts.id) {
+              clearInterval(waitForGoogle);
+              startGoogleLogin();
+            } else if (Date.now() - started > 10000) {
+              clearInterval(waitForGoogle);
+              setBusy(false);
+              setError('Google Sign-In could not be loaded. Check your internet connection.');
+            }
+          }, 100);
+        }
+      };
+
+      const handleEmailSubmit = (e) => {
+        e.preventDefault();
+        setError('');
+        const em = email.trim();
+        const nm = (name.trim() || em.split('@')[0] || 'Visitor');
+        if (!em || !em.includes('@')) {
+          setError('Enter a valid work email');
+          return;
+        }
+        if (!password || password.length < 4) {
+          setError('Password must be at least 4 characters');
+          return;
+        }
+        setBusy(true);
+        finish({
+          email: em,
+          name: nm,
+          event: mode === 'register' ? 'Registered' : 'Signed in',
+        });
+        setBusy(false);
+      };
+
+      return (
+        <div className="min-h-screen bg-slate-950 text-white relative overflow-hidden" style={{
+          backgroundImage: 'linear-gradient(135deg, #0a1628 0%, #0f172a 40%, #0c4a6e 100%)',
+        }}>
+          {/* grid overlay */}
+          <div className="absolute inset-0 opacity-[0.07]" style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+          }} />
+          {/* soft glow */}
+          <div className="absolute -top-32 -right-32 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
+
+          {/* top bar */}
+          <header className="relative z-10 flex items-center justify-between px-6 sm:px-8 py-5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-teal-500/30">CI</div>
+              <span className="font-semibold text-sm tracking-wide">Compensation IQ</span>
+            </div>
+            <button type="button" onClick={() => { setMode('email'); setError(''); }}
+              className="text-sm text-slate-300 hover:text-white transition">Sign in</button>
+          </header>
+
+          <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 pt-8 pb-20 flex flex-col lg:flex-row gap-12 items-center lg:items-start">
+            {/* left hero */}
+            <div className="flex-1 pt-2">
+              <div className="inline-flex items-center gap-1.5 text-xs bg-slate-800/80 border border-slate-700 text-slate-300 rounded-full px-3 py-1 mb-6">
+                <span className="text-teal-400">â—ˆ</span> 2026 planning model Â· {TOTAL_MODELLED}+ countries
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-5">
+                Global<br />
+                Compensation<br />
+                <span className="text-sky-400">Intelligence</span>
+              </h1>
+              <p className="text-slate-400 text-base max-w-md mb-8 leading-relaxed">
+                Turn any salary into the full payroll picture â€” employer cost, statutory contributions, income tax and take-home â€” with the labour-law context around it.
+              </p>
+              <button
+                type="button"
+                onClick={() => { setMode('email'); setError(''); }}
+                className="inline-flex items-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-medium px-6 py-3 rounded-full transition shadow-lg shadow-teal-500/25"
+              >
+                Get started <span>â†’</span>
+              </button>
+              <div className="flex gap-8 sm:gap-10 mt-12">
+                {[
+                  {v: String(TOTAL_MODELLED) + '+', l: 'countries'},
+                  {v: '9', l: 'intelligence modules'},
+                  {v: '2026', l: 'statutory model'},
+                ].map((s, i) => (
+                  <div key={i}>
+                    <div className="text-2xl font-bold">{s.v}</div>
+                    <div className="text-xs text-slate-500 mt-0.5">{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* right â€“ auth card */}
+            <div className="w-full max-w-sm shrink-0">
+              <div className="bg-slate-900/80 backdrop-blur border border-slate-700/80 rounded-2xl p-6 shadow-2xl">
+                {mode === 'landing' && (
+                  <>
+                    <h2 className="text-lg font-semibold mb-1">Sign in to continue</h2>
+                    <p className="text-sm text-slate-400 mb-5">Use your work email or Google account.</p>
+
+                    <button
+                      type="button"
+                      onClick={() => handleOAuth('google')}
+                      className="w-full flex items-center justify-center gap-2 bg-white text-slate-900 font-medium rounded-full py-2.5 text-sm hover:bg-slate-100 transition mb-3"
+                    >
+                      <svg className="w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                      </svg>
+                      Continue with Google
+                    </button>
+
+                    <div className="flex gap-2 mb-3">
+                      {[
+                        { label: 'M', tip: 'Microsoft', provider: 'microsoft' },
+                        { label: 'Y', tip: 'Yahoo', provider: 'default' },
+                        { label: 'in', tip: 'LinkedIn', provider: 'default' },
+                        { label: 'âŒ˜', tip: 'GitHub', provider: 'default' },
+                      ].map((item, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          title={item.tip}
+                          onClick={() => handleOAuth(item.provider)}
+                          className="flex-1 h-10 rounded-full bg-slate-800 border border-slate-700 hover:bg-slate-700 flex items-center justify-center text-xs font-medium transition"
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => { setMode('email'); setError(''); }}
+                      className="w-full flex items-center justify-center gap-2 border border-slate-600 text-slate-200 font-medium rounded-full py-2.5 text-sm hover:bg-slate-800 transition mb-4"
+                    >
+                      âœ‰ Continue with email
+                    </button>
+
+                    <p className="text-[11px] text-slate-500 text-center mb-5">
+                      Microsoft, Yahoo, LinkedIn and GitHub users sign in with their account email.
+                    </p>
+
+                    <div className="border-t border-slate-700 pt-4 space-y-3">
+                      {[
+                        { icon: 'â–¤', title: 'Gross-to-net calculator', desc: 'CTC, statutory contributions, tax and take-home in seconds.' },
+                        { icon: 'â–¥', title: 'Pay bands & benchmarks', desc: 'Median, min and max by role and level across markets.' },
+                        { icon: 'ðŸ›', title: 'Tax & statutory', desc: 'Employer load, social security and labour-law context.' },
+                      ].map((f, i) => (
+                        <div key={i} className="flex gap-3 items-start">
+                          <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-sm shrink-0">{f.icon}</div>
+                          <div>
+                            <div className="text-sm font-medium text-slate-200">{f.title}</div>
+                            <div className="text-[11px] text-slate-500 leading-snug">{f.desc}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {(mode === 'email' || mode === 'register') && (
+                  <>
+                    <h2 className="text-lg font-semibold mb-1">
+                      {mode === 'register' ? 'Create account' : 'Sign in with email'}
+                    </h2>
+                    <p className="text-sm text-slate-400 mb-4">
+                      Enter your details to access Compensation IQ.
+                    </p>
+                    <form onSubmit={handleEmailSubmit} className="space-y-3">
+                      <div>
+                        <label className="text-xs text-slate-400">Full name</label>
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={e => setName(e.target.value)}
+                          className="mt-1 w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500"
+                          placeholder="Your name"
+                          autoComplete="name"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs text-slate-400">Work email</label>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                          className="mt-1 w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500"
+                          placeholder="you@company.com"
+                          required
+                          autoComplete="email"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs text-slate-400">Password</label>
+                        <input
+                          type="password"
+                          value={password}
+                          onChange={e => setPassword(e.target.value)}
+                          className="mt-1 w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500"
+                          placeholder="Min. 4 characters"
+                          required
+                          autoComplete="current-password"
+                        />
+                      </div>
+                      {error && <p className="text-xs text-rose-400">{error}</p>}
+                      <button
+                        type="submit"
+                        disabled={busy}
+                        className="w-full bg-teal-500 hover:bg-teal-400 disabled:opacity-60 text-white font-medium rounded-full py-2.5 text-sm transition shadow-lg shadow-teal-500/20"
+                      >
+                        {busy ? 'Please waitâ€¦' : (mode === 'register' ? 'Register' : 'Sign in')}
+                      </button>
+                    </form>
+                    <div className="mt-4 flex justify-between text-xs text-slate-500">
+                      <button
+                        type="button"
+                        className="hover:text-slate-300"
+                        onClick={() => setMode(mode === 'register' ? 'email' : 'register')}
+                      >
+                        {mode === 'register' ? 'Have an account? Sign in' : 'New here? Register'}
+                      </button>
+                      <button type="button" className="hover:text-slate-300" onClick={() => setMode('landing')}>
+                        Back
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <footer className="relative z-10 px-6 sm:px-8 pb-6 flex flex-wrap justify-between text-[11px] text-slate-600 gap-2">
+            <span>Â© 2026 Global Compensation Intelligence Â· Created by Neeraj Kapil</span>
+            <span>Planning estimates, not payroll or legal advice.</span>
+          </footer>
+        </div>
+      );
+    }
+
+    // ========== ROOT APP ==========
+    function App() {
+      const demoParams = (() => {
+        try {
+          const q = new URLSearchParams(window.location.search);
+          return {
+            demo: q.get('demo') === '1',
+            page: q.get('page') || 'dashboard',
+            region: q.get('region') || 'World',
+            focus: q.get('focus') || 'India',
+          };
+        } catch (e) { return { demo: false, page: 'dashboard', region: 'World', focus: 'India' }; }
+      })();
+      const [loggedIn, setLoggedIn] = useState(() => {
+        if (demoParams.demo) return true;
+        try { return !!localStorage.getItem('ciq_session'); } catch (e) { return false; }
+      });
+      const [user, setUser] = useState(() => {
+        if (demoParams.demo) return { email: 'demo@client.com', name: 'Client Demo' };
+        try { return JSON.parse(localStorage.getItem('ciq_session') || 'null'); } catch (e) { return null; }
+      });
+      const [page, setPage] = useState(demoParams.demo ? demoParams.page : 'dashboard');
+      const [collapsed, setCollapsed] = useState(false);
+      const [region, setRegion] = useState(demoParams.demo ? demoParams.region : 'World');
+      const [focusMarket, setFocusMarket] = useState(demoParams.demo ? demoParams.focus : 'India');
+      const [funcs, setFuncs] = useState([]);
+      const [levels, setLevels] = useState([]);
+      const titles = {dashboard:'Dashboard',calculator:'Calculator',engagement:'Engagement',compare:'Compare',bands:'Pay bands',benefits:'Leave & benefits',tax:'Tax & statutory',wages:'Min & max wages',coverage:'Coverage'};
+      const filterProps = { region, setRegion, focusMarket, setFocusMarket, funcs, setFuncs, levels, setLevels };
+
+      if (!loggedIn) {
+        return (
+          <>
+            <LoginPage onEnter={(info) => { setLoggedIn(true); setUser(info || null); }} />
+            <AdminPanel />
+          </>
+        );
+      }
+
+      return (
+        <div className="min-h-screen">
+          <Sidebar active={page} setActive={setPage} collapsed={collapsed} setCollapsed={setCollapsed} />
+          <main className={`transition-all duration-200 ${collapsed?'ml-16':'ml-56'}`}>
+            <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200 px-6 py-3 flex items-center justify-between">
+              <div className="text-sm font-medium text-slate-600">{titles[page]}</div>
+              <div className="flex items-center gap-3">
+                <span className="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full">2026 planning model</span>
+                <span className="text-xs bg-teal-50 text-teal-700 border border-teal-100 px-3 py-1 rounded-full">
+                  {(ALL_COUNTRIES.find(c => c.name === focusMarket) || {}).flag || ''} {focusMarket}
+                </span>
+                {user && user.email && (
+                  <span className="text-xs text-slate-500 hidden sm:inline max-w-[140px] truncate" title={user.email}>{user.name || user.email}</span>
+                )}
+                <button
+                  onClick={() => { try { localStorage.removeItem('ciq_session'); } catch (e) {} setLoggedIn(false); setUser(null); }}
+                  className="text-xs text-slate-500 hover:text-slate-800 border border-slate-200 rounded-full px-3 py-1"
+                >
+                  Sign out
+                </button>
+              </div>
+            </header>
+            <div className="p-6">
+              {page==='dashboard' && <Dashboard {...filterProps} />}
+              {page==='calculator' && <Calculator {...filterProps} />}
+              {page==='engagement' && <Engagement {...filterProps} />}
+              {page==='compare' && <Compare {...filterProps} />}
+              {page==='bands' && <PayBands {...filterProps} />}
+              {page==='benefits' && <Benefits {...filterProps} />}
+              {page==='tax' && <TaxStatutory {...filterProps} />}
+              {page==='wages' && <MinMaxWages {...filterProps} />}
+              {page==='coverage' && <Coverage {...filterProps} />}
+            </div>
+          </main>
+          <AdminPanel />
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>
+
+
+
+
+

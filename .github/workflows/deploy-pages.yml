@@ -1,0 +1,11 @@
+# Optional: static preview of public/ (no API)
+name: Static preview
+
+on:
+  workflow_dispatch:
+
+jobs:
+  note:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Serve public/ with any static host, or run npm start for full API."
