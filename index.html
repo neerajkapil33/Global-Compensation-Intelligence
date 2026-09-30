@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google OAuth configuration -->
+<script>
+  // Client ID is public and may be exposed in browser code.
+  // NEVER put the Google Client Secret here.
+  window.__CIQ_AUTH__ = {
+    provider: 'google',
+    googleClientId: '585877033501-4act00ps4v138vnuu6u94hogj39mfilk.apps.googleusercontent.com'
+  };
+</script>
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
   <meta charset="UTF-8" />
   <meta name="theme-color" content="#0d9488" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
