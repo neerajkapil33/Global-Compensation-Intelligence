@@ -1,5 +1,5 @@
 node_modules/
-_site/
 .env
-.DS_Store
+.env.*
 *.log
+.DS_Store
