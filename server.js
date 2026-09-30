@@ -46,7 +46,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json({ limit: '1mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
 
 // Public auth config for the SPA (no secrets — only URL + publishable/anon key)
 app.get('/api/auth/config', (_req, res) => {
@@ -162,7 +162,7 @@ app.get('/api/markets', (req, res) => {
 });
 
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {

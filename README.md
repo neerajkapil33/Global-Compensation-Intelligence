@@ -2,22 +2,19 @@
 
 **Live:** https://neerajkapil33.github.io/Global-Compensation-Intelligence/
 
-## No duplicate UI files
+## Single app entry (no duplicates)
 
-| Path | Role |
+| File | Role |
 |------|------|
-| `public/index.html` | **Only** app entry |
-| `public/config.js` | Supabase anon config |
-| `public/*` | PWA assets |
-| `server.js` | Express (local API) |
+| `index.html` | **Only** SPA entry |
+| `config.js` | Supabase public config |
+| `server.js` | Express API + static |
 | `lib/` | auth-store, markets-data |
-
-GitHub Pages deploys **from `public/`** via Actions (not a second copy at repo root).
 
 ## Supabase
 
 - Site URL: `https://neerajkapil33.github.io/Global-Compensation-Intelligence/`
-- Redirect: `https://neerajkapil33.github.io/Global-Compensation-Intelligence/**` and `http://localhost:3000/**`
+- Redirect URLs: that URL `/**` and `http://localhost:3000/**`
 - Enable Google under Authentication → Providers
 
 ## Local
@@ -26,3 +23,7 @@ GitHub Pages deploys **from `public/`** via Actions (not a second copy at repo r
 cp .env.example .env
 npm install && npm start
 ```
+
+## GitHub Pages
+
+Repo → Settings → Pages → Deploy from branch → `main` / `/ (root)`.
