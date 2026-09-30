@@ -1,6 +1,8 @@
 node_modules/
+npm-debug.log*
 .env
 .env.*
-data/signin-log.json
-*.log
+!.env.example
 .DS_Store
+Thumbs.db
+*.before-*
