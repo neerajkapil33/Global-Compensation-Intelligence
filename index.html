@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google OAuth configuration -->
-<script>
-  // Client ID is public and may be exposed in browser code.
-  // NEVER put the Google Client Secret here.
-  window.__CIQ_AUTH__ = {
-    provider: 'google',
-    googleClientId: '585877033501-4act00ps4v138vnuu6u94hogj39mfilk.apps.googleusercontent.com'
-  };
-</script>
-
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-  <!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
   <meta charset="UTF-8" />
+  <script>
+    window.__CIQ_AUTH__ = {
+      provider: 'google',
+      googleClientId: '585877033501-4act00ps4v138vnuu6u94hogj39mfilk.apps.googleusercontent.com'
+    };
+  </script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
   <meta name="theme-color" content="#0d9488" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Comp IQ" />
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compensation IQ · Global pay intelligence · 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -2454,14 +2448,26 @@
         onEnter(info);
       };
 
-      const handleOAuth = (provider) => {
-        const samples = {
-          google: { email: 'user.google@gmail.com', name: 'Google User', event: 'Signed in' },
-          microsoft: { email: 'user@outlook.com', name: 'Microsoft User', event: 'Signed in' },
-          default: { email: 'guest@compensationiq.app', name: 'Guest user', event: 'Signed in' },
-        };
-        finish(samples[provider] || samples.default);
-      };
+    const handleOAuth = (provider) => {
+  setError('');
+  const g = window.google && window.google.accounts && window.google.accounts.oauth2;
+  if (!g) { setError('Google Sign-In is still loading. Try again in a moment.'); return; }
+  const client = g.initTokenClient({
+    client_id: window.__CIQ_AUTH__.googleClientId,
+    scope: 'openid email profile',
+    callback: async (resp) => {
+      if (resp.error) { setError('Google sign-in was cancelled or blocked.'); return; }
+      try {
+        const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo',
+          { headers: { Authorization: 'Bearer ' + resp.access_token } });
+        const p = await r.json();
+        if (!p.email) throw new Error('no email');
+        finish({ email: p.email, name: p.name || p.email.split('@')[0], event: 'Signed in' });
+      } catch (e) { setError('Could not read your Google profile.'); }
+    },
+  });
+  client.requestAccessToken();
+};
 
       const handleEmailSubmit = (e) => {
         e.preventDefault();
@@ -2777,7 +2783,7 @@
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('/sw.js').catch(function () {});
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
     });
   }
 </script>
